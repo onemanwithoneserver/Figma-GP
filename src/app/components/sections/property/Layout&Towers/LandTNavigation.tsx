@@ -90,20 +90,19 @@ const LandTNavigation: React.FC<LandTNavigationProps> = ({ activeTab, onTabChang
               }}
               onClick={() => onTabChange(tab.id)}
               className={`relative min-w-[90px] flex-none py-2.5 px-2 transition-colors duration-300 z-10 outline-none flex items-center justify-center rounded-[7px] ${
-                isActive ? 'text-[#F3EFE8]' : 'text-[#625D52] hover:text-[#322822]'
+                isActive ? 'text-white' : 'text-[#625D52] hover:text-[#322822]'
               }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="landt-active-pill"
                   className="absolute inset-0 rounded-[7px] shadow-md -z-10"
-                  /* MODIFIED: Active pill matches Hero overlay (#322822) to bridge the sections */
-                  style={{ background: '#322822' }}
+                  style={{ background: '#E76F26' }}
                   transition={{ type: "spring", bounce: 0.15, duration: 0.4 }}
                 />
               )}
               
-              <span className="relative z-20 text-[12px] tracking-wide font-extrabold">
+              <span className="relative z-20 text-[12px] tracking-wide font-semibold">
                 {tab.label}
               </span>
             </button>
