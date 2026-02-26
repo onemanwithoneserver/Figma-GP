@@ -174,14 +174,13 @@ const SpecificationsSection: React.FC = () => {
             <button
               key={tab.id}
               onClick={(e) => handleTabClick(tab.id, e)}
-              className="flex-shrink-0 px-3.5 py-1.5 text-[12.5px] font-bold rounded-[7px] transition-all duration-200 outline-none"
+              className="flex-shrink-0 px-3.5 py-1.5 text-[12.5px] font-semibold rounded-[7px] transition-all duration-200 outline-none"
               style={isActive ? {
-                background: 'linear-gradient(135deg, #F85B01, #C94A00)',
+                backgroundColor: '#322822',
                 color: '#fff',
-                boxShadow: '0 0 14px rgba(248,91,1,0.35), inset 0 1px 0 rgba(255,255,255,0.15)'
               } : {
-                background: '#F1F5F9',
-                color: '#64748B'
+                backgroundColor: '#F9F7F2',
+                color: '#8A7D74'
               }}
             >
               {tab.label}
@@ -191,17 +190,12 @@ const SpecificationsSection: React.FC = () => {
       </div>
 
       {/* ── Content Card ── */}
-      <div className="mx-4 rounded-[7px] overflow-hidden" style={{boxShadow: '0 4px 20px rgba(0,0,0,0.08)'}}>
+      <div className="mx-4 rounded-[7px] overflow-hidden shadow-sm border border-[#E5DFD4]">
 
         {/* Dark navy header */}
-        <div
-          className="px-5 py-4 relative overflow-hidden"
-          style={{background: 'linear-gradient(135deg, #1A2540 0%, #0F1929 50%, #1C2E4A 100%)'}}
-        >
-          {/* Glow orb */}
-          <div className="absolute -top-6 -right-6 w-28 h-28 rounded-[7px] opacity-10" style={{background: 'radial-gradient(circle, #F85B01 0%, transparent 70%)'}} />
+        <div className="px-5 py-4 bg-[#322822]">
           <div className="relative flex items-center gap-3">
-            <div className="w-9 h-9 rounded-[7px] flex-shrink-0 flex items-center justify-center text-[#F85B01]" style={{background: 'rgba(248,91,1,0.15)', border: '1px solid rgba(248,91,1,0.3)'}}>
+            <div className="w-9 h-9 rounded-[7px] flex-shrink-0 flex items-center justify-center text-[#E76F26] bg-[#F4EFE6]">
               {categoryIcon(activeData.id)}
             </div>
             <div>
@@ -212,7 +206,7 @@ const SpecificationsSection: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.2 }}
-                  className="text-[15px] font-extrabold text-white leading-tight"
+                  className="text-[15px] font-semibold text-white leading-tight"
                 >
                   {activeData.title}
                 </motion.h3>
@@ -232,7 +226,7 @@ const SpecificationsSection: React.FC = () => {
               transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
             >
               {/* Description */}
-              <p className="text-[13.5px] text-[#475569] leading-relaxed font-medium mb-4">
+              <p className="text-[13.5px] text-[#8A7D74] leading-relaxed font-medium mb-4">
                 {activeData.description}
               </p>
 
@@ -241,12 +235,11 @@ const SpecificationsSection: React.FC = () => {
                 {activeData.features.map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <div
-                      className="flex-shrink-0 w-5 h-5 rounded-[5px] flex items-center justify-center mt-0.5 text-white"
-                      style={{background: 'linear-gradient(135deg, #F85B01, #C94A00)'}}
+                      className="flex-shrink-0 w-5 h-5 rounded-[5px] flex items-center justify-center mt-0.5 text-white bg-[#E76F26]"
                     >
                       <CheckIcon />
                     </div>
-                    <span className="text-[13.5px] font-semibold text-[#2A2C32] leading-snug">{feature}</span>
+                    <span className="text-[13.5px] font-semibold text-[#322822] leading-snug">{feature}</span>
                   </div>
                 ))}
               </div>

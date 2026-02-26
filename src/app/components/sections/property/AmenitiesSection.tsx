@@ -9,8 +9,7 @@ interface FeedbackOption {
 interface AmenityData {
   id: string;
   tabLabel: string;
-  title: string;
-  subtitle: string;
+  imageUrl?: string;
   features: string[];
   feedbackQuestion: string;
   feedbackOptions: FeedbackOption[];
@@ -21,16 +20,13 @@ interface AmenityData {
 const AMENITIES_DATA: AmenityData[] = [
   {
     id: 'highlights',
-    tabLabel: 'Highlights',
-    title: 'Project highlights',
-    subtitle: 'Unique features that make this project stand out',
+    tabLabel: 'Highlights Amenities',
     features: [
       'Grand clubhouse with double-height entrance lobby',
       'Vehicle-free podium with landscaped open spaces',
       'Dedicated zones for kids, elders & wellness activities',
       'Smart access-controlled common areas',
-      'Indoor & outdoor amenities thoughtfully planned',
-      'Premium materials used across amenity spaces'
+      'Indoor & outdoor amenities thoughtfully planned'
     ],
     feedbackQuestion: 'How do these amenities feel to you?',
     feedbackOptions: [
@@ -38,7 +34,7 @@ const AMENITIES_DATA: AmenityData[] = [
       { emoji: '🏆', text: 'Premium feel' },
       { emoji: '👀', text: 'Want details' }
     ],
-    queriesTitle: 'Ask the seller about highlighted amenities',
+    queriesTitle: 'Questions you can ask',
     queries: [
       'Are these amenities included in the base price?',
       'Which amenities are exclusive to this project?',
@@ -48,8 +44,7 @@ const AMENITIES_DATA: AmenityData[] = [
   {
     id: 'kids',
     tabLabel: 'Kids',
-    title: 'Kids facilities',
-    subtitle: 'Thoughtfully designed spaces for children of all ages',
+    imageUrl: 'https://courtyardthanewest.in/public/admin/images/Courtyard-Amenities-Kids-Play-Area-22022025133053.jpg',
     features: [
       "Children's play area",
       'Indoor games room',
@@ -62,7 +57,7 @@ const AMENITIES_DATA: AmenityData[] = [
       { emoji: '👨‍👩‍👧', text: 'Family friendly' },
       { emoji: '🎉', text: 'Kids will love it' }
     ],
-    queriesTitle: "Ask the seller about kids' facilities",
+    queriesTitle: "Questions you can ask",
     queries: [
       'Is the play area access-controlled?',
       'Are indoor play areas air-conditioned?'
@@ -71,8 +66,7 @@ const AMENITIES_DATA: AmenityData[] = [
   {
     id: 'elders',
     tabLabel: 'Elders',
-    title: 'Senior facilities',
-    subtitle: 'Calm and accessible spaces for our senior residents',
+    imageUrl: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80',
     features: [
       'Senior citizen seating zones',
       'Reflexology & walking path',
@@ -86,7 +80,7 @@ const AMENITIES_DATA: AmenityData[] = [
       { emoji: '🧘', text: 'Calm spaces' },
       { emoji: '👍', text: 'Love it' }
     ],
-    queriesTitle: 'Ask the seller about senior facilities',
+    queriesTitle: 'Questions you can ask',
     queries: [
       'Are elder zones away from noisy areas?',
       'Are pathways wheelchair-friendly?'
@@ -95,8 +89,7 @@ const AMENITIES_DATA: AmenityData[] = [
   {
     id: 'wellness',
     tabLabel: 'Health & Wellness',
-    title: 'Health & wellness facilities',
-    subtitle: 'Everything you need for an active and healthy lifestyle',
+    imageUrl: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=800&q=80',
     features: [
       'Fully equipped gym',
       'Yoga & meditation hall',
@@ -108,7 +101,7 @@ const AMENITIES_DATA: AmenityData[] = [
       { emoji: '💪', text: 'Fitness focused' },
       { emoji: '🧘‍♀️', text: 'Wellness living' }
     ],
-    queriesTitle: 'Ask the seller about fitness facilities',
+    queriesTitle: 'Questions you can ask',
     queries: [
       'Is the gym professionally managed?',
       'Are trainers or classes included?'
@@ -117,8 +110,7 @@ const AMENITIES_DATA: AmenityData[] = [
   {
     id: 'entertainment',
     tabLabel: 'Entertainment',
-    title: 'Entertainment facilities',
-    subtitle: 'Spaces to host, celebrate, and unwind',
+    imageUrl: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80',
     features: [
       'Indoor games room',
       'Mini theatre / AV room',
@@ -131,7 +123,7 @@ const AMENITIES_DATA: AmenityData[] = [
       { emoji: '✨', text: 'Future ready' },
       { emoji: '✌️', text: 'Practical' }
     ],
-    queriesTitle: 'Ask the seller about entertainment facilities',
+    queriesTitle: 'Questions you can ask',
     queries: [
       'Is the theatre operational or planned?',
       'Is visitor parking near these spaces?'
@@ -140,14 +132,9 @@ const AMENITIES_DATA: AmenityData[] = [
 ];
 
 const Icons = {
-  Check: () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+  Check: ({ size = 10, strokeWidth = 3 }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
       <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-  ),
-  ChevronRight: () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   )
 };
@@ -166,105 +153,96 @@ const AmenitiesSection: React.FC = () => {
   };
 
   return (
-    <div className="font-['Outfit',_sans-serif] pb-4">
+    <div className="font-['Outfit',_sans-serif] pb-3">
 
       {/* ── Scrollable Tab Pills ── */}
-      <div
-        ref={scrollContainerRef}
-        className="flex overflow-x-auto scrollbar-hide gap-2 px-4 pt-1 pb-3"
-      >
-        {AMENITIES_DATA.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={(e) => handleTabClick(tab.id, e)}
-              className="flex-shrink-0 px-3.5 py-1.5 text-[12.5px] font-bold rounded-[7px] transition-all duration-200 outline-none"
-              style={isActive ? {
-                background: 'linear-gradient(135deg, #F85B01, #C94A00)',
-                color: '#fff',
-                boxShadow: '0 0 14px rgba(248,91,1,0.35), inset 0 1px 0 rgba(255,255,255,0.15)'
-              } : {
-                background: '#F1F5F9',
-                color: '#64748B'
-              }}
-            >
-              {tab.tabLabel}
-            </button>
-          );
-        })}
+      <div className="px-3 mb-3">
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto scrollbar-hide gap-1 p-1 rounded-[7px] bg-[#F9F7F2] border border-[#E5DFD4]"
+        >
+          {AMENITIES_DATA.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={(e) => handleTabClick(tab.id, e)}
+                className="flex-shrink-0 px-3.5 py-1.5 text-[12px] font-semibold rounded-[6px] transition-all duration-200 outline-none"
+                style={isActive ? {
+                  backgroundColor: '#322822',
+                  color: '#FFFFFF',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.1)'
+                } : {
+                  backgroundColor: 'transparent',
+                  color: '#8A7D74'
+                }}
+              >
+                {tab.tabLabel}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* ── Content Card ── */}
-      <div className="mx-4 rounded-[7px] overflow-hidden" style={{boxShadow: '0 4px 20px rgba(0,0,0,0.08)'}}>
-
-        {/* Dark navy header */}
-        <div
-          className="px-5 py-4 relative overflow-hidden"
-          style={{background: 'linear-gradient(135deg, #1A2540 0%, #0F1929 50%, #1C2E4A 100%)'}}
-        >
-          <div className="absolute -top-6 -right-6 w-28 h-28 rounded-[7px] opacity-10" style={{background: 'radial-gradient(circle, #F85B01 0%, transparent 70%)'}} />
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab + '-header'}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2 }}
-              className="relative"
-            >
-              <h3 className="text-[15px] font-extrabold text-white leading-tight mb-0.5">{activeData.title}</h3>
-              <p className="text-[11px] font-medium text-white/45">{activeData.subtitle}</p>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* White body */}
-        <div className="bg-white px-5 py-4">
+      <div className="mx-3 rounded-[7px] overflow-hidden bg-white shadow-sm border border-[#E5DFD4]">
+        
+        <div className="px-4 py-4">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: -8 }}
               transition={{ type: 'spring', bounce: 0.15, duration: 0.4 }}
             >
+              
+              {/* Image rendered at the top (only if imageUrl exists) */}
+              {activeData.imageUrl && (
+                <div className="mb-4 rounded-[6px] overflow-hidden border border-[#E5DFD4] shadow-sm">
+                  <img 
+                    src={activeData.imageUrl} 
+                    alt={`${activeData.tabLabel} preview`} 
+                    className="w-full h-36 object-cover"
+                  />
+                </div>
+              )}
+
               {/* Feature list */}
-              <div className="flex flex-col gap-2.5 mb-5">
+              <div className="flex flex-col gap-2.5 mb-4">
                 {activeData.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-3">
+                  <div key={index} className="flex items-start gap-2.5">
                     <div
-                      className="flex-shrink-0 w-5 h-5 rounded-[5px] flex items-center justify-center mt-0.5 text-white"
-                      style={{background: 'linear-gradient(135deg, #F85B01, #C94A00)'}}
+                      className="flex-shrink-0 w-4 h-4 rounded-[4px] flex items-center justify-center mt-[3px] text-white bg-[#E76F26]"
                     >
-                      <Icons.Check />
+                      <Icons.Check size={10} strokeWidth={3.5} />
                     </div>
-                    <span className="text-[13.5px] font-semibold text-[#2A2C32] leading-snug">{feature}</span>
+                    <span className="text-[13px] font-medium text-[#322822] leading-snug">{feature}</span>
                   </div>
                 ))}
               </div>
 
               {/* Feedback reaction buttons */}
-              <div className="mb-5">
-                <p className="text-[12.5px] font-bold text-[#64748B] mb-3 tracking-tight">{activeData.feedbackQuestion}</p>
-                <div className="flex flex-wrap gap-2">
+              <div className="mb-4 border-t border-[#E5DFD4] pt-3.5">
+                <p className="text-[12px] font-semibold text-[#8A7D74] mb-2 tracking-tight">{activeData.feedbackQuestion}</p>
+                <div className="flex flex-wrap gap-1.5">
                   {activeData.feedbackOptions.map((opt, idx) => {
                     const isSelected = activeFeedback === opt.text;
                     return (
                       <button
                         key={idx}
                         onClick={() => setActiveFeedback(isSelected ? null : opt.text)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-[7px] text-[12.5px] font-bold transition-all duration-200"
+                        className="flex items-center gap-1 px-2.5 py-1.5 rounded-[6px] text-[12px] font-semibold transition-all duration-200"
                         style={isSelected ? {
-                          background: 'linear-gradient(135deg, #F85B01, #C94A00)',
+                          backgroundColor: '#E76F26',
                           color: '#fff',
-                          boxShadow: '0 0 12px rgba(248,91,1,0.3)'
+                          boxShadow: '0 2px 8px rgba(231,111,38,0.25)'
                         } : {
-                          background: '#F1F5F9',
-                          color: '#475569'
+                          backgroundColor: '#F9F7F2',
+                          color: '#8A7D74'
                         }}
                       >
-                        <span className="text-base leading-none">{opt.emoji}</span>
+                        <span className="text-[14px] leading-none">{opt.emoji}</span>
                         <span>{opt.text}</span>
                       </button>
                     );
@@ -272,28 +250,43 @@ const AmenitiesSection: React.FC = () => {
                 </div>
               </div>
 
-              {/* Q&A card — dark navy header + white rows */}
-              <div className="rounded-[7px] overflow-hidden" style={{boxShadow: '0 2px 12px rgba(0,0,0,0.07)'}}>
-                <div
-                  className="px-4 py-3 relative overflow-hidden"
-                  style={{background: 'linear-gradient(135deg, #1A2540 0%, #0F1929 50%, #1C2E4A 100%)'}}
-                >
-                  <div className="absolute -top-4 -right-4 w-16 h-16 rounded-[7px] opacity-10" style={{background: 'radial-gradient(circle,#F85B01 0%,transparent 70%)'}} />
-                  <p className="text-[12px] font-extrabold text-white relative">{activeData.queriesTitle}</p>
+              {/* Q&A section */}
+              <div className="rounded-[7px] overflow-hidden border border-[#E5DFD4] bg-white">
+                {/* Dark brown header */}
+                <div className="px-3 py-2.5 bg-[#322822]">
+                  <p className="text-[13px] font-semibold text-white relative">{activeData.queriesTitle}</p>
                 </div>
-                <div className="bg-white flex flex-col">
+                
+                {/* Questions Checkboxes */}
+                <div className="flex flex-col p-1.5">
                   {activeData.queries.map((query, index) => (
                     <button
                       key={index}
-                      className="flex items-center justify-between px-4 py-3 border-b border-gray-100 last:border-0 hover:bg-orange-50/40 transition-colors text-left group"
+                      className="flex items-center gap-2.5 px-2.5 py-2 hover:bg-[#F9F8F6] transition-colors text-left rounded-[5px] group"
                     >
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-1.5 h-1.5 rounded-[3px] bg-[#F85B01] flex-shrink-0" />
-                        <span className="text-[13px] font-medium text-[#2A2C32]">{query}</span>
+                      <div className="w-[18px] h-[18px] rounded-[4px] bg-[#322822] text-white flex items-center justify-center flex-shrink-0">
+                        <Icons.Check size={10} strokeWidth={4} />
                       </div>
-                      <span className="text-gray-300 group-hover:text-[#F85B01] transition-colors flex-shrink-0"><Icons.ChevronRight /></span>
+                      <span className="text-[12.5px] font-semibold text-[#322822] group-hover:text-[#E76F26] transition-colors">{query}</span>
                     </button>
                   ))}
+                  
+                  {/* Write your own question */}
+                  <button className="flex items-center gap-2.5 px-2.5 py-2 mt-0.5 hover:bg-[#F9F8F6] transition-colors text-left rounded-[5px] group">
+                    <div className="w-[18px] h-[18px] rounded-[4px] border border-dashed border-[#8A7D74] text-[#8A7D74] flex items-center justify-center flex-shrink-0">
+                      <span className="text-[14px] leading-none mb-[1px]">+</span>
+                    </div>
+                    <span className="text-[12.5px] font-semibold text-[#322822] group-hover:text-[#E76F26] transition-colors">Write your own question...</span>
+                  </button>
+                </div>
+                
+                {/* Ask Seller Button */}
+                <div className="p-3 pt-1">
+                  <button 
+                    className="w-full py-2.5 rounded-[6px] text-white font-semibold text-[13.5px] transition-all hover:opacity-90 active:scale-[0.98] bg-[#E76F26] shadow-sm"
+                  >
+                    Ask Seller
+                  </button>
                 </div>
               </div>
 

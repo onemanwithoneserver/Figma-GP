@@ -26,16 +26,15 @@ export default function TowerDropdown({ towers, selected, onSelect }: TowerDropd
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between gap-2.5 text-[#2A2C32] py-1 pl-3 pr-2.5 rounded-[7px] font-bold text-[12px] transition-all duration-200 outline-none ${
+        className={`flex items-center justify-between gap-2.5 py-1 pl-3 pr-2.5 rounded-[7px] font-semibold text-[12px] transition-all duration-200 outline-none ${
           isOpen
-            ? 'text-white'
-            : 'bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-[#F85B01]/40'
+            ? 'bg-[#322822] text-white'
+            : 'bg-white border border-[#E5DFD4] text-[#322822] shadow-sm hover:shadow-md hover:border-[#E76F26]/40'
         }`}
-        style={isOpen ? {background:'linear-gradient(135deg,#1A2540,#0F1929)', boxShadow:'0 4px 16px rgba(0,0,0,0.2)'} : {}}
       >
-        <span className={`truncate ${isOpen ? 'text-white' : ''}`}>{selected}</span>
+        <span className={`truncate ${isOpen ? 'text-white' : 'text-[#322822]'}`}>{selected}</span>
         <svg
-          className={`w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180 text-white/70' : 'text-[#94A3B8]'}`}
+          className={`w-3.5 h-3.5 transition-transform duration-300 flex-shrink-0 ${isOpen ? 'rotate-180 text-white/70' : 'text-[#8A7D74]'}`}
           viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
         >
           <polyline points="6 9 12 15 18 9"></polyline>
@@ -49,24 +48,23 @@ export default function TowerDropdown({ towers, selected, onSelect }: TowerDropd
             animate={{ opacity: 1, y: 4 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute z-50 mt-1.5 right-0 w-max min-w-[140px] bg-white border border-gray-100 rounded-[7px] overflow-hidden"
-            style={{boxShadow:'0 8px 24px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06)'}}
+            className="absolute z-50 mt-1.5 right-0 w-max min-w-[140px] bg-white border border-[#E5DFD4] rounded-[7px] overflow-hidden shadow-md"
           >
             <div className="max-h-60 overflow-y-auto pb-1">
               <div className="px-3.5 pt-2.5 pb-1">
-                <p className="text-[9px] font-extrabold text-[#94A3B8] tracking-widest">SELECT TOWER</p>
+                <p className="text-[9px] font-semibold text-[#8A7D74] tracking-widest">Select Tower</p>
               </div>
               {towers.map((tower) => (
                 <button
                   key={tower}
                   onClick={() => { onSelect(tower); setIsOpen(false); }}
-                  className={`w-full text-left px-3.5 py-2 text-[12px] font-bold transition-colors duration-150 flex items-center gap-2 ${
+                  className={`w-full text-left px-3.5 py-2 text-[12px] font-semibold transition-colors duration-150 flex items-center gap-2 ${
                     selected === tower
-                      ? 'text-[#F85B01] bg-orange-50'
-                      : 'text-[#4A4D57] hover:bg-gray-50 hover:text-[#2A2C32]'
+                      ? 'text-[#E76F26] bg-[#F4EFE6]'
+                      : 'text-[#322822] hover:bg-[#F9F7F2]'
                   }`}
                 >
-                  {selected === tower && <span className="w-1 h-1 rounded-[7px] bg-[#F85B01] flex-shrink-0" />}
+                  {selected === tower && <span className="w-1 h-1 rounded-[7px] bg-[#E76F26] flex-shrink-0" />}
                   {tower}
                 </button>
               ))}

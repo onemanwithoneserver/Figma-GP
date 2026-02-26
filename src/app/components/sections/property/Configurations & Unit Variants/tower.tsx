@@ -12,7 +12,6 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
   const [feedback, setFeedback] = useState(null);
   const [isSaved, setIsSaved] = useState(true);
 
-  // Safely fallback to default data if certain fields are missing from the clicked row
   const displayData = {
     bua: unitData?.bua || defaultUnitData.bua,
     facing: unitData?.facing || defaultUnitData.facing,
@@ -27,50 +26,45 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
     switch (status) {
       case 'Available': return 'text-[#429E6A]';
       case 'Limited': return 'text-[#E68A00]';
-      case 'Sold Out': return 'text-[#9E9E9E]';
-      default: return 'text-gray-500';
+      case 'Sold Out': return 'text-[#8A7D74]';
+      default: return 'text-[#8A7D74]';
     }
   };
 
   return (
-    <div className="w-full rounded-[7px] border border-gray-100 font-['Outfit',_sans-serif] text-[#2F3D5A] overflow-hidden flex flex-col mt-2" style={{boxShadow:'0 4px 24px rgba(0,0,0,0.09)'}}>
+    <div className="w-full rounded-[7px] border border-[#E5DFD4] font-['Outfit',_sans-serif] text-[#322822] overflow-hidden flex flex-col mt-2 shadow-sm">
       
-      {/* Unit Summary Bar & Close Button */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100" style={{background:'linear-gradient(135deg,#1A2540,#0F1929)'}}>
+      <div className="flex items-center justify-between px-4 py-3 bg-[#322822] border-b border-[#E5DFD4]">
         <div className="flex items-center gap-2.5 text-sm font-medium">
           <span className="text-white/50 text-[11px] font-semibold">BUA</span>
-          <strong className="text-[15px] text-white font-extrabold">{displayData.bua}</strong>
+          <strong className="text-[15px] text-white font-semibold">{displayData.bua}</strong>
           <span className="text-white/30 text-[11px]">sq.ft</span>
           <div className="w-px h-3.5 bg-white/20"></div>
           <span className="text-white/60 text-[12px] font-semibold">{displayData.facing}</span>
           <div className="w-px h-3.5 bg-white/20"></div>
-          <span className={`font-bold text-[11px] ${getAvailabilityStyles(displayData.availability)}`}>
+          <span className={`font-semibold text-[11px] ${getAvailabilityStyles(displayData.availability)}`}>
             {displayData.availability}
           </span>
         </div>
         <button 
           onClick={onClose} 
-          className="p-1.5 rounded-[7px] flex items-center justify-center transition-all" 
-          style={{background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.15)'}}
+          className="p-1.5 rounded-[7px] flex items-center justify-center transition-all bg-white/10 border border-white/15"
           title="Close View"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
 
-      {/* Floor Plan Image */}
-      <div className="w-full bg-gradient-to-br from-[#F8FAFC] to-[#F0F4F8] border-b border-gray-100 p-5">
         <img 
           src={displayData.imageUrl} 
           alt="Floor Plan Layout" 
-          className="w-full h-auto object-contain mix-blend-multiply"
+          className="w-full h-[250px] object-contain mix-blend-multiply"
         />
-      </div>
 
-      {/* Pricing */}
-      <div className="px-5 py-3.5 border-b border-gray-100 bg-white flex items-center justify-between">
-        <p className="text-[13px] font-bold text-[#94A3B8]">Estimated Cost</p>
-        <span className="text-[22px] font-extrabold text-[#F85B01] leading-none">
+
+      <div className="px-5 py-3.5 border-b border-[#E5DFD4] bg-white flex items-center justify-between">
+        <p className="text-[13px] font-semibold text-[#8A7D74]">Estimated Cost</p>
+        <span className="text-[22px] font-semibold text-[#E76F26] leading-none">
           {displayData.price
             .replace(/\s*Crore\s*/i, 'Cr')
             .replace(/\s*Lakh\s*/i, 'L')
@@ -78,22 +72,20 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </span>
       </div>
 
-      {/* Specifications Table */}
       <div className="px-5 py-1">
         {displayData.specs.map((spec, index) => (
-          <div key={index} className={`flex justify-between items-center py-2.5 border-b border-[#F0EDE7] last:border-0 text-[14px] transition-colors hover:bg-gradient-to-r hover:from-[#FAFAF8] hover:to-[#F6F4EF] -mx-5 px-5 hover:rounded-[5px] ${index % 2 === 0 ? '' : 'bg-[#FAFAF9]/40'}`}>
-            <span className="text-[#8292A6] font-semibold">{spec.name}</span>
-            <span className="font-bold text-[#2A2C32]">{spec.dimensions}</span>
+          <div key={index} className={`flex justify-between items-center py-2.5 border-b border-[#E5DFD4] last:border-0 text-[14px] transition-colors hover:bg-[#F4EFE6]/30 -mx-5 px-5 hover:rounded-[5px] ${index % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
+            <span className="text-[#8A7D74] font-semibold">{spec.name}</span>
+            <span className="font-semibold text-[#322822]">{spec.dimensions}</span>
           </div>
         ))}
       </div>
 
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E8E5DF] to-transparent"></div>
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E5DFD4] to-transparent"></div>
 
-      {/* User Feedback */}
-      <div className="mx-4 my-4 rounded-[7px] border border-[#E8E5DF] bg-gradient-to-br from-[#FAFAF8] to-[#F6F4EF] shadow-md shadow-black/5 overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#E8E5DF] bg-gradient-to-r from-[#2A2C32] to-[#1E293B]">
-          <p className="text-[13px] font-bold text-white tracking-wide">Does this floor plan suit your needs?</p>
+      <div className="mx-4 my-4 rounded-[7px] border border-[#E5DFD4] bg-[#FDFBF8] shadow-sm overflow-hidden">
+        <div className="px-4 py-3 border-b border-[#E5DFD4] bg-[#322822]">
+          <p className="text-[13px] font-semibold text-white">Does this floor plan suit your needs?</p>
         </div>
         <div className="px-4 py-3">
         <div className="flex gap-2.5">
@@ -101,10 +93,10 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             <button
               key={opt.value}
               onClick={() => setFeedback(opt.value)}
-              className={`flex-1 py-2 px-1.5 flex flex-col items-center justify-center gap-1 rounded-[7px] border text-[12px] font-bold transition-all duration-300 shadow-sm
+              className={`flex-1 py-2 px-1.5 flex flex-col items-center justify-center gap-1 rounded-[7px] border text-[12px] font-semibold transition-all duration-300 shadow-sm
                 ${feedback === opt.value 
-                  ? 'border-[#F85B01] bg-gradient-to-br from-[#FFF3E0] to-[#FFE4C4] text-[#F85B01] shadow-md shadow-orange-500/20 scale-105' 
-                  : 'border-gray-200 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:shadow-md'
+                  ? 'border-[#E76F26] bg-[#F4EFE6] text-[#E76F26] shadow-sm scale-105' 
+                  : 'border-[#E5DFD4] bg-[#F9F7F2] text-[#8A7D74] hover:bg-[#F4EFE6]/50 hover:shadow-sm'
                 }`}
             >
               <span className="text-[16px]">{opt.emoji}</span>
@@ -118,23 +110,33 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       {/* Seller Queries */}
       <SellerQueries />
 
-      {/* Bottom Action Bar */}
-      <div className="w-full bg-gradient-to-b from-white to-gray-50/50 border-t border-gray-200 p-4 flex gap-3 shrink-0 shadow-inner">
+      <div className="w-full bg-white border-t border-[#E5DFD4] p-4 flex flex-col gap-2 shrink-0">
         <button 
           onClick={() => setIsSaved(!isSaved)}
-          className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-[#F85B01] to-[#E24E00] text-white py-3 rounded-[7px] font-bold text-[14px] transition-all duration-300 active:scale-95 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40"
+          className="w-full flex items-center justify-center gap-2 bg-[#E76F26] hover:bg-[#c45e1a] text-white py-3 rounded-[7px] font-semibold text-[14px] transition-all duration-300 active:scale-95 shadow-sm"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
           </svg>
           {isSaved ? 'Saved' : 'Save Plan'}
         </button>
-        <button className="flex-[1.5] flex items-center justify-center gap-2 bg-white border-2 border-gray-200 text-[#2F3D5A] py-3 rounded-[7px] font-bold text-[14px] hover:bg-gray-50 hover:border-[#2F3D5A] transition-all duration-300 shadow-md hover:shadow-lg">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-          Ask availability
-        </button>
+        <div className="flex gap-2">
+          <button className="flex-1 flex items-center justify-center gap-1.5 bg-white border border-[#E5DFD4] text-[#322822] py-2.5 rounded-[7px] font-semibold text-[13px] hover:bg-[#F9F7F2] hover:border-[#322822] transition-all duration-300 shadow-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            Ask availability
+          </button>
+          <button
+            onClick={onClose}
+            className="flex-1 flex items-center justify-center gap-1.5 bg-white border border-[#E5DFD4] text-[#322822] py-2.5 rounded-[7px] font-semibold text-[13px] hover:bg-[#F9F7F2] hover:text-[#322822] transition-all duration-300 shadow-sm"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Floor plans
+          </button>
+        </div>
       </div>
 
     </div>

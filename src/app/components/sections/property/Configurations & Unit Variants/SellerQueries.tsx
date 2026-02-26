@@ -13,22 +13,21 @@ const ChevronRight = () => (
 
 export default function SellerQueries() {
   return (
-    <div className="mx-4 mb-4 rounded-[7px] overflow-hidden" style={{boxShadow:'0 2px 12px rgba(0,0,0,0.06)'}}>
-      <div className="px-4 py-2.5 relative overflow-hidden" style={{background:'linear-gradient(135deg,#1A2540,#0F1929)'}}>
-        <div className="absolute -top-4 -right-4 w-16 h-16 rounded-[7px] opacity-10" style={{background:'radial-gradient(circle,#F85B01 0%,transparent 70%)'}} />
-        <p className="text-[10px] font-bold text-white/40 tracking-widest">Quick Questions</p>
-        <p className="text-[12px] font-extrabold text-white">Ask the Seller</p>
+    <div className="mx-4 mb-4 rounded-[7px] overflow-hidden shadow-sm border border-[#E5DFD4]">
+      <div className="px-4 py-2.5 bg-[#322822]">
+        <p className="text-[10px] font-semibold text-white/50 tracking-widest">Quick Questions</p>
+        <p className="text-[12px] font-semibold text-white">Ask the Seller</p>
       </div>
       <div className="bg-white py-1">
         {SELLER_QUESTIONS.map((question, index) => (
           <button
             key={index}
-            className={`w-full flex justify-between items-center px-4 py-3 text-[12px] font-semibold text-[#4A4D57] hover:text-[#F85B01] hover:bg-orange-50/50 transition-all group ${
-              index < SELLER_QUESTIONS.length - 1 ? 'border-b border-gray-50' : ''
+            className={`w-full flex justify-between items-center px-4 py-3 text-[12px] font-semibold text-[#322822] hover:text-[#E76F26] hover:bg-[#F4EFE6]/50 transition-all group ${
+              index < SELLER_QUESTIONS.length - 1 ? 'border-b border-[#E5DFD4]' : ''
             }`}
           >
             <span className="text-left">{question}</span>
-            <span className="text-gray-300 group-hover:text-[#F85B01] group-hover:translate-x-0.5 transition-all flex-shrink-0">
+            <span className="text-[#8A7D74] group-hover:text-[#E76F26] group-hover:translate-x-0.5 transition-all flex-shrink-0">
               <ChevronRight />
             </span>
           </button>

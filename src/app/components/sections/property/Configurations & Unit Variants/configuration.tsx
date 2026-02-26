@@ -28,7 +28,6 @@ export default function Configuration({ selectedTower }: ConfigurationProps) {
     return dataFilteredByTower.filter(item => item.type === activeTab);
   }, [dataFilteredByTower, activeTab]);
 
-  // When tower changes externally, reset unit view and validate active tab
   useEffect(() => {
     setSelectedUnit(null);
     const validTabs = Array.from(new Set(
@@ -38,7 +37,6 @@ export default function Configuration({ selectedTower }: ConfigurationProps) {
     if (!validTabs.includes(activeTab) && validTabs.length > 0) {
       setActiveTab(validTabs[0]);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedTower]);
 
   const toggleSave = (id: string) => {
