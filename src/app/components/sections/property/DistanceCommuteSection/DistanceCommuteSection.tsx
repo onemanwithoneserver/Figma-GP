@@ -181,7 +181,7 @@ export default function DistanceCommuteSection() {
           </button>
         </div>
 
-        <div className="p-4 bg-[#F9F7F2] flex-1">
+        <div className="p-5 bg-[#F9F7F2] flex-1">
           {successToast && (
             <div className="flex items-center gap-2 bg-[#F4EFE6] text-[#322822] px-4 py-3.5 rounded-[7px] mb-4 text-[13.5px] font-semibold border border-[#E5DFD4] shadow-sm">
               <Icons.Check />
@@ -297,7 +297,7 @@ export default function DistanceCommuteSection() {
                 </div>
               )}
 
-              <div className="flex flex-col gap-2 mb-4">
+              <div className="flex flex-col gap-3 mb-5">
                 {tabData[activeTab]?.items.map((item) => (
                   <div key={item.id} className="flex items-center gap-3.5 p-4 rounded-[7px] border border-[#E5DFD4]/60 shadow-sm bg-white cursor-pointer hover:border-[#E5DFD4] hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
                     <div className="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-[7px] shadow-sm bg-[#F4EFE6] text-[#E76F26]">
@@ -321,10 +321,14 @@ export default function DistanceCommuteSection() {
 
               <button
                 onClick={() => setIsAddingPlace(true)}
-                className="w-full py-3 rounded-[7px] border border-dashed border-[#E5DFD4] font-semibold text-[13.5px] text-[#E76F26] flex items-center justify-center gap-2 transition-all duration-300 hover:bg-[#F4EFE6]/50 bg-white"
+                className="w-full py-3.5 rounded-[7px] border border-dashed border-[#E5DFD4] font-semibold text-[13.5px] text-[#E76F26] flex items-center justify-center gap-2 transition-all duration-300 hover:bg-[#F4EFE6]/50 bg-white"
               >
                 <Icons.Plus /> Add Place to {tabData[activeTab]?.title}
               </button>
+
+              <p className="text-[12px] font-medium text-[#8A7D74] text-center mt-6 pb-2">
+                {tabData[activeTab]?.footer}
+              </p>
             </div>
           )}
 
