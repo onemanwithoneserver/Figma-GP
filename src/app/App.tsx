@@ -17,7 +17,7 @@ import Configuration from './components/sections/property/Configurations & Unit 
 import TowerDropdown from './components/sections/property/Configurations & Unit Variants/TowerDropdown';
 import { mockData } from './components/sections/property/Configurations & Unit Variants/data';
 import InteractiveCommuteWidget from './components/sections/property/DistanceCommuteSection/InteractiveCommute';
-import AmenitiesSection from './components/sections/property/AmenitiesSection';
+import AmenitiesSection from './components/sections/property/AmenitiesSection/AmenitiesSection';
 import SpecificationsSection from './components/sections/property/SpecificationsSection';
 import PaymentPlan from './components/sections/property/PaymentPlansSection/PaymentPlan';
 import ProjectFilesSection from './components/sections/property/ProjectFilesSection';
