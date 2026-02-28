@@ -70,9 +70,9 @@ function App() {
         {/* 3. Layout & Towers */}
         <div id="layout-towers" className="bg-white">
           <ContentSection title="Layout &amp; Towers">
-            <div className="px-4 pb-4">
+            <div className="px-2 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
-              <div className="mt-3 transition-all duration-300 ease-in-out">
+              <div className="mt-1 transition-all duration-300 ease-in-out">
                 
                 {/* --- UPDATED TAB RENDERING LOGIC --- */}
                 {layoutTab === 'layout' && <Layout />}

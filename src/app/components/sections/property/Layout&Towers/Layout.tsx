@@ -45,7 +45,7 @@ const Layout = () => {
   };
 
   return (
-    <div className="w-full bg-[#F9F7F2] font-sans pb-4">
+    <div className="w-full bg-[#F9F7F2] outfit pb-2">
       <div className="w-full max-w-2xl mx-auto">
         
         {/* Header Section - Max Round 7px */}
@@ -93,7 +93,7 @@ const Layout = () => {
             return (
               <div
                 key={tower.id}
-                className={`group flex items-center gap-3 rounded-[7px] pl-2 pr-3 py-2.5 transition-all duration-300 bg-white border border-[#E5DFD4]/50 hover:border-[#322822]/15 hover:shadow-md ${isFuture ? 'opacity-70' : 'opacity-100'}`}
+                className={`group flex items-center gap-3 rounded-[7px] pl-2 pr-2 py-1.5 transition-all duration-300 bg-white border border-[#E5DFD4]/50 hover:border-[#322822]/15 hover:shadow-md ${isFuture ? 'opacity-70' : 'opacity-100'}`}
               >
                 {/* Initial Box - Returned to Orange for active, Original dark for future */}
                 <div className={`w-10 h-10 rounded-[7px] flex-shrink-0 flex items-center justify-center text-[14px] font-bold text-white transition-colors duration-300 ${isFuture ? 'bg-[#322822]/80' : 'bg-[#E65100]'}`}>
