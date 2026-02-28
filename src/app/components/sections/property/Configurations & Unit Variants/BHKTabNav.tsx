@@ -19,12 +19,13 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
+  // Check scroll position to show/hide arrows with a 2px threshold for exact hiding
   const checkScroll = () => {
     const container = scrollContainerRef.current;
     if (container) {
       const { scrollLeft, scrollWidth, clientWidth } = container;
-      setCanScrollLeft(scrollLeft > 5); 
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+      setCanScrollLeft(scrollLeft > 2); 
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 2);
     }
   };
 
@@ -52,28 +53,61 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
     }
   }, [activeTab]);
 
+  // Handle arrow clicks
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 200;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <div className="w-full mb-4 relative">
-      {/* LEFT FADE OVERLAY - Radius restricted to 7px */}
-      <div 
-        className={`absolute left-0 top-0.5 bottom-0.5 w-8 z-20 pointer-events-none transition-opacity duration-300 rounded-l-[7px] ${
-          canScrollLeft ? 'opacity-100' : 'opacity-0'
-        }`} 
-        style={{
-          background: `linear-gradient(to right, ${COLORS.container}, transparent)`,
-        }}
-      />
+    <div className="w-full mb-4 relative group">
+      
+      {/* LEFT FADE OVERLAY & ARROW */}
+      {canScrollLeft && (
+        <div 
+          className="absolute left-0 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1"
+          style={{
+            background: `linear-gradient(to right, ${COLORS.container} 40%, transparent)`,
+          }}
+        >
+          <button 
+            onClick={() => scroll('left')}
+            className="pointer-events-auto p-1 rounded-full text-[#332823] hover:bg-black/10 transition-colors"
+            aria-label="Scroll left"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m15 18-6-6 6-6"/>
+            </svg>
+          </button>
+        </div>
+      )}
 
-      {/* RIGHT FADE OVERLAY - Radius restricted to 7px */}
-      <div 
-        className={`absolute right-0 top-0.5 bottom-0.5 w-8 z-20 pointer-events-none transition-opacity duration-300 rounded-r-[7px] ${
-          canScrollRight ? 'opacity-100' : 'opacity-0'
-        }`} 
-        style={{
-          background: `linear-gradient(to left, ${COLORS.container}, transparent)`,
-        }}
-      />
+      {/* RIGHT FADE OVERLAY & ARROW */}
+      {canScrollRight && (
+        <div 
+          className="absolute right-0 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-r-[7px] flex items-center justify-end pr-1"
+          style={{
+            background: `linear-gradient(to left, ${COLORS.container} 40%, transparent)`,
+          }}
+        >
+          <button 
+            onClick={() => scroll('right')}
+            className="pointer-events-auto p-1 rounded-full text-[#332823] hover:bg-black/10 transition-colors"
+            aria-label="Scroll right"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
+          </button>
+        </div>
+      )}
 
+      {/* SCROLLABLE CONTAINER */}
       <div 
         ref={scrollContainerRef}
         onScroll={checkScroll}
@@ -81,7 +115,6 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
             backgroundColor: COLORS.container, 
             borderColor: '#E8E2D9' 
         }}
-        /* Container radius capped at 7px */
         className="relative flex items-center p-1 rounded-[7px] border overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
       >
         <div className="flex gap-1.5 px-0.5 w-full"> 
@@ -92,7 +125,6 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
               <button
                 key={tab}
                 onClick={() => onTabChange(tab)}
-                /* flex-1 lets them stretch evenly, min-w-max ensures they don't squish too much */
                 className="relative flex-1 min-w-max py-1.5 px-4 transition-colors duration-300 z-10 outline-none flex items-center justify-center rounded-[7px]"
                 style={{ color: isActive ? COLORS.white : COLORS.textInactive }}
               >
@@ -105,7 +137,6 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
                   />
                 )}
                 
-                {/* 11px uppercase to perfectly match the L&T Master Navigation */}
                 <span className="relative z-20 text-[11px] tracking-widest font-bold whitespace-nowrap uppercase">
                   {tab}
                 </span>
