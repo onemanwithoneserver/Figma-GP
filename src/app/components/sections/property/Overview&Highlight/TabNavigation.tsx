@@ -9,12 +9,12 @@ const FolderTab: React.FC<{
   return (
     <button
       onClick={onClick}
-      className={`relative h-[41px] w-[160px] sm:w-[180px] shrink-0 outline-none transition-all duration-300 hover:-translate-y-0.5 ${className}`}
+      className={`relative h-[38px] w-[160px] sm:w-[180px] shrink-0 outline-none transition-all duration-300 hover:-translate-y-0.5 ${className}`}
     >
       <svg
         className={`absolute inset-0 block size-full transition-all duration-300 ${
           isActive 
-            ? "drop-shadow-[0_-2px_4px_rgba(0,0,0,0.15)]" // Reduced drop shadow
+            ? "drop-shadow-[0_-3px_6px_rgba(42,33,28,0.3)]" // Tinted shadow for depth
             : "drop-shadow-[0_-1px_2px_rgba(0,0,0,0.1)]"
         }`}
         fill="none"
@@ -25,8 +25,9 @@ const FolderTab: React.FC<{
           <path
             d="M10 20C10 8.95431 18.9543 0 30 0L183 0C194.046 0 203 8.95431 203 20V41H10V20Z"
             fill={isActive ? "url(#vintage-active)" : "url(#vintage-inactive)"}
-            stroke={isActive ? "#2A1F1A" : "#B8AD9C"}
-            strokeWidth="1"
+            // Active stroke changed to a muted gold/bronze for a premium touch
+            stroke={isActive ? "#A68A56" : "#C7BCAC"} 
+            strokeWidth="1.5"
             className="transition-colors duration-300"
           />
           <path
@@ -43,12 +44,11 @@ const FolderTab: React.FC<{
       </svg>
       
       <span
-        className={`absolute inset-0 flex items-center justify-center text-[14px] tracking-wide font-semibold transition-colors duration-300 ${ // Reduced font weight to semibold
+        className={`absolute inset-0 flex items-center justify-center text-[16px] tracking-[0.1em] font-bold transition-colors duration-300 ${
           isActive 
-            ? "text-[#F4EFE6]"
-            : "text-[#2b211b] opacity-90 hover:opacity-100"
+            ? "text-[#F8F3ED]" // Soft off-white for better readability
+            : "text-[#332823] opacity-80 hover:opacity-100"
         }`}
-        // Removed text-shadow entirely for a cleaner look
       >
         {label}
       </span>
@@ -63,39 +63,39 @@ interface TabNavigationProps {
 
 const TabNavigation: React.FC<TabNavigationProps> = ({ activeTab, onTabChange }) => {
   return (
-    <section className="w-full relative">
+    <section className="w-full relative py-1.5">
       <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
         <defs>
           <clipPath id="clip0_tab">
             <rect fill="white" height="41" width="211" />
           </clipPath>
           
-          {/* Subtle 2-stop active gradient */}
+          {/* Deepened the active gradient for more "leathery" texture */}
           <linearGradient id="vintage-active" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#3A2E28" />
+            <stop offset="0%" stopColor="#43352F" />
             <stop offset="100%" stopColor="#2A211C" />
           </linearGradient>
           
-          {/* Softer, warmer inactive gradient */}
+          {/* Enhanced the parchment feel with a slightly warmer bottom stop */}
           <linearGradient id="vintage-inactive" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#EDE6DC" />
-            <stop offset="100%" stopColor="#D8CFC1" />
+            <stop offset="0%" stopColor="#F4EFE6" />
+            <stop offset="100%" stopColor="#E2D8C9" />
           </linearGradient>
         </defs>
       </svg>
 
-      <div className="relative flex items-end justify-center -space-x-6 px-2 overflow-visible pt-1 pb-0 w-max max-w-full mx-auto">
+      <div className="relative flex items-end justify-center -space-x-4 px-2 overflow-visible pt-1 pb-0 w-max max-w-full mx-auto">
         <FolderTab
           label="Overview"
           isActive={activeTab === 'overview'}
           onClick={() => onTabChange('overview')}
-          className={activeTab === 'overview' ? 'z-20 scale-105' : 'z-0'}
+          className={activeTab === 'overview' ? 'z-20 scale-105' : 'z-10 opacity-90'}
         />
         <FolderTab
           label="Highlights"
           isActive={activeTab === 'highlights'}
           onClick={() => onTabChange('highlights')}
-          className={activeTab === 'highlights' ? 'z-20 scale-105' : 'z-0'}
+          className={activeTab === 'highlights' ? 'z-20 scale-105' : 'z-10 opacity-90'}
         />
       </div>
     </section>

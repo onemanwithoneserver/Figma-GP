@@ -24,7 +24,7 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
             />
           )}
           <span className={`relative z-10 transition-colors duration-200 ${
-            activeTab === tab ? 'text-white' : 'text-[#8A7D74] hover:text-[#322822]'
+            activeTab === tab ? 'text-white' : 'text-[#4b433d] hover:text-[#322822]'
           }`}>
             {tab}
           </span>

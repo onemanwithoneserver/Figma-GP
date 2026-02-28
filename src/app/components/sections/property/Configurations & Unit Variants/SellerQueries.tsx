@@ -15,7 +15,6 @@ export default function SellerQueries() {
   return (
     <div className="mx-4 mb-4 rounded-[7px] overflow-hidden shadow-sm border border-[#E5DFD4]">
       <div className="px-4 py-2.5 bg-[#322822]">
-        <p className="text-[10px] font-semibold text-white/50 tracking-widest">Quick Questions</p>
         <p className="text-[12px] font-semibold text-white">Ask the Seller</p>
       </div>
       <div className="bg-white py-1">

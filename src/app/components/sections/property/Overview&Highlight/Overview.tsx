@@ -7,7 +7,7 @@ interface OverviewItem {
   value: string;
 }
 
-// --- OVERVIEW TILE COMPONENT (Luxury Mode) ---
+// --- OVERVIEW TILE COMPONENT (Compact Luxury) ---
 const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variants: Variants }>(
   ({ item, variants }, ref) => {
   return (
@@ -15,18 +15,19 @@ const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variant
       ref={ref}
       variants={variants}
       layout
-      className="relative flex flex-col items-center text-center pt-5 pb-5 px-3 rounded-[7px] bg-white shadow-sm border border-[#E5DFD4]/60 transition-all duration-300 font-['Outfit',_sans-serif] hover:shadow-md"
+      // Reduced padding from py-5 to py-3 and px-3 to px-2
+      className="relative flex flex-col items-center text-center pt-3 pb-3 px-2 rounded-[6px] bg-white shadow-sm border border-[#E5DFD4]/60 transition-all duration-300 font-['Outfit',_sans-serif] hover:shadow-md"
     >
-      {/* Property Icon - Filtered to Brand Orange */}
+      {/* Property Icon - Slightly smaller (w-6 h-6) */}
       <img
         src={item.icon}
         alt={item.label}
-        className="w-7 h-7 mb-2.5 object-contain"
+        className="w-6 h-6 mb-1.5 object-contain"
         style={{ filter: 'url(#brand-orange-filter)' }}
       />
       
-      {/* Label & Value - Refined Typography Hierarchy */}
-      <h3 className="text-[11px] font-medium tracking-wide text-[#7A6F68] mb-1 leading-tight">
+      {/* Label & Value - Tightened typography */}
+      <h3 className="text-[13px] font-medium tracking-wider text-[#7A6F68] mb-0.5 leading-tight">
         {item.label}
       </h3>
       <p className="text-[14px] font-semibold text-[#322822] leading-tight">
@@ -66,17 +67,16 @@ const Overview: React.FC = () => {
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.04 } }
+    show: { opacity: 1, transition: { staggerChildren: 0.03 } }
   };
 
   const itemVariants = {
-    hidden: { y: 10, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 280, damping: 22 } }
+    hidden: { y: 8, opacity: 0 },
+    show: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 25 } }
   };
 
   return (
     <section className="p-0 relative font-['Outfit',_sans-serif] bg-[#FDFBF8]">
-      {/* SVG Filter for Icon Branding - Adjusted to match the #E76F26 accent color */}
       <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
         <defs>
           <filter id="brand-orange-filter" colorInterpolationFilters="sRGB">
@@ -88,12 +88,12 @@ const Overview: React.FC = () => {
         </defs>
       </svg>
 
-      {/* Reduced vertical gap from gap-y-10 to gap-y-4 since floating pills are removed */}
+      {/* Reduced gap-x-3 to gap-x-2 and gap-y-4 to gap-y-2.5 */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-3 gap-x-3 gap-y-4 pb-2"
+        className="grid grid-cols-3 gap-x-2 gap-y-2.5 pb-2"
       >
         <AnimatePresence mode='popLayout'>
           {displayedItems.map((item) => (
@@ -102,17 +102,17 @@ const Overview: React.FC = () => {
         </AnimatePresence>
       </motion.div>
 
-      {/* Toggle Button - Removed heavy glowing shadow, refined font weight */}
-      <div className="flex justify-center mt-6">
+      {/* Toggle Button - Reduced margin-top (mt-4) */}
+      <div className="flex justify-center mt-4">
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowAllDetails(!showAllDetails)}
-          className="px-8 py-2.5 text-white text-[13px] font-medium tracking-wide flex items-center gap-2 rounded-[7px] bg-[#E76F26] shadow-sm transition-all outline-none"
+          className="px-2 py-1 bg-[#451E01] text-[#ffffff]  text-[14px] font-medium tracking-wide flex items-center gap-2 rounded-[6px] shadow-sm transition-all outline-none"
         >
           {showAllDetails ? 'Show less' : 'See all details'}
           <svg 
-            className={`w-3.5 h-3.5 transition-transform duration-300 ${showAllDetails ? 'rotate-180' : ''}`} 
+            className={`w-3 h-3 transition-transform duration-300 ${showAllDetails ? 'rotate-180' : ''}`} 
             fill="none" stroke="currentColor" viewBox="0 0 24 24"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
