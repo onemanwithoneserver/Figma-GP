@@ -5,7 +5,7 @@ import TabNavigation from './components/sections/property/Overview&Highlight/Tab
 import Overview from './components/sections/property/Overview&Highlight/Overview';
 import Highlights from './components/sections/property/Overview&Highlight/Highlights';
 import ProjectTimelineSection from './components/sections/property/ProjectTimelineSection/ProjectTimeline';
-import LandTNavigation, { TabId } from './components/sections/property/Layout&Towers/LandTNavigation';
+import LandTNavigation from './components/sections/property/Layout&Towers/LandTNavigation';
 import Layout from './components/sections/property/Layout&Towers/Layout';
 import TowerA from './components/sections/property/Layout&Towers/TowerA';
 import TowerB from './components/sections/property/Layout&Towers/TowerB';
@@ -26,9 +26,12 @@ import PropertyMeetNav from './components/sections/property/ProjectMeetSection/P
 import ContentSection from './components/sections/property/ContentSection';
 import FooterNav from './components/sections/property/FooterNav';
 
+import { BackToTopIcon } from './components/ui/BackToTopIcon';
+import { Button } from './components/ui/button';
+
 function App() {
   const [activeTab, setActiveTab] = useState<'overview' | 'highlights'>('overview');
-  const [layoutTab, setLayoutTab] = useState<TabId>('layout');
+  const [layoutTab, setLayoutTab] = useState('layout');
   
   const [selectedTower, setSelectedTower] = useState('All Towers');
   const availableTowers = useMemo(() => {
@@ -36,13 +39,27 @@ function App() {
     return ['All Towers', ...Array.from(towers).sort()];
   }, []);
 
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 200);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleBackToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-[#EFECE5]">
-      <div className="overflow-x-clip max-w-[390px] mx-auto pb-18 min-h-screen flex flex-col gap-[4px]">
-
+      {/* relative added to main container */}
+      <div className="overflow-x-clip max-w-[390px] mx-auto pb-15 min-h-screen flex flex-col gap-[4px] relative">
         {/* Hero */}
         <div id="hero" className="bg-white">
-          <div className="px-4 pb-2">
+          <div className="">
             <HeroSection />
           </div>
         </div>
@@ -69,7 +86,7 @@ function App() {
 
         {/* 3. Layout & Towers */}
         <div id="layout-towers" className="bg-white">
-          <ContentSection title="Layout &amp; Towers">
+          <ContentSection title="Layout & Towers">
             <div className="px-4 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
               <div className="mt-1 transition-all duration-300 ease-in-out">
@@ -111,7 +128,7 @@ function App() {
 
         {/* 5. Distance & Commute */}
         <div id="distance-commute" className="bg-white">
-          <ContentSection>
+          <ContentSection title="Distance & Commute">
             <div className="px-4 pb-2">
               <InteractiveCommuteWidget />
             </div>
@@ -186,6 +203,22 @@ function App() {
         </div>
 
         <FooterNav />
+        
+        {/* --- Constrained Back to Top Button --- */}
+        {showBackToTop && (
+          <div className="fixed inset-x-0 bottom-24 z-50 flex justify-center pointer-events-none">
+            <div className="w-full max-w-[390px] relative">
+              <Button
+                onClick={handleBackToTop}
+                size="icon"
+                className="absolute right-4 bottom-0 bg-white shadow-lg border border-gray-200 hover:bg-orange-100 text-orange-500 hover:text-white hover:bg-gradient-to-br hover:from-[#F85B01] hover:to-[#E05000] transition-colors pointer-events-auto"
+                aria-label="Back to top"
+              >
+                <BackToTopIcon />
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
