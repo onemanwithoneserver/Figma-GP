@@ -22,16 +22,12 @@ import SpecificationsSection from './components/sections/property/Specifications
 import PaymentPlan from './components/sections/property/PaymentPlansSection/PaymentPlan';
 import ProjectFilesSection from './components/sections/property/ProjectFilesSection';
 import ExitSummarySection from './components/sections/property/ExitSummarySection';
-
-// Pointing to the new Navigation-based Meet Section
 import PropertyMeetNav from './components/sections/property/ProjectMeetSection/PropertyMeetNav';
-
 import ContentSection from './components/sections/property/ContentSection';
 import FooterNav from './components/sections/property/FooterNav';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'overview' | 'highlights'>('overview');
-  // Initialize with Layout
   const [layoutTab, setLayoutTab] = useState<TabId>('layout');
   
   const [selectedTower, setSelectedTower] = useState('All Towers');
@@ -73,25 +69,19 @@ function App() {
             <div className="px-2 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
               <div className="mt-1 transition-all duration-300 ease-in-out">
-                
-                {/* --- UPDATED TAB RENDERING LOGIC --- */}
                 {layoutTab === 'layout' && <Layout />}
                 {layoutTab === 'shlok' && <TowerA />}
                 {layoutTab === 'ayush' && <TowerB />}
                 {layoutTab === 'ananta' && <TowerC />}
-                
-                {/* Dynamically render future phases using the ShowcaseTower */}
                 {['advait', 'vihaan', 'ishan', 'aarav', 'kavya'].map((t) => (
                   layoutTab === t && (
                     <ShowcaseTower 
                       key={t} 
-                      // Capitalize the first letter for display purposes
                       towerName={t.charAt(0).toUpperCase() + t.slice(1)} 
                       dummyName={t.charAt(0).toUpperCase() + t.slice(1)} 
                     />
                   )
                 ))}
-                
               </div>
             </div>
           </ContentSection>
@@ -109,7 +99,7 @@ function App() {
               />
             }
           >
-            <div className="px-4 pb-4">
+            <div className="px-2 pb-2">
               <Configuration selectedTower={selectedTower} />
             </div>
           </ContentSection>
@@ -117,8 +107,8 @@ function App() {
 
         {/* 5. Distance & Commute */}
         <div id="distance-commute" className="bg-white">
-          <ContentSection title="Distance / Commute To">
-            <div className="px-4 pb-4">
+          <ContentSection>
+            <div className="px-2 pb-2">
               <InteractiveCommuteWidget />
             </div>
           </ContentSection>
