@@ -72,7 +72,7 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
       </div>
 
       {activeTabId === 'frequent' && (
-        <div className="space-y-2 flex flex-col items-center mb-6">
+        <div className="space-y-2 flex flex-col items-stretch">
           <button 
             onClick={() => setShowAddPage(true)} 
             className="w-auto py-2 px-2 rounded-[7px] border border-dashed border-[#312822c7] text-[#E76F26] font-bold text-[12px] flex items-center justify-center gap-2 bg-white hover:bg-[#F4EFE6] transition-all active:scale-[0.99]"
