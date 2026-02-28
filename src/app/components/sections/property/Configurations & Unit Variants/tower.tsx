@@ -77,7 +77,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
   };
 
   return (
-    <div className="w-full rounded-[7px] border border-[#E5DFD4] font-['Outfit',_sans-serif] text-[#322822] overflow-hidden flex flex-col  shadow-sm">
+    <div className="w-full rounded-[7px] border border-[#E5DFD4] font-['Outfit',_sans-serif] text-[#322822] overflow-hidden flex flex-col shadow-sm">
       
       {/* Header - Stats bar */}
       <div className="flex items-center justify-between px-4 py-3 bg-[#322822] border-b border-[#E5DFD4]">
@@ -169,130 +169,113 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E5DFD4] to-transparent"></div>
 
       {/* Feedback Panel */}
-<div className="my-4 rounded-[7px] border border-[#E5DFD4] bg-[#FDFBF8] shadow-sm overflow-hidden">
+      <div className="px-5 py-4 bg-[#FDFBF8]">
+        {/* TOP SECTION */}
+        <h4 className="px-3 py-2 border-b rounded-t-[7px] bg-[#322822]">
+          <p className="text-[13px] font-semibold text-white text-center">
+            Does this floor plan suit your needs?
+          </p>
+        </h4>
 
-  {/* TOP SECTION */}
-  <div className="px-3 py-2 border-b border-[#E5DFD4] bg-[#322822]">
-    <p className="text-[13px] font-semibold text-white text-center">
-      Does this floor plan suit your needs?
-    </p>
-  </div>
+        {/* BOTTOM SECTION */}
+        <div className="p-2">
+          <div className="flex gap-2.5">
+            {FEEDBACK_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                onClick={() => setFeedback(opt.value)}
+                className={`flex-1 py-2 flex flex-col items-center justify-center gap-1
+                rounded-[7px] border text-[12px] font-semibold
+                transition-all duration-300 shadow-sm
 
-  {/* BOTTOM SECTION */}
-  <div className="p-2">
-    <div className="flex gap-2.5">
-      {FEEDBACK_OPTIONS.map((opt) => (
-        <button
-          key={opt.value}
-          onClick={() => setFeedback(opt.value)}
-          className={`flex-1 py-2 flex flex-col items-center justify-center gap-1
-          rounded-[7px] border text-[12px] font-semibold
-          transition-all duration-300 shadow-sm
+                ${
+                  feedback === opt.value
+                    ? 'border-[#E76F26] bg-[#F4EFE6] text-[#322822] scale-[1.03]'
+                    : 'border-[#E5DFD4] bg-[#F9F7F2] text-[#554E48] hover:bg-[#F4EFE6]/60 hover:text-[#322822]'
+                }`}
+              >
+                <span className="text-[16px] leading-none">
+                  {opt.emoji}
+                </span>
 
-          ${
-            feedback === opt.value
-              ? 'border-[#E76F26] bg-[#F4EFE6] text-[#322822] scale-[1.03]'
-              : 'border-[#E5DFD4] bg-[#F9F7F2] text-[#554E48] hover:bg-[#F4EFE6]/60 hover:text-[#322822]'
-          }`}
-        >
-          <span className="text-[16px] leading-none">
-            {opt.emoji}
-          </span>
-
-          <span className="text-center leading-tight">
-            {opt.label}
-          </span>
-        </button>
-      ))}
-    </div>
-  </div>
-
-</div>
+                <span className="text-center leading-tight">
+                  {opt.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
       <SellerQueries />
 
       {/* Sticky Action Footer */}
-      <div className="w-full bg-white border-t border-[#E5DFD4] px-3 py-2 shrink-0">
-  <div className="flex items-center gap-2">
+      <div className="w-full bg-white px-3 py-2 shrink-0">
+        <div className="flex items-center gap-2">
 
-    {/* SAVE BUTTON */}
-    <button
-      title={isSaved ? "Saved" : "Save plan"}
-      onClick={() => setIsSaved(!isSaved)}
-      className={`w-[44px] h-[40px] flex items-center justify-center 
-      rounded-[7px] border shadow-sm
-      transition-all duration-200 active:scale-95
-      ${
-        isSaved
-          ? 'bg-[#E76F26] text-white border-[#E76F26]'
-          : 'bg-[#F9F7F2] text-[#554E48] border-[#E5DFD4] hover:text-[#322822]'
-      }`}
-    >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill={isSaved ? "currentColor" : "none"}
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-      </svg>
-    </button>
+          {/* SAVE BUTTON */}
+          <button
+            title={isSaved ? "Saved" : "Save plan"}
+            onClick={() => setIsSaved(!isSaved)}
+            className={`w-[44px] h-[40px] flex items-center justify-center 
+            rounded-[7px] border shadow-sm
+            transition-all duration-200 active:scale-95
+            ${
+              isSaved
+                ? 'bg-[#E76F26] text-white border-[#E76F26]'
+                : 'bg-[#F9F7F2] text-[#554E48] border-[#E5DFD4] hover:text-[#322822]'
+            }`}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill={isSaved ? "currentColor" : "none"}
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+            </svg>
+          </button>
 
-    {/* ASK AVAILABILITY */}
-    <button
-      className="flex-1 h-[40px] flex items-center justify-center gap-1.5
-      bg-white border border-[#E5DFD4]
-      text-[#322822] font-semibold text-[13px]
-      rounded-[7px] shadow-sm
-      hover:bg-[#F9F7F2] hover:border-[#322822]
-      transition-all duration-200"
-    >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-      </svg>
-      Ask availability
-    </button>
+          {/* ASK AVAILABILITY */}
+          <button
+            className="flex-1 h-[40px] flex items-center justify-center
+              rounded-[7px] font-bold text-[13px] shadow-sm transition-all duration-200
+              active:scale-[0.98] focus:outline-none bg-[#322822] text-white hover:bg-[#1E1713] cursor-pointer"
+          >
+            Ask Seller
+          </button>
 
-    {/* GO BACK */}
-    <button
-      onClick={onClose}
-      className="flex-1 h-[40px] flex items-center justify-center gap-1.5
-      bg-white border border-[#E5DFD4]
-      text-[#322822] font-semibold text-[13px]
-      rounded-[7px] shadow-sm
-      hover:bg-[#F9F7F2]
-      transition-all duration-200"
-    >
-      <svg
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <polyline points="15 18 9 12 15 6" />
-      </svg>
-      Go back
-    </button>
+          {/* GO BACK */}
+          <button
+            onClick={onClose}
+            className="flex-1 h-[40px] flex items-center justify-center gap-1.5
+            bg-white border border-[#E5DFD4]
+            text-[#322822] font-semibold text-[13px]
+            rounded-[7px] shadow-sm
+            hover:bg-[#F9F7F2]
+            transition-all duration-200"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+            Go back
+          </button>
 
-  </div>
-</div>
+        </div>
+      </div>
     </div>
   );
 }

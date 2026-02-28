@@ -1,132 +1,130 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 
-const unitQuestions = [
-  "Is the living room size carpet or built-up area?",
-  "Can kitchen layout be modified?",
-  "Is master bedroom facing open view?",
-  "Are balconies included in carpet area?",
-  "What fittings are provided in toilets?",
-];
-
-const extraQuestions = [
-  "Can bedroom 2 be converted into study room?",
-  "Is there provision for washing machine?",
-  "Are dimensions wall-to-wall or usable space?",
-  "Does estimated cost include parking?",
+const INITIAL_QUESTIONS = [
+  "Which units provide best view from balcony?",
+  "Corridor width between flats?",
+  "Are there any corner flats currently available?",
+  "What is the carpet area vs super built-up area?",
+  "What is the expected monthly maintenance cost?",
 ];
 
 export default function SellerQueries() {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [questions, setQuestions] = useState(INITIAL_QUESTIONS);
+  const [selected, setSelected] = useState<string[]>(INITIAL_QUESTIONS);
   const [showMore, setShowMore] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
+  const [customInput, setCustomInput] = useState("");
+  
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const questions = [
-    ...unitQuestions,
-    ...(showMore ? extraQuestions : []),
-  ];
+  // Split questions for the "Show More" logic
+  const visibleQuestions = useMemo(() => {
+    return showMore ? questions : questions.slice(0, 3);
+  }, [showMore, questions]);
+
+  // Focus input when user clicks "Custom question"
+  useEffect(() => {
+    if (isAdding) inputRef.current?.focus();
+  }, [isAdding]);
 
   const toggleQuestion = (q: string) => {
     setSelected((prev) =>
-      prev.includes(q)
-        ? prev.filter((item) => item !== q)
-        : [...prev, q]
+      prev.includes(q) ? prev.filter((item) => item !== q) : [...prev, q]
     );
   };
 
+  const handleAddCustom = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (customInput.trim()) {
+      const newQuestion = customInput.trim();
+      if (!questions.includes(newQuestion)) {
+        setQuestions((prev) => [...prev, newQuestion]);
+        setSelected((prev) => [...prev, newQuestion]);
+        setShowMore(true);
+      }
+      setCustomInput("");
+      setIsAdding(false);
+    }
+  };
+
   return (
-    <div className="py-3 px-1.5 space-y-3">
-      {/* QUESTIONS */}
-      {questions.map((q, i) => {
-        const checked = selected.includes(q);
-
-        return (
-          <button
-            key={i}
-            onClick={() => toggleQuestion(q)}
-            className="flex items-start gap-2.5 w-full text-left group"
-          >
-            <div
-              className={`mt-0.5 w-4 h-4 rounded-[4px] flex items-center justify-center flex-shrink-0 shadow-sm ${
-                checked
-                  ? ""
-                  : "bg-[#F9F7F2] border border-[#E5DFD4]"
-              }`}
-              style={
-                checked
-                  ? {
-                      background:
-                        "linear-gradient(135deg,#322822,#1E1713)",
-                    }
-                  : {}
-              }
+    <div className="max-w-[400px] py-4 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white ">
+      
+      {/* Question List */}
+      <div className="space-y-3">
+        {visibleQuestions.map((q) => {
+          const isChecked = selected.includes(q);
+          return (
+            <button
+              key={q}
+              onClick={() => toggleQuestion(q)}
+              className="flex items-center gap-3 w-full text-left group transition-all active:opacity-70 focus:outline-none"
             >
-              {checked && (
-                <svg
-                  className="w-2.5 h-2.5 text-[#E5DFD4]"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={3}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              )}
-            </div>
+              <div className={`w-5 h-5 rounded-[4px] flex items-center justify-center flex-shrink-0 border transition-all duration-200 ${
+                  isChecked ? "bg-[#322822] border-[#322822]" : "bg-white border-[#E5DFD4]"
+                }`}
+              >
+                {isChecked && (
+                  <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <span className={`text-[13px] font-bold leading-tight transition-colors ${
+                isChecked ? "text-[#322822]" : "text-[#8C827A]"
+              }`}>
+                {q}
+              </span>
+            </button>
+          );
+        })}
+      </div>
 
-            <span className="text-[12px] font-semibold text-[#322822] leading-tight group-hover:text-[#E76F26] transition-colors">
-              {q}
+      <div className="space-y-3">
+        {/* Toggle */}
+        {questions.length > 3 && (
+          <button onClick={() => setShowMore(!showMore)} className="flex items-center gap-3 w-full group focus:outline-none">
+            <div className="w-5 h-5 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4]">
+              <svg className={`w-3 h-3 text-[#8C827A] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeWidth={3} d="M5 15l7-7 7 7" />
+              </svg>
+            </div>
+            <span className="text-[13px] font-bold text-[#E76F26] underline decoration-1 underline-offset-4">
+              {showMore ? "Show fewer questions" : "Load more questions"}
             </span>
           </button>
-        );
-      })}
+        )}
 
-      {/* LOAD MORE */}
-      <button
-        onClick={() => setShowMore(!showMore)}
-        className="flex pb-4 items-center gap-2.5 w-full group !mt-[1px] !mb-[1px]"
-      >
-        <div className="w-4 h-4 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26]">
-          <svg
-            className="w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
+        {/* Custom Question Input/Button */}
+        {isAdding ? (
+          <form onSubmit={handleAddCustom} className="flex items-center gap-3 w-full">
+            <div className="w-5 h-5 rounded-[4px] flex items-center justify-center border border-[#322822] bg-[#322822]">
+               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            </div>
+            <input
+              ref={inputRef}
+              type="text"
+              value={customInput}
+              onChange={(e) => setCustomInput(e.target.value)}
+              onBlur={() => !customInput && setIsAdding(false)}
+              placeholder="Type your question..."
+              className="text-[13px] font-bold text-[#322822] outline-none border-b border-[#E76F26] w-full pb-0.5 bg-transparent"
+            />
+          </form>
+        ) : (
+          <button 
+            onClick={() => setIsAdding(true)}
+            className="flex items-center gap-3 w-full group focus:outline-none"
           >
-            {showMore ? (
-              <path strokeWidth={2.5} d="M5 15l7-7 7 7" />
-            ) : (
-              <path strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-            )}
-          </svg>
-        </div>
-
-        <span className="text-[12px]  font-bold text-[#E76F26] underline">
-          {showMore
-            ? "Show fewer questions"
-            : "Load more questions"}
-        </span>
-      </button>
-
-      {/* CUSTOM QUESTION */}
-      <button className="flex items-center gap-2.5 w-full group">
-        <div className="w-4 h-4 rounded-[4px] flex items-center justify-center border border-dashed border-[#8C827A] group-hover:border-[#E76F26] group-hover:bg-[#E76F26]/10">
-          <svg
-            className="w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26]"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeWidth={2.5} d="M12 4v16m8-8H4" />
-          </svg>
-        </div>
-
-        <span className="text-[12px] px- font-bold text-[#554E48] group-hover:text-[#E76F26]">
-          Custom question
-        </span>
-      </button>
+            <div className="w-5 h-5 rounded-[4px] flex items-center justify-center border border-dashed border-[#8C827A] group-hover:bg-[#F9F7F2]">
+              <svg className="w-3 h-3 text-[#8C827A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeWidth={3} d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+            <span className="text-[13px] font-bold text-[#322822]">Custom question</span>
+          </button>
+        )}
+      </div>
     </div>
   );
 }
