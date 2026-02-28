@@ -45,52 +45,55 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
   }
 
   return (
-    <div className="flex flex-col">
-      {activeTabId === 'frequent' && (
-        <h3 className="text-[16px] text-center py-1 font-medium text-[#312822] leading-tight">
-          Private & visible only to you
-        </h3>
-      )}
+    <>
+      {/* Main Section */}
+      <div className="flex flex-col bg-[#F9F7F2] py-2 px-3 rounded-b-[7px] border border-[#E5DFD4]">
+        {activeTabId === 'frequent' && (
+          <h3 className="text-[16px] text-center py-1 font-medium text-[#312822] leading-tight">
+            Private & visible only to you
+          </h3>
+        )}
 
-      <div className="flex flex-col gap-2 mb-4">
-        {currentData.items.length === 0 ? (
-          <div className="border border-dashed border-[#E5DFD4] rounded-[7px] p-8 flex flex-col items-center justify-center text-center bg-white">
-            <div className="mb-2 text-[#8A7D74]"><Icons.MapPin /></div>
-            <p className="text-[14px] font-semibold text-[#312822]">No places added yet</p>
-          </div>
-        ) : (
-          currentData.items.map((item) => (
-            <div key={item.id} className="flex items-center gap-3 p-3.5 rounded-[7px] border border-[#E5DFD4]/60 bg-white hover:border-[#E5DFD4] shadow-sm cursor-pointer transition-all duration-200">
-              <PlaceIcon icon={item.icon} />
-              <div className="flex-1 min-w-0">
-                <p className="text-[14.5px] font-bold text-[#312822] truncate mb-0.5">{item.name}</p>
-                <p className="text-[12.5px] text-[#312822] font-medium">{item.distance}</p>
-              </div>
+        <div className="flex flex-col gap-2 mb-4">
+          {currentData.items.length === 0 ? (
+            <div className="border border-dashed border-[#E5DFD4] rounded-[7px] p-8 flex flex-col items-center justify-center text-center bg-white">
+              <div className="mb-2 text-[#8A7D74]"><Icons.MapPin /></div>
+              <p className="text-[14px] font-semibold text-[#312822]">No places added yet</p>
             </div>
-          ))
+          ) : (
+            currentData.items.map((item) => (
+              <div key={item.id} className="flex items-center gap-3 p-3.5 rounded-[7px] border border-[#E5DFD4]/60 bg-white hover:border-[#E5DFD4] shadow-sm cursor-pointer transition-all duration-200">
+                <PlaceIcon icon={item.icon} />
+                <div className="flex-1 min-w-0">
+                  <p className="text-[14.5px] font-bold text-[#312822] truncate mb-0.5">{item.name}</p>
+                  <p className="text-[12.5px] text-[#312822] font-medium">{item.distance}</p>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {activeTabId === 'frequent' && (
+          <div className="space-y-2 flex flex-col items-stretch">
+            <button 
+              onClick={() => setShowAddPage(true)} 
+              className="w-auto py-2 px-2 rounded-[7px] border border-dashed border-[#312822c7] text-[#E76F26] font-bold text-[12px] flex items-center justify-center gap-2 bg-white hover:bg-[#F4EFE6] transition-all active:scale-[0.99]"
+            >
+              <Icons.Plus /> 
+              <span className="tracking-tight">Add New Place</span>
+            </button>
+
+            <p className="text-[11px] font-bold text-[#312822] text-center tracking-tight leading-tight">
+              (Ex: Kids school, Spouse office, etc)
+            </p>
+          </div>
         )}
       </div>
 
-      {activeTabId === 'frequent' && (
-        <div className="space-y-2 flex flex-col items-stretch">
-          <button 
-            onClick={() => setShowAddPage(true)} 
-            className="w-auto py-2 px-2 rounded-[7px] border border-dashed border-[#312822c7] text-[#E76F26] font-bold text-[12px] flex items-center justify-center gap-2 bg-white hover:bg-[#F4EFE6] transition-all active:scale-[0.99]"
-          >
-            <Icons.Plus /> 
-            <span className="tracking-tight">Add New Place</span>
-          </button>
-
-          <p className="text-[11px] font-bold text-[#312822] text-center tracking-tight leading-tight">
-            (Ex: Kids school, Spouse office, etc)
-          </p>
-        </div>
-      )}
-
-      {/* 2. Added Horizontal Divider and SellerQueries for all tabs */}
-      <div className="border-t border-[#E5DFD4] pt-2 mt-2">
-         <SellerQueries />
+      {/* Seller Question Section */}
+      <div className="pt-2 mt-2 w-full">
+        <SellerQueries />
       </div>
-    </div>
+    </>
   );
 }

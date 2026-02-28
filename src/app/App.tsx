@@ -42,7 +42,19 @@ function App() {
 
         {/* Hero */}
         <div id="hero" className="bg-white">
-          <HeroSection />
+          <div className="px-4 pb-2">
+            <HeroSection />
+          </div>
+        </div>
+
+        {/* 1. Overview & Highlights */}
+        <div id="overview-highlights" className="bg-white">
+          <div className="px-4 pb-2">
+            <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+            <div className="pt-2">
+              {activeTab === 'overview' ? <Overview /> : <Highlights />}
+            </div>
+          </div>
         </div>
 
         {/* Sticky Tab Bar */}
@@ -50,23 +62,15 @@ function App() {
           <HorizontalTabNavigation />
         </div>
 
-        {/* 1. Overview & Highlights */}
-        <div id="overview-highlights" className="bg-white px-3 pb-4">
-          <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-          <div className="pt-2">
-            {activeTab === 'overview' ? <Overview /> : <Highlights />}
-          </div>
-        </div>
-
         {/* 2. Project Timeline */}
         <div id="project-timeline" className="bg-white">
-          <ProjectTimelineSection />
+            <ProjectTimelineSection />
         </div>
 
         {/* 3. Layout & Towers */}
         <div id="layout-towers" className="bg-white">
           <ContentSection title="Layout &amp; Towers">
-            <div className="px-2 pb-2">
+            <div className="px-4 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
               <div className="mt-1 transition-all duration-300 ease-in-out">
                 {layoutTab === 'layout' && <Layout />}
@@ -99,7 +103,7 @@ function App() {
               />
             }
           >
-            <div className="px-2 pb-2">
+            <div className="px-4 pb-2">
               <Configuration selectedTower={selectedTower} />
             </div>
           </ContentSection>
@@ -108,7 +112,7 @@ function App() {
         {/* 5. Distance & Commute */}
         <div id="distance-commute" className="bg-white">
           <ContentSection>
-            <div className="px-2 pb-2">
+            <div className="px-4 pb-2">
               <InteractiveCommuteWidget />
             </div>
           </ContentSection>
@@ -117,21 +121,27 @@ function App() {
         {/* 6. Amenities */}
         <div id="amenities" className="bg-white">
           <ContentSection title="Amenities">
-            <AmenitiesSection />
+            <div className="px-4 pb-2">
+              <AmenitiesSection />
+            </div>
           </ContentSection>
         </div>
 
         {/* 7. Specifications */}
         <div id="specifications" className="bg-white">
           <ContentSection title="Specifications">
-            <SpecificationsSection />
+            <div className="px-4">
+              <SpecificationsSection />
+            </div>
           </ContentSection>
         </div>
 
         {/* 8. Payment Plans */}
         <div id="payment-plans" className="bg-white">
           <ContentSection title="Payment Plans & Offers">
-            <PaymentPlan />
+            <div className="px-4 ">
+              <PaymentPlan />
+            </div>
           </ContentSection>
         </div>
 
@@ -153,19 +163,25 @@ function App() {
               </button>
             }
           >
-            <ProjectFilesSection />
+            <div className="px-4 pb-2">
+              <ProjectFilesSection />
+            </div>
           </ContentSection>
         </div>
 
         {/* 10. Exit Summary */}
-        <div id="exit-summary" className="bg-white px-4 py-4">
-          <ExitSummarySection />
+        <div id="exit-summary" className="bg-white">
+          <div className="px-4 pb-2">
+            <ExitSummarySection />
+          </div>
         </div>
 
         {/* 11. Project Meet */}
         <div id="project-meet" className="bg-white">
           <ContentSection title="Project Meet">
-            <PropertyMeetNav />
+            <div className="px-4 pb-2">
+              <PropertyMeetNav />
+            </div>
           </ContentSection>
         </div>
 

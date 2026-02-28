@@ -7,7 +7,6 @@ interface TabItem {
 }
 
 const TABS: TabItem[] = [
-  { id: 'overview-highlights', label: 'Overview & Highlights' },
   { id: 'project-timeline',    label: 'Project Timeline'      },
   { id: 'layout-towers',       label: 'Layout & Towers'       },
   { id: 'configurations',      label: 'Configurations'        },

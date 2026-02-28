@@ -48,7 +48,7 @@ export default function SellerQueries() {
   };
 
   return (
-    <div className="max-w-[400px] py-4 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white ">
+    <div className="max-w-[400px] py-2 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white ">
       
       {/* Question List */}
       <div className="space-y-3">

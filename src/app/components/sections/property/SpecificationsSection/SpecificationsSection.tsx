@@ -479,7 +479,7 @@ const SpecificationsSection: React.FC = () => {
   const activeData = SPECIFICATIONS_DATA.find(item => item.id === activeTab) || SPECIFICATIONS_DATA[0];
 
   return (
-    <div className="font-['Outfit',_sans-serif] px-4 pb-6">
+    <div className="font-['Outfit',_sans-serif] ">
       
       {/* ── Using your TabNavigation Reference ── */}
       <TabNavigation 

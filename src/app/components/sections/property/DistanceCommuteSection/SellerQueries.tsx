@@ -54,9 +54,9 @@ export default function SellerQueries() {
   };
 
   return (
-    <div className="py-4 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white border border-[#F5F2ED] shadow-sm rounded-[7px] max-w-[400px] mx-auto">
+    <div className="py-2 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white">
       {/* QUESTIONS */}
-      <div className="space-y-3">
+      <div className="flex flex-col gap-3">
         {questions.map((q) => {
           const checked = selected.includes(q);
 

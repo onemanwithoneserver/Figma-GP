@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SellerQueries from './SellerQueries';
+
+import AmenityTabNav from './AmenityTabNav';
 
 
 interface FeedbackOption {
@@ -97,51 +99,27 @@ const Icons = {
 };
 
 const AmenitiesSection: React.FC = () => {
+
   const [activeTab, setActiveTab] = useState<string>('highlights');
   const [activeFeedback, setActiveFeedback] = useState<string | null>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const activeData = AMENITIES_DATA.find(tab => tab.id === activeTab) || AMENITIES_DATA[0];
 
-  const handleTabClick = (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleTabChange = (id: string) => {
     setActiveTab(id);
     setActiveFeedback(null);
-    event.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   };
 
   return (
     <div className="font-['Outfit',_sans-serif] pb-2 max-w-md mx-auto bg-[#FDFCF9]">
-      
       {/* ── Tab Navigation ── */}
-      <div className="px-3 pb-4">
-        <div
-          ref={scrollContainerRef}
-          className="flex overflow-x-auto scrollbar-hide gap-1.5 p-1.5 rounded-[7px] bg-[#F4F1EA] border border-[#E5DFD4]"
-        >
-          {AMENITIES_DATA.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={(e) => handleTabClick(tab.id, e)}
-                className="flex-shrink-0 px-4 py-2 text-[13px] font-bold rounded-[7px] transition-all duration-300"
-                style={isActive ? {
-                  backgroundColor: '#322822',
-                  color: '#FFFFFF',
-                  boxShadow: '0 4px 12px rgba(50, 40, 34, 0.15)'
-                } : {
-                  backgroundColor: 'transparent',
-                  color: '#8A7D74'
-                }}
-              >
-                {tab.tabLabel}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <AmenityTabNav
+        activeTab={activeTab}
+        setActiveTab={handleTabChange}
+        amenitiesData={AMENITIES_DATA.map(({ id, tabLabel }) => ({ id, tabLabel }))}
+      />
 
-      <div className="">
+      <div>
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -151,7 +129,7 @@ const AmenitiesSection: React.FC = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             {/* ── Feature Image & List Card ── */}
-            <div className=" px-4  ">
+            <div className="bg-white px-4  ">
               {activeData.imageUrl && (
                 <div className="mb-4 rounded-[7px] overflow-hidden aspect-video border border-[#F4F1EA]">
                   <img 
@@ -185,7 +163,7 @@ const AmenitiesSection: React.FC = () => {
                     <button
                       key={idx}
                       onClick={() => setActiveFeedback(activeFeedback === opt.text ? null : opt.text)}
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-bold transition-all ${
+                      className={`flex items-center gap-1.5 px-3 py-2 text-[#E76F26] rounded-full text-[13px] font-bold transition-all ${
                         activeFeedback === opt.text 
                         ? 'bg-[#E76F26] text-white shadow-md scale-105' 
                         : 'bg-[#F9F7F2] text-[#8A7D74] hover:bg-[#F4F1EA]'

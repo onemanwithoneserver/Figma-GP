@@ -108,7 +108,7 @@ const Overview: React.FC = () => {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowAllDetails(!showAllDetails)}
-          className="px-2 py-1 bg-[#451E01] text-[#ffffff]  text-[14px] font-medium tracking-wide flex items-center gap-2 rounded-[6px] shadow-sm transition-all outline-none"
+          className="px-2 py-1 bg-[#382C27] text-[#ffffff]  text-[14px] font-medium tracking-wide flex items-center gap-2 rounded-[6px] shadow-sm transition-all outline-none"
         >
           {showAllDetails ? 'Show less' : 'See all details'}
           <svg 

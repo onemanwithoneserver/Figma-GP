@@ -113,7 +113,7 @@ export default function ConfigurationTable({
 
   return (
     <div className="w-full flex flex-col gap-3">
-      <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex items-center gap-2 mx-4 flex-wrap">
         <span className="text-[10px] font-semibold text-[#8C827A] tracking-widest mr-1 ">Filter</span>
         <FilterPill label="BUA"     options={buaOptions}    value={buaFilter}    onChange={setBuaFilter} />
         <FilterPill label="Facing"  options={facingOptions} value={facingFilter} onChange={setFacingFilter} />
@@ -128,7 +128,7 @@ export default function ConfigurationTable({
         )}
       </div>
 
-      <div className="w-full bg-white rounded-[7px] border border-[#E5DFD4] overflow-hidden shadow-sm">
+      <div className="w-full bg-white rounded-[7px]  border border-[#E5DFD4] overflow-hidden shadow-sm">
         {filteredData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-[#8C827A] gap-2">
             <svg className="w-9 h-9 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

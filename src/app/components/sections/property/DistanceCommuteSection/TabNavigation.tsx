@@ -54,7 +54,7 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
   };
 
   return (
-    <div className="relative w-full mb-2 group">
+    <div className="w-auto mb-4 mx-2 relative group">
       
       {/* Left Arrow & Fade */}
       {canScrollLeft && (

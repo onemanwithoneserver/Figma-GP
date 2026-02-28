@@ -13,15 +13,6 @@ export default function AddNewPlace({ title, onSave, onCancel }: AddNewPlaceProp
 
   return (
     <div className="flex flex-col bg-[#FDFBF8] rounded-b-[7px]">
-      {/* Page Header - Tighter Padding */}
-      <div className="px-4 py-3 bg-white border-b border-[#E5DFD4] flex items-center gap-2">
-        <button onClick={onCancel} className="p-1 -ml-1 text-[#312822]">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M19 12H5m7-7l-7 7 7 7"/>
-          </svg>
-        </button>
-        <h3 className="text-[15px] font-bold text-[#312822]">Add New Frequent Place</h3>
-      </div>
 
       <div className="p-4 space-y-4">
         {/* Search Input - Removed Numbering & Uppercase */}
@@ -51,7 +42,7 @@ export default function AddNewPlace({ title, onSave, onCancel }: AddNewPlaceProp
 
         {/* Name Input - Removed Numbering & Uppercase */}
         <div className="space-y-1">
-          <label className="text-[12px] font-semibold text-[#312822] ml-0.5">Give it a name</label>
+          <label className="text-[12px] font-semibold text-[#312822] ml-0.5">Name of the Place</label>
           <div className="flex items-center bg-white rounded-[7px] px-3 py-2.5 border border-[#E5DFD4] focus-within:border-[#E76F26] transition-all shadow-sm">
             <Icons.Tag />
             <input

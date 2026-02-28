@@ -65,7 +65,7 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
   };
 
   return (
-    <div className="w-full mb-4 relative group">
+    <div className="w-auto mb-4 mx-2 relative group">
       
       {/* LEFT FADE OVERLAY & ARROW */}
       {canScrollLeft && (
