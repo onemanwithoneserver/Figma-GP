@@ -80,10 +80,10 @@ const FilterPill = ({
 
 const getAvailabilityStyles = (status: string): string => {
   switch (status) {
-    case 'Available': return 'bg-[#E9F5EE] text-[#429E6A] border-[#B8DEC7]/50';
-    case 'Limited':   return 'bg-[#FEF3E2] text-[#E68A00] border-[#F5D590]/50';
-    case 'Sold Out':  return 'bg-[#F4EFE6] text-[#8A7D74] border-[#E5DFD4]';
-    default:          return 'bg-[#F9F7F2] text-[#8A7D74]';
+    case 'Available': return 'bg-white text-[#322822] border-[#E5DFD4] shadow-sm';
+    case 'Limited':   return 'bg-[#E76F26]/10 text-[#C94A00] border-[#E76F26]/30';
+    case 'Sold Out':  return 'bg-[#F4EFE6] text-[#8C827A] border-[#E5DFD4]';
+    default:          return 'bg-[#F9F7F2] text-[#8C827A] border-[#E5DFD4]';
   }
 };
 
@@ -113,16 +113,15 @@ export default function ConfigurationTable({
 
   return (
     <div className="w-full flex flex-col gap-3">
-
       <div className="flex items-center gap-2 flex-wrap">
-        <span className="text-[10px] font-semibold text-[#8A7D74] tracking-widest mr-1">Filter</span>
+        <span className="text-[10px] font-semibold text-[#8C827A] tracking-widest mr-1 ">Filter</span>
         <FilterPill label="BUA"     options={buaOptions}    value={buaFilter}    onChange={setBuaFilter} />
         <FilterPill label="Facing"  options={facingOptions} value={facingFilter} onChange={setFacingFilter} />
         <FilterPill label="Status"  options={availOptions}  value={availFilter}  onChange={setAvailFilter} />
         {hasActiveFilters && (
           <button
             onClick={() => { setBuaFilter(null); setFacingFilter(null); setAvailFilter(null); }}
-            className="text-[10px] font-semibold text-[#E76F26] hover:underline ml-auto"
+            className="text-[10px] font-bold text-[#E76F26] hover:underline ml-auto  tracking-wide"
           >
             Clear all
           </button>
@@ -131,46 +130,46 @@ export default function ConfigurationTable({
 
       <div className="w-full bg-white rounded-[7px] border border-[#E5DFD4] overflow-hidden shadow-sm">
         {filteredData.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 text-[#8292A6] gap-2">
+          <div className="flex flex-col items-center justify-center py-12 text-[#8C827A] gap-2">
             <svg className="w-9 h-9 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
-            <p className="text-[13px] font-semibold text-[#322822]">No units match your filters</p>
-            <p className="text-[11px] text-[#8A7D74]">Try adjusting or clearing the filters above</p>
+            <p className="text-[13px] font-extrabold text-[#322822]">No units match your filters</p>
+            <p className="text-[11px] text-[#8C827A] font-medium">Try adjusting or clearing the filters above</p>
           </div>
         ) : (
           <table className="w-full text-left border-collapse table-auto">
             <thead>
-              <tr className="bg-[#322822]">
-                <th className="border border-[#E5DFD4] px-2 py-2.5 text-[11px] font-semibold text-[#ffffff] tracking-wide">BUA</th>
-                <th className="border border-[#E5DFD4] px-2 py-2.5 text-[11px] font-semibold text-[#ffffff] tracking-wide">Facing</th>
-                <th className="border border-[#E5DFD4] px-2 py-2.5 text-[11px] font-semibold text-[#ffffff] tracking-wide">Status</th>
-                <th className="border border-[#E5DFD4] px-1 py-2.5 text-[11px] font-semibold text-[#ffffff] text-center tracking-wide">Save</th>
-                <th className="border border-[#E5DFD4] px-1 py-2.5 text-[11px] font-semibold text-[#ffffff] text-center whitespace-nowrap tracking-wide">View Plan</th>
+              <tr className="bg-[#E76F26]">
+                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">BUA</th>
+                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Facing</th>
+                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Status</th>
+                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white text-center tracking-wide ">Save</th>
+                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white text-center whitespace-nowrap tracking-wide ">View Plan</th>
               </tr>
             </thead>
 
             <tbody className="bg-white">
               {filteredData.map((item, idx) => (
-                <tr key={item.id} className={`transition-colors hover:bg-[#F4EFE6]/30 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#F9F7F2]/50'}`}>
+                <tr key={item.id} className={`transition-colors hover:bg-[#F4EFE6]/50 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#F9F7F2]/50'}`}>
                   <td className="border border-[#E5DFD4] px-2 py-2.5 align-middle">
-                    <span className="font-semibold text-[13px] text-[#322822]">{item.bua}</span>
-                    <span className="text-[10px] text-[#8A7D74] ml-1">sq.ft</span>
+                    <span className="font-extrabold text-[12px] text-[#322822]">{item.bua}</span>
+                    <span className="text-[9px] font-bold text-[#8C827A] ml-1 ">sq.ft</span>
                   </td>
 
-                  <td className="border border-[#E5DFD4] px-2 py-2.5 align-middle text-[12px] font-semibold text-[#322822]">
+                  <td className="border border-[#E5DFD4] px-2 py-2.5 align-middle text-[12px] font-bold text-[#554E48]">
                     {item.facing}
                   </td>
 
                   <td className="border border-[#E5DFD4] px-2 py-2.5 align-middle">
-                    <span className={`inline-block px-2 py-0.5 rounded-[5px] text-[10px] font-semibold border shadow-sm ${getAvailabilityStyles(item.availability)}`}>
+                    <span className={`inline-block px-2 py-0.5 rounded-[5px] text-[10px] font-extrabold border  tracking-wider ${getAvailabilityStyles(item.availability)}`}>
                       {item.availability}
                     </span>
                   </td>
 
                   <td className="border border-[#E5DFD4] px-1 py-2.5 align-middle text-center">
                     <button onClick={() => onToggleSave(item.id)} title={savedItems.has(item.id) ? 'Remove from saved' : 'Save unit'} className="inline-block align-middle hover:scale-110 transition-transform">
-                      <svg className={`w-4 h-4 ${savedItems.has(item.id) ? 'text-[#E76F26]' : 'text-[#8A7D74]'}`} viewBox="0 0 24 24" fill={savedItems.has(item.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
+                      <svg className={`w-4 h-4 ${savedItems.has(item.id) ? 'text-[#E76F26]' : 'text-[#8C827A]'}`} viewBox="0 0 24 24" fill={savedItems.has(item.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
                         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                       </svg>
                     </button>
@@ -179,7 +178,8 @@ export default function ConfigurationTable({
                   <td className="border border-[#E5DFD4] px-1 py-2.5 align-middle text-center">
                     <button
                       title="View floor plan"
-                      className="p-1.5 text-[#E76F26] hover:bg-[#F4EFE6] rounded-[7px] transition-all hover:shadow-sm disabled:opacity-30"
+                      /* Updated color to #332823 */
+                      className="p-1.5 text-[#332823] hover:bg-[#F4EFE6] rounded-[7px] transition-all hover:shadow-sm disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:shadow-none"
                       disabled={item.availability === 'Sold Out'}
                       onClick={() => onViewUnit(item)}
                     >

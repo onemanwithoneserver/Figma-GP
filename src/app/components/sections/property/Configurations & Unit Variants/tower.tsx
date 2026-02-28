@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import type { UnitItem } from './types';
 import { defaultUnitData, FEEDBACK_OPTIONS } from './data';
 import SellerQueries from './SellerQueries';
@@ -8,39 +8,85 @@ interface TowerProps {
   unitData?: UnitItem;
 }
 
-export default function Tower({ onClose, unitData = defaultUnitData }: TowerProps) {
-  const [feedback, setFeedback] = useState(null);
-  const [isSaved, setIsSaved] = useState(true);
+// Map the generic backend names to your custom display names
+const towerNameMap: Record<string, string> = {
+  'All Towers': 'All Towers',
+  'Tower A': 'Shlok',
+  'Tower B': 'Ayush',
+  'Tower C': 'Ananta',
+  'Tower D': 'Advait',
+  'Tower E': 'Vihaan',
+  'Tower F': 'Ishan',
+  'Tower G': 'Aarav',
+  'Tower H': 'Kavya'
+};
 
+export default function Tower({ onClose, unitData = defaultUnitData }: TowerProps) {
+  const [feedback, setFeedback] = useState<string | null>(null);
+  const [isSaved, setIsSaved] = useState(true);
+  
+  // Carousel state
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  // Extract raw tower name from data, fallback to 'Tower A'
+  const rawTowerName = (unitData as any)?.towerName || (unitData?.towers && unitData.towers[0]) || 'Tower A';
+  
+  // Translate to the actual custom name
+  const actualTowerName = towerNameMap[rawTowerName] || rawTowerName;
+
+  // Structured display data
   const displayData = {
     bua: unitData?.bua || defaultUnitData.bua,
     facing: unitData?.facing || defaultUnitData.facing,
     availability: unitData?.availability || defaultUnitData.availability,
     price: unitData?.price || defaultUnitData.price,
-    towers: unitData?.towers || defaultUnitData.towers,
     imageUrl: unitData?.imageUrl || defaultUnitData.imageUrl,
     specs: unitData?.specs || defaultUnitData.specs,
+    towerName: actualTowerName, 
+    unitNo: (unitData as any)?.unitNo || '104',
   };
 
-  const getAvailabilityStyles = (status) => {
+  const images = [displayData.imageUrl, displayData.imageUrl]; // using the same image twice for demo
+
+  // Sync scroll position with the active dot
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const scrollLeft = scrollContainerRef.current.scrollLeft;
+      const width = scrollContainerRef.current.clientWidth;
+      const newIndex = Math.round(scrollLeft / width);
+      setActiveImageIndex(newIndex);
+    }
+  };
+
+  // Scroll to a specific image when clicking dots
+  const scrollToImage = (index: number) => {
+    if (scrollContainerRef.current) {
+      const width = scrollContainerRef.current.clientWidth;
+      scrollContainerRef.current.scrollTo({ left: width * index, behavior: 'smooth' });
+    }
+  };
+
+  const getAvailabilityStyles = (status: string) => {
     switch (status) {
-      case 'Available': return 'text-[#429E6A]';
-      case 'Limited': return 'text-[#E68A00]';
-      case 'Sold Out': return 'text-[#8A7D74]';
-      default: return 'text-[#8A7D74]';
+      case 'Available': return 'text-white';
+      case 'Limited': return 'text-[#F4EFE6]';
+      case 'Sold Out': return 'text-[#E5DFD4] opacity-80';
+      default: return 'text-[#E5DFD4]';
     }
   };
 
   return (
-    <div className="w-full rounded-[7px] border border-[#E5DFD4] font-['Outfit',_sans-serif] text-[#322822] overflow-hidden flex flex-col mt-2 shadow-sm">
+    <div className="w-full rounded-[7px] border border-[#E5DFD4] font-['Outfit',_sans-serif] text-[#322822] overflow-hidden flex flex-col  shadow-sm">
       
+      {/* Header - Stats bar */}
       <div className="flex items-center justify-between px-4 py-3 bg-[#322822] border-b border-[#E5DFD4]">
         <div className="flex items-center gap-2.5 text-sm font-medium">
-          <span className="text-white/50 text-[11px] font-semibold">BUA</span>
+          <span className="text-white/70 text-[11px] font-semibold">Bua</span>
           <strong className="text-[15px] text-white font-semibold">{displayData.bua}</strong>
-          <span className="text-white/30 text-[11px]">sq.ft</span>
+          <span className="text-white/70 text-[11px]">sq.ft</span>
           <div className="w-px h-3.5 bg-white/20"></div>
-          <span className="text-white/60 text-[12px] font-semibold">{displayData.facing}</span>
+          <span className="text-white text-[12px] font-semibold">{displayData.facing}</span>
           <div className="w-px h-3.5 bg-white/20"></div>
           <span className={`font-semibold text-[11px] ${getAvailabilityStyles(displayData.availability)}`}>
             {displayData.availability}
@@ -48,79 +94,139 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </div>
         <button 
           onClick={onClose} 
-          className="p-1.5 rounded-[7px] flex items-center justify-center transition-all bg-white/10 border border-white/15"
-          title="Close View"
+          className="p-1.5 rounded-[7px] flex items-center justify-center transition-all bg-white/10 border border-white/15 hover:bg-white/20"
+          title="Close view"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.7"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
       </div>
 
-        <img 
-          src={displayData.imageUrl} 
-          alt="Floor Plan Layout" 
-          className="w-full h-[250px] object-contain mix-blend-multiply"
-        />
+      {/* Image Carousel Area */}
+      <div className="relative w-full group bg-white border-b border-[#E5DFD4]">
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex w-full overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none' }}
+        >
+          {images.map((imgSrc, idx) => (
+            <img 
+              key={idx}
+              src={imgSrc} 
+              alt={`Layout marking ${idx + 1}`} 
+              className="w-full h-[250px] flex-shrink-0 object-contain mix-blend-multiply snap-center"
+            />
+          ))}
+        </div>
 
-
-      <div className="px-5 py-3.5 border-b border-[#E5DFD4] bg-white flex items-center justify-between">
-        <p className="text-[13px] font-semibold text-[#8A7D74]">Estimated Cost</p>
-        <span className="text-[22px] font-semibold text-[#E76F26] leading-none">
-          {displayData.price
-            .replace(/\s*Crore\s*/i, 'Cr')
-            .replace(/\s*Lakh\s*/i, 'L')
-            .replace(/\s+/g, '')}
-        </span>
+        {/* Repositioned Indicator Dots - Overlay on Image */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => scrollToImage(idx)}
+              className={`transition-all duration-300 rounded-full shadow-sm ${
+                activeImageIndex === idx 
+                  ? 'w-4 h-1.5 bg-[#E76F26]' 
+                  : 'w-1.5 h-1.5 bg-[#E5DFD4] hover:bg-[#E76F26]/50'
+              }`}
+            />
+          ))}
+        </div>
       </div>
 
-      <div className="px-5 py-1">
+      {/* Title Bar - Displays Actual Name and Unit No. */}
+      <div className="px-5 py-3.5 bg-[#FDFBF8] border-b border-[#E5DFD4]">
+        <h3 className="text-[17px] text-[#322822] font-bold tracking-wide">
+          {displayData.towerName} <span className="text-[#E5DFD4] font-bold mx-1.5">|</span> Unit No. {displayData.unitNo}
+        </h3>
+      </div>
+
+      {/* Specs List with Estimated Cost */}
+      <div className="px-5 py-2 bg-white">
         {displayData.specs.map((spec, index) => (
-          <div key={index} className={`flex justify-between items-center py-2.5 border-b border-[#E5DFD4] last:border-0 text-[14px] transition-colors hover:bg-[#F4EFE6]/30 -mx-5 px-5 hover:rounded-[5px] ${index % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
-            <span className="text-[#8A7D74] font-semibold">{spec.name}</span>
-            <span className="font-semibold text-[#322822]">{spec.dimensions}</span>
+          <div key={index} className={`flex justify-between items-center py-2.5 border-b border-[#E5DFD4] text-[14px] transition-colors hover:bg-[#F4EFE6]/30 -mx-5 px-5 hover:rounded-[5px] ${index % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
+            <span className="text-[#554E48] font-semibold">{spec.name}</span>
+            <span className="font-bold text-[#322822]">{spec.dimensions}</span>
           </div>
         ))}
+        
+        {/* Cost Row */}
+        <div className={`flex justify-between items-center py-3 border-b border-[#E5DFD4] last:border-0 text-[14px] transition-colors hover:bg-[#F4EFE6]/30 -mx-5 px-5 hover:rounded-[5px] ${displayData.specs.length % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
+          <span className="text-[#554E48] font-bold">Estimated cost</span>
+          <span className="font-extrabold text-[#E76F26] text-[18px] leading-none">
+            {displayData.price
+              .replace(/\s*Crore\s*/i, 'Cr')
+              .replace(/\s*Lakh\s*/i, 'L')
+              .replace(/\s+/g, '')}
+          </span>
+        </div>
       </div>
 
       <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E5DFD4] to-transparent"></div>
 
-      <div className="mx-4 my-4 rounded-[7px] border border-[#E5DFD4] bg-[#FDFBF8] shadow-sm overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#E5DFD4] bg-[#322822]">
-          <p className="text-[13px] font-semibold text-white">Does this floor plan suit your needs?</p>
-        </div>
-        <div className="px-4 py-3">
-        <div className="flex gap-2.5">
-          {FEEDBACK_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              onClick={() => setFeedback(opt.value)}
-              className={`flex-1 py-2 px-1.5 flex flex-col items-center justify-center gap-1 rounded-[7px] border text-[12px] font-semibold transition-all duration-300 shadow-sm
-                ${feedback === opt.value 
-                  ? 'border-[#E76F26] bg-[#F4EFE6] text-[#E76F26] shadow-sm scale-105' 
-                  : 'border-[#E5DFD4] bg-[#F9F7F2] text-[#8A7D74] hover:bg-[#F4EFE6]/50 hover:shadow-sm'
-                }`}
-            >
-              <span className="text-[16px]">{opt.emoji}</span>
-              <span className="text-center leading-tight whitespace-normal break-words">{opt.label}</span>
-            </button>
-          ))}
-        </div>
-        </div>
-      </div>
+      {/* Feedback Panel */}
+<div className="my-4 rounded-[7px] border border-[#E5DFD4] bg-[#FDFBF8] shadow-sm overflow-hidden">
 
-      {/* Seller Queries */}
+  {/* TOP SECTION */}
+  <div className="px-3 py-2 border-b border-[#E5DFD4] bg-[#322822]">
+    <p className="text-[13px] font-semibold text-white text-center">
+      Does this floor plan suit your needs?
+    </p>
+  </div>
+
+  {/* BOTTOM SECTION */}
+  <div className="p-2">
+    <div className="flex gap-2.5">
+      {FEEDBACK_OPTIONS.map((opt) => (
+        <button
+          key={opt.value}
+          onClick={() => setFeedback(opt.value)}
+          className={`flex-1 py-2 flex flex-col items-center justify-center gap-1
+          rounded-[7px] border text-[12px] font-semibold
+          transition-all duration-300 shadow-sm
+
+          ${
+            feedback === opt.value
+              ? 'border-[#E76F26] bg-[#F4EFE6] text-[#322822] scale-[1.03]'
+              : 'border-[#E5DFD4] bg-[#F9F7F2] text-[#554E48] hover:bg-[#F4EFE6]/60 hover:text-[#322822]'
+          }`}
+        >
+          <span className="text-[16px] leading-none">
+            {opt.emoji}
+          </span>
+
+          <span className="text-center leading-tight">
+            {opt.label}
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+</div>
+
       <SellerQueries />
 
-     <div className="w-full bg-white border-t border-[#E5DFD4] px-3 py-3 shrink-0">
-  <div className="flex gap-2">
+      {/* Sticky Action Footer */}
+      <div className="w-full bg-white border-t border-[#E5DFD4] px-3 py-2 shrink-0">
+  <div className="flex items-center gap-2">
 
-    {/* Save Button */}
+    {/* SAVE BUTTON */}
     <button
-      title={isSaved ? "Saved" : "Save Plan"}
+      title={isSaved ? "Saved" : "Save plan"}
       onClick={() => setIsSaved(!isSaved)}
-      className="w-[48px] h-[44px] flex items-center justify-center
-      bg-[#E76F26] 
-      text-white rounded-[7px]
-      shadow-sm transition-all duration-200 active:scale-95"
+      className={`w-[44px] h-[40px] flex items-center justify-center 
+      rounded-[7px] border shadow-sm
+      transition-all duration-200 active:scale-95
+      ${
+        isSaved
+          ? 'bg-[#E76F26] text-white border-[#E76F26]'
+          : 'bg-[#F9F7F2] text-[#554E48] border-[#E5DFD4] hover:text-[#322822]'
+      }`}
     >
       <svg
         width="18"
@@ -136,9 +242,9 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       </svg>
     </button>
 
-    {/* Ask Availability */}
+    {/* ASK AVAILABILITY */}
     <button
-      className="flex-1 h-[44px] flex items-center justify-center gap-1.5
+      className="flex-1 h-[40px] flex items-center justify-center gap-1.5
       bg-white border border-[#E5DFD4]
       text-[#322822] font-semibold text-[13px]
       rounded-[7px] shadow-sm
@@ -157,13 +263,13 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       >
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
       </svg>
-      Ask Availability
+      Ask availability
     </button>
 
-    {/* Floor Plans */}
+    {/* GO BACK */}
     <button
       onClick={onClose}
-      className="flex-1 h-[44px] flex items-center justify-center gap-1.5
+      className="flex-1 h-[40px] flex items-center justify-center gap-1.5
       bg-white border border-[#E5DFD4]
       text-[#322822] font-semibold text-[13px]
       rounded-[7px] shadow-sm
@@ -182,12 +288,11 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       >
         <polyline points="15 18 9 12 15 6" />
       </svg>
-      Floor Plans
+      Go back
     </button>
 
   </div>
 </div>
-
     </div>
   );
 }
