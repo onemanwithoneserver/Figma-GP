@@ -25,13 +25,12 @@ const FooterNav: React.FC = () => {
               return (
                 <div key={idx} className="flex flex-col items-center justify-end relative -top-3">
                   <motion.button 
-                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.92 }}
                     className="w-11 h-11 flex items-center justify-center bg-[#322822] text-white rounded-full shadow-lg shadow-[#322822]/30 mb-0.5 z-10"
                   >
                     <item.icon className="w-5 h-5 fill-white/20" strokeWidth={2} />
                   </motion.button>
-                  <span className="text-[10px] font-bold text-slate-800 tracking-wide">
+                  <span className="text-[12px] font-bold text-slate-800 tracking-wide">
                     {item.label}
                   </span>
                 </div>
@@ -45,22 +44,22 @@ const FooterNav: React.FC = () => {
                 className="flex flex-col items-center justify-center w-14 gap-0.5 group"
               >
                 <div className="relative flex items-center justify-center">
+                  <span
+                    className={`absolute w-9 h-9 flex items-center justify-center text-white rounded-full shadow-lg shadow-[#322822]/30 mb-0.5 z-10 transition-colors duration-300 ${
+                      item.isDestructive
+                        ? 'bg-[#E65201] group-hover:bg-[#7A0610]'
+                        : 'bg-[#E65201]'
+                    }`}
+                  />
                   <item.icon 
-                    className={`w-5 h-5 ${
-                      item.isDestructive 
-                        ? 'text-slate-400 group-hover:text-red-500' 
-                        : 'text-slate-500 group-hover:text-[#E77338]'
-                    } transition-colors duration-300`} 
+                    className="relative z-20 w-5 h-5 text-white transition-colors duration-300"
                     strokeWidth={1.5} 
                   />
-                  <span className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity ${
-                    item.isDestructive ? 'bg-red-500' : 'bg-[#E77338]'
-                  }`} />
                 </div>
-                <span className={`text-[10px] font-medium mt-1 ${
+                <span className={`text-[14px] font-medium mt-1 ${
                   item.isDestructive 
-                    ? 'text-slate-400 group-hover:text-red-500' 
-                    : 'text-slate-500 group-hover:text-[#E77338]'
+                    ? 'text-[#D92D20] group-hover:text-[#7A0610]' 
+                    : 'text-[#261E19] '
                 } transition-colors duration-300`}>
                   {item.label}
                 </span>
