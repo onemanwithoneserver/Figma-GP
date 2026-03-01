@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import type { UnitItem } from './types';
-import { defaultUnitData, FEEDBACK_OPTIONS } from './data';
-import SellerQueries from './SellerQueries';
+import { defaultUnitData } from './data';
 
 interface TowerProps {
   onClose: () => void;
@@ -22,7 +21,6 @@ const towerNameMap: Record<string, string> = {
 };
 
 export default function Tower({ onClose, unitData = defaultUnitData }: TowerProps) {
-  const [feedback, setFeedback] = useState<string | null>(null);
   const [isSaved, setIsSaved] = useState(true);
   
   // Carousel state
@@ -117,7 +115,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
               key={idx}
               src={imgSrc} 
               alt={`Layout marking ${idx + 1}`} 
-              className="w-full h-[250px] md:h-[320px] flex-shrink-0 object-contain object-top bg-white px-0.5 pb-0.5 pt-0 snap-center"
+              className="w-[96%] h-[220px] md:h-[280px] mx-auto flex-shrink-0 object-contain object-top bg-white px-0.5 pb-0.5 pt-0 snap-center"
               loading="eager"
               draggable={false}
             />
@@ -168,49 +166,6 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
           </span>
         </div>
       </div>
-
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-[#E5DFD4] to-transparent"></div>
-
-      {/* Feedback Panel */}
-      <div className="px-5 py-4 bg-[#FDFBF8]">
-        {/* TOP SECTION */}
-        <h4 className="px-3 py-2 border-b rounded-t-[7px] bg-[#322822]">
-          <p className="text-[13px] font-semibold text-white text-center">
-            Does this floor plan suit your needs?
-          </p>
-        </h4>
-
-        {/* BOTTOM SECTION */}
-        <div className="p-2">
-          <div className="flex gap-2.5">
-            {FEEDBACK_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => setFeedback(opt.value)}
-                className={`flex-1 py-2 flex flex-col items-center justify-center gap-1
-                rounded-[7px] border text-[12px] font-semibold
-                transition-all duration-300 shadow-sm
-
-                ${
-                  feedback === opt.value
-                    ? 'border-[#E76F26] bg-[#F4EFE6] text-[#322822] scale-[1.03]'
-                    : 'border-[#E5DFD4] bg-[#F9F7F2] text-[#554E48] hover:bg-[#F4EFE6]/60 hover:text-[#322822]'
-                }`}
-              >
-                <span className="text-[16px] leading-none">
-                  {opt.emoji}
-                </span>
-
-                <span className="text-center leading-tight">
-                  {opt.label}
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <SellerQueries />
 
       {/* Sticky Action Footer */}
       <div className="w-full bg-white px-3 py-2 shrink-0">

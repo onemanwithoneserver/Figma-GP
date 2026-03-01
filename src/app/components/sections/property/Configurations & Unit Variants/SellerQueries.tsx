@@ -19,7 +19,7 @@ export default function SellerQueries() {
 
   // Split questions for the "Show More" logic
   const visibleQuestions = useMemo(() => {
-    return showMore ? questions : questions.slice(0, 3);
+    return showMore ? questions : questions.slice(0, 2);
   }, [showMore, questions]);
 
   // Focus input when user clicks "Custom question"
