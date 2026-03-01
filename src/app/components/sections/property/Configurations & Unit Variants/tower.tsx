@@ -243,14 +243,6 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             </svg>
           </button>
 
-          {/* ASK AVAILABILITY */}
-          <button
-            className="flex-1 h-[40px] flex items-center justify-center
-              rounded-[7px] font-bold text-[13px] shadow-sm transition-all duration-200
-              active:scale-[0.98] focus:outline-none bg-[#322822] text-white hover:bg-[#1E1713] cursor-pointer"
-          >
-            Ask Seller
-          </button>
 
           {/* GO BACK */}
           <button

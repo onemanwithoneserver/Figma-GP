@@ -25,10 +25,8 @@ export default function SellerQueries() {
   const [customInput, setCustomInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const questions = [
-    ...unitQuestions,
-    ...(showMore ? initialExtraQuestions : []),
-  ];
+  const allQuestions = [...unitQuestions, ...extraQuestions];
+  const questions = showMore ? allQuestions : allQuestions.slice(0, 2);
 
   useEffect(() => {
     if (isAdding) inputRef.current?.focus();
@@ -55,6 +53,7 @@ export default function SellerQueries() {
 
   return (
     <div className="py-2 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white">
+      <h3 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h3>
       {/* QUESTIONS */}
       <div className="flex flex-col gap-3">
         {questions.map((q) => {
@@ -91,19 +90,21 @@ export default function SellerQueries() {
 
       <div className="space-y-3">
         {/* LOAD MORE */}
-        <button
-          onClick={() => setShowMore(!showMore)}
-          className="flex items-center gap-2.5 w-full group focus:outline-none"
-        >
-          <div className="w-4 h-4 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
-            <svg className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeWidth={2.5} d="M5 15l7-7 7 7" />
-            </svg>
-          </div>
-          <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2">
-            {showMore ? "Show fewer questions" : "Load more questions"}
-          </span>
-        </button>
+        {allQuestions.length > 2 && (
+          <button
+            onClick={() => setShowMore(!showMore)}
+            className="flex items-center gap-2.5 w-full group focus:outline-none"
+          >
+            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
+              <svg className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeWidth={2.5} d="M5 15l7-7 7 7" />
+              </svg>
+            </div>
+            <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2">
+              {showMore ? "Show fewer questions" : "Load more questions"}
+            </span>
+          </button>
+        )}
 
         {/* CUSTOM QUESTION INPUT LOGIC */}
         {isAdding ? (
@@ -139,14 +140,6 @@ export default function SellerQueries() {
       </div>
 
       {/* PRIMARY ACTION BUTTON */}
-      <div className="pt-2">
-        <button 
-          className="w-full bg-[#322822] text-white font-bold py-3 rounded-[7px] text-[15px] shadow-md hover:bg-[#1E1713] active:scale-[0.98] transition-all disabled:opacity-30 disabled:active:scale-100"
-          disabled={selected.length === 0}
-        >
-          Ask Seller
-        </button>
-      </div>
     </div>
   );
 }

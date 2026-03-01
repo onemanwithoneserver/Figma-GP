@@ -19,7 +19,7 @@ export default function SellerQueries() {
 
   // Split questions for the "Show More" logic
   const visibleQuestions = useMemo(() => {
-    return showMore ? questions : questions.slice(0, 3);
+    return showMore ? questions : questions.slice(0, 2);
   }, [showMore, questions]);
 
   // Focus input when user clicks "Custom question"
@@ -49,30 +49,33 @@ export default function SellerQueries() {
 
   return (
     <div className="max-w-[400px] py-2 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white ">
+      <h3 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h3>
       
       {/* Question List */}
       <div className="space-y-3">
         {visibleQuestions.map((q) => {
-          const isChecked = selected.includes(q);
+          const checked = selected.includes(q);
           return (
             <button
               key={q}
               onClick={() => toggleQuestion(q)}
-              className="flex items-center gap-3 w-full text-left group transition-all active:opacity-70 focus:outline-none"
+              className="flex items-start gap-2.5 w-full text-left group transition-opacity active:opacity-80"
             >
-              <div className={`w-5 h-5 rounded-[4px] flex items-center justify-center flex-shrink-0 border transition-all duration-200 ${
-                  isChecked ? "bg-[#322822] border-[#322822]" : "bg-white border-[#E5DFD4]"
+              <div
+                className={`mt-0.5 w-4 h-4 rounded-[4px] flex items-center justify-center flex-shrink-0 shadow-sm transition-all ${
+                  checked ? "" : "bg-[#F9F7F2] border border-[#E5DFD4]"
                 }`}
+                style={checked ? { background: "linear-gradient(135deg,#322822,#1E1713)" } : {}}
               >
-                {isChecked && (
-                  <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={4} d="M5 13l4 4L19 7" />
+                {checked && (
+                  <svg className="w-2.5 h-2.5 text-[#E5DFD4]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3.5} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
               </div>
-              <span className={`text-[13px] font-bold leading-tight transition-colors ${
-                isChecked ? "text-[#322822]" : "text-[#8C827A]"
-              }`}>
+              <span className={`text-[12px] font-semibold leading-tight transition-colors ${
+                  checked ? "text-[#322822]" : "text-[#554E48]"
+                } group-hover:text-[#E76F26]`}>
                 {q}
               </span>
             </button>
@@ -82,14 +85,14 @@ export default function SellerQueries() {
 
       <div className="space-y-3">
         {/* Toggle */}
-        {questions.length > 3 && (
+        {questions.length > 2 && (
           <button onClick={() => setShowMore(!showMore)} className="flex items-center gap-3 w-full group focus:outline-none">
-            <div className="w-5 h-5 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4]">
-              <svg className={`w-3 h-3 text-[#8C827A] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeWidth={3} d="M5 15l7-7 7 7" />
+            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
+              <svg className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeWidth={2.5} d="M5 15l7-7 7 7" />
               </svg>
             </div>
-            <span className="text-[13px] font-bold text-[#E76F26] underline decoration-1 underline-offset-4">
+            <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2">
               {showMore ? "Show fewer questions" : "Load more questions"}
             </span>
           </button>
@@ -97,8 +100,8 @@ export default function SellerQueries() {
 
         {/* Custom Question Input/Button */}
         {isAdding ? (
-          <form onSubmit={handleAddCustom} className="flex items-center gap-3 w-full">
-            <div className="w-5 h-5 rounded-[4px] flex items-center justify-center border border-[#322822] bg-[#322822]">
+          <form onSubmit={handleAddCustom} className="flex items-center gap-2.5 w-full animate-in fade-in duration-200">
+            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center border border-[#322822] bg-[#322822]">
                <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
             </div>
             <input
@@ -108,31 +111,25 @@ export default function SellerQueries() {
               onChange={(e) => setCustomInput(e.target.value)}
               onBlur={() => !customInput && setIsAdding(false)}
               placeholder="Type your question..."
-              className="text-[13px] font-bold text-[#322822] outline-none border-b border-[#E76F26] w-full pb-0.5 bg-transparent"
+              className="text-[12px] font-bold text-[#322822] outline-none border-b border-[#E76F26] w-full pb-0.5 bg-transparent placeholder:text-[#8C827A]/50"
             />
           </form>
         ) : (
           <button 
             onClick={() => setIsAdding(true)}
-            className="flex items-center gap-3 w-full group focus:outline-none"
+            className="flex items-center gap-2.5 w-full group focus:outline-none"
           >
-            <div className="w-5 h-5 rounded-[4px] flex items-center justify-center border border-dashed border-[#8C827A] group-hover:bg-[#F9F7F2]">
-              <svg className="w-3 h-3 text-[#8C827A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeWidth={3} d="M12 4v16m8-8H4" />
+            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center border border-dashed border-[#8C827A] group-hover:border-[#E76F26] group-hover:bg-[#E76F26]/10 transition-all">
+              <svg className="w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeWidth={2.5} d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <span className="text-[13px] font-bold text-[#322822]">Custom question</span>
+            <span className="text-[12px] font-bold text-[#554E48] group-hover:text-[#E76F26] transition-colors">
+              Custom question
+            </span>
           </button>
         )}
       </div>
-
-      {/* Ask Seller Button */}
-      <button
-        disabled={selected.length === 0}
-        className="w-full py-3 rounded-[7px] text-[14px] font-bold transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed bg-[#322822] text-white hover:bg-[#4a3a32] active:scale-[0.98]"
-      >
-        Ask Seller
-      </button>
     </div>
   );
 }

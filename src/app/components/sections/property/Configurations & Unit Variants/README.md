@@ -111,7 +111,7 @@ The **floor plan detail panel** shown when a user clicks "View Plan" on a unit r
 ---
 
 ### `SellerQueries.tsx`
-A small component for the **"Ask seller" question buttons** at the bottom of the floor plan detail.
+A small component for the **question action buttons** at the bottom of the floor plan detail.
 
 **What it does:**
 - Renders a list of tappable question rows

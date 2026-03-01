@@ -101,13 +101,11 @@ const Icons = {
 const AmenitiesSection: React.FC = () => {
 
   const [activeTab, setActiveTab] = useState<string>('highlights');
-  const [activeFeedback, setActiveFeedback] = useState<string | null>(null);
 
   const activeData = AMENITIES_DATA.find(tab => tab.id === activeTab) || AMENITIES_DATA[0];
 
   const handleTabChange = (id: string) => {
     setActiveTab(id);
-    setActiveFeedback(null);
   };
 
   return (
@@ -153,28 +151,8 @@ const AmenitiesSection: React.FC = () => {
                 ))}
               </div>
 
-              {/* ── Feedback ── */}
+              {/* ── Seller Queries ── */}
               <div className="mt-4 pt-4 border-t border-[#F4F1EA]">
-                <p className="text-[14px] font-bold text-[#322822] mb-2">
-                  {activeData.feedbackQuestion}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {activeData.feedbackOptions.map((opt, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setActiveFeedback(activeFeedback === opt.text ? null : opt.text)}
-                      className={`flex items-center gap-1.5 px-3 py-2 text-[#E76F26] rounded-full text-[13px] font-bold transition-all ${
-                        activeFeedback === opt.text 
-                        ? 'bg-[#E76F26] text-white shadow-md scale-105' 
-                        : 'bg-[#F9F7F2] text-[#8A7D74] hover:bg-[#F4F1EA]'
-                      }`}
-                    >
-                      <span>{opt.emoji}</span>
-                      <span>{opt.text}</span>
-                    </button>
-                  ))}
-                </div>
-
                 <SellerQueries />
 
               </div>
