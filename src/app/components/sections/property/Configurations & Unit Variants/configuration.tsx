@@ -5,22 +5,32 @@ import SellerQueries from './SellerQueries';
 import { mockData } from './data';
 import type { UnitItem } from './types';
 
-interface ConfigurationProps {
-  selectedTower: string;
-}
+const TOWER_DISPLAY_MAP: Record<string, string> = {
+  'Tower A': 'Shlok',
+  'Tower B': 'Ayush',
+  'Tower C': 'Ananta',
+  'Tower D': 'Advait',
+  'Tower E': 'Vihaan',
+  'Tower F': 'Ishan',
+  'Tower G': 'Aarav',
+  'Tower H': 'Kavya',
+};
 
-export default function Configuration({ selectedTower }: ConfigurationProps) {
+export default function Configuration() {
   const [savedItems, setSavedItems] = useState<Set<string>>(new Set(['2']));
   const [selectedUnit, setSelectedUnit] = useState<UnitItem | null>(null);
 
-  const dataFilteredByTower = useMemo(() => {
-    if (selectedTower === 'All Towers') return mockData;
-    return mockData.filter(item => item.tower === selectedTower);
-  }, [selectedTower]);
+  const displayData = useMemo(
+    () => mockData.map((item) => ({
+      ...item,
+      tower: TOWER_DISPLAY_MAP[item.tower] || item.tower,
+    })),
+    []
+  );
 
   useEffect(() => {
     setSelectedUnit(null);
-  }, [selectedTower]);
+  }, []);
 
   const toggleSave = (id: string) => {
     setSavedItems((prev) => {
@@ -33,7 +43,7 @@ export default function Configuration({ selectedTower }: ConfigurationProps) {
   return (
     <div className="w-full font-['Outfit',_sans-serif]">
       <ConfigurationTable
-        data={dataFilteredByTower}
+        data={displayData}
         savedItems={savedItems}
         onToggleSave={toggleSave}
         onViewUnit={setSelectedUnit}

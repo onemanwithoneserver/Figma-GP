@@ -45,6 +45,11 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
     return () => window.removeEventListener('resize', checkScroll);
   }, []);
 
+  useEffect(() => {
+    const raf = requestAnimationFrame(checkScroll);
+    return () => cancelAnimationFrame(raf);
+  }, [activeTab]);
+
   // Keep active tab near the middle when possible
   useEffect(() => {
     const activeBtn = buttonRefs.current.get(activeTab);
@@ -72,7 +77,7 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
   };
 
   return (
-    <div className="w-full px-2 mb-4 relative group">
+    <div className="w-full relative group">
       
       {/* LEFT FADE OVERLAY & ARROW */}
       {canScrollLeft && (
@@ -128,8 +133,8 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
                 }}
                 onClick={() => onTabChange(tab.id)}
                 /* Button radius capped at 7px */
-                className={`relative flex-none py-1.5 px-3 sm:px-3.5 md:px-4 transition-all duration-200 z-10 outline-none flex items-center justify-center rounded-[4px] border ${
-                  isActive
+                className={`relative flex-none py-1.5 px-3 sm:px-3.5 md:px-4 transition-all duration-200 z-10 outline-none flex items-center justify-center rounded-[4px] border
+                   ${ isActive
                     ? 'border-transparent bg-transparent'
                     : 'border-transparent bg-[#F4EFE6] hover:bg-[#E5DFD4] shadow-none'
                 }`}

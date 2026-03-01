@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MapPin, CheckCircle, ThumbsUp, ThumbsDown, Play } from "lucide-react";
+import { MapPin, CheckCircle, Check, X, Play } from "lucide-react";
 
 // Assuming these are standard SVG components
 import AcresIcon from "../../../../Files/Clip path group.svg?react";
@@ -21,19 +21,19 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
   return (
     <>
 
-      <button onClick={() => handleVote("like")} aria-label="Like this feature" className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[14px] left-0 -ml-1 ${
+      <button onClick={() => handleVote("like")} aria-label="Like this feature" className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[10px] left-1 -p-2 ${
           vote === "like"
             ? "bg-[#FAF8F5] ring-[3px] ring-[#EAE4D9] shadow-sm"
             : "bg-[#FAF8F5] ring-[3px] ring-[#F2EFE9] hover:ring-[#EAE4D9]"
         }`}
       >
-        <ThumbsUp
-          className={`w-[14px] h-[16px] transition-colors duration-300 ease-in-out ${
+        <Check
+          className={`w-[13px] h-[13px] transition-colors duration-300 ease-in-out ${
             vote === "like" 
-              ? "fill-[#F85B01] text-[#F85B01]" 
-              : "fill-yellow-500 text-yellow-500 hover:fill-yellow-600 hover:text-yellow-600"
+              ? "text-[#F85B01]" 
+              : "text-[#8C827A] hover:text-[#F85B01]"
           }`}
-          strokeWidth={1.5}
+          strokeWidth={3}
         />
       </button>
 
@@ -41,19 +41,19 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
       <button
         onClick={() => handleVote("dislike")}
         aria-label="Dislike this feature"
-        className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[14px] right-0 -mr-1 ${
+        className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[10px] right-1 ${
           vote === "dislike"
             ? "bg-[#FAF8F5] ring-[3px] ring-[#EAE4D9] shadow-sm"
             : "bg-[#FAF8F5] ring-[3px] ring-[#F2EFE9] hover:ring-[#EAE4D9]"
         }`}
       >
-        <ThumbsDown
-          className={`w-[14px] h-[14px] transition-colors duration-300 ease-in-out ${
+        <X
+          className={`w-[13px] h-[13px] transition-colors duration-300 ease-in-out ${
             vote === "dislike" 
-              ? "fill-[#322822] text-[#322822]" 
-              : "fill-yellow-500 text-yellow-500 hover:fill-yellow-600 hover:text-yellow-600"
+              ? "text-[#322822]" 
+              : "text-[#8C827A] hover:text-[#322822]"
           }`}
-          strokeWidth={1.5}
+          strokeWidth={3}
         />
       </button>
     </>
@@ -77,8 +77,8 @@ const PropertyStat: React.FC<PropertyStatProps> = ({
   iconSize,
 }) => (
   <article 
-    // Reduced margin-bottom to mb-5 (just enough to clear the 14px absolute buttons)
-    className="group bg-white rounded-[7px] flex-1 h-[90px] flex flex-col items-center justify-center relative mb-5 border border-stone-200 overflow-visible" 
+    // Reduced margin-bottom to mb-4 for closer vote controls
+    className="group bg-white rounded-[7px] flex-1 h-[90px] flex flex-col items-center justify-center relative mb-4 border border-stone-200 overflow-visible" 
     style={{ boxShadow: "0 4px 12px rgba(0,0,0,0.02)" }}
   >
     <h3 className="font-bold text-[#322822] text-[12px] leading-tight mb-2 text-center px-1">
@@ -92,7 +92,7 @@ const PropertyStat: React.FC<PropertyStatProps> = ({
       <Icon className="w-full h-full" />
     </div>
 
-    <div className="absolute bottom-0 left-0 right-0 w-full h-0 flex justify-between z-10">
+    <div className="absolute bottom-0 left-0 right-0  w-full h-0 flex justify-between z-10">
       <VoteButton vote={vote} onVote={onVote} />
     </div>
   </article>

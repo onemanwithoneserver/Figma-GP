@@ -85,38 +85,7 @@ const TowerEngagementPanel = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto font-['Outfit',_sans-serif] bg-white border rounded-[7px] shadow-sm overflow-hidden pb-2">
-      <div className="p-3">
-        <h3 className="text-[15px] font-bold text-[#322822] mb-4 leading-tight text-center">
-          Do you like to review this tower/block later?
-        </h3>
-
-        <div className="flex flex-row items-center gap-2">
-          {REACTION_OPTIONS.map((r) => {
-            const isActive = activeReaction === r.key;
-            return (
-              <button
-                key={r.key}
-                onClick={() => setActiveReaction(isActive ? null : r.key)}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-2 rounded-[5px] transition-all duration-200 border group focus:outline-none ${
-                  isActive
-                    ? `${r.activeText} shadow-md -translate-y-0.5`
-                    : "bg-white border-[#E5DFD4] text-[#554E48] hover:border-[#E76F26]/50 hover:text-[#E76F26]"
-                }`}
-                style={isActive ? r.activeStyle : {}}
-              >
-                <div className={`transition-transform duration-200 ${isActive ? "scale-110" : "group-hover:scale-110"}`}>
-                  {r.icon}
-                </div>
-                <span className="text-[13px] font-bold">{r.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <hr className="border-[#F4F1EC] mx-4" />
-
+    <div className="max-w-md mx-auto font-['Outfit',_sans-serif] bg-white rounded-[7px] overflow-hidden pb-2">
       {/* ── Section 2: Questions List ── */}
       <div className="px-4 py-3 space-y-3">
         <h4 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h4>

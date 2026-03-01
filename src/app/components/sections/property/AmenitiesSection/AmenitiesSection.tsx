@@ -127,9 +127,9 @@ const AmenitiesSection: React.FC = () => {
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
             {/* ── Feature Image & List Card ── */}
-            <div className="bg-white px-4  ">
+            <div className="bg-white px-4 py-1 ">
               {activeData.imageUrl && (
-                <div className="mb-4 rounded-[7px] overflow-hidden aspect-video border border-[#F4F1EA]">
+                <div className="mb-4 rounded-[7px] py-1 overflow-hidden aspect-video border border-[#F4F1EA]">
                   <img 
                     src={activeData.imageUrl} 
                     alt={activeData.tabLabel} 
@@ -138,7 +138,7 @@ const AmenitiesSection: React.FC = () => {
                 </div>
               )}
 
-              <div className="space-y-3">
+              <div className="space-y-3 py-1.5">
                 {activeData.features.map((feature, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0 w-4 h-4 rounded-full bg-[#E76F26] flex items-center justify-center text-white">
@@ -152,7 +152,7 @@ const AmenitiesSection: React.FC = () => {
               </div>
 
               {/* ── Seller Queries ── */}
-              <div className="mt-4 pt-4 border-t border-[#F4F1EA]">
+              <div className="mt-2 -ml-4">
                 <SellerQueries />
 
               </div>

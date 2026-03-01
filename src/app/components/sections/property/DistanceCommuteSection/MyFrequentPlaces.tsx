@@ -47,10 +47,10 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
   return (
     <>
       {/* Main Section */}
-      <div className="flex flex-col bg-[#F9F7F2] py-2 px-3 rounded-b-[7px] border border-[#E5DFD4]">
+      <div className="flex flex-col bg-[#ffffff] py-2 px-1">
         {activeTabId === 'frequent' && (
-          <h3 className="text-[16px] text-center py-1 font-medium text-[#312822] leading-tight">
-            Private & visible only to you
+          <h3 className="text-[12px] text-center py-1.5 font-medium text-[#312822] leading-tight">
+            Auto calculate distance between your frequent visiting places and this project
           </h3>
         )}
 
@@ -91,7 +91,7 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
       </div>
 
       {/* Seller Question Section */}
-      <div className="pt-2 mt-2 w-full">
+      <div className="w-full">
         <SellerQueries />
       </div>
     </>

@@ -59,7 +59,7 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
   };
 
   return (
-    <div className="w-full px-2 mb-4 relative group">
+    <div className="w-full px-2 relative group">
       
       {/* Left Arrow */}
       {canScrollLeft && (
@@ -104,7 +104,7 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
                 {isActive && (
                   <motion.div
                     layoutId="commute-active-pill"
-                    className="absolute inset-0 rounded-[3px] -z-10"
+                    className="absolute inset-0 rounded-[3px] -z-10 -px-4"
                     style={{ background: 'linear-gradient(135deg, #F85B01, #C94A00)' }}
                     transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
                   />

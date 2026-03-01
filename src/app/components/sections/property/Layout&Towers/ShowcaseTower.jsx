@@ -114,7 +114,7 @@ const ShowcaseTower = ({
       </div>
 
       {/* ── Engagement ── */}
-      <div className="pt-4" style={{borderTop: '1px solid rgba(50,40,34,0.08)'}}>
+      <div className="pt-1" >
         <TowerEngagementPanel towerName={displayName} />
       </div>
       

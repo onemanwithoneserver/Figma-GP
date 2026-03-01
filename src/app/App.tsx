@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import HeroSection from './components/sections/property/HeroSection';
 import HorizontalTabNavigation from './components/sections/property/HorizontalTabNavigation';
 import TabNavigation from './components/sections/property/Overview&Highlight/TabNavigation';
@@ -6,6 +6,7 @@ import Overview from './components/sections/property/Overview&Highlight/Overview
 import Highlights from './components/sections/property/Overview&Highlight/Highlights';
 import ProjectTimelineSection from './components/sections/property/ProjectTimelineSection/ProjectTimeline';
 import LandTNavigation from './components/sections/property/Layout&Towers/LandTNavigation';
+import Swipe from './components/sections/property/Layout&Towers/Swipe';
 import Layout from './components/sections/property/Layout&Towers/Layout';
 import TowerA from './components/sections/property/Layout&Towers/TowerA';
 import TowerB from './components/sections/property/Layout&Towers/TowerB';
@@ -14,8 +15,6 @@ import ShowcaseTower from './components/sections/property/Layout&Towers/Showcase
 
 // --- Integrated Components ---
 import Configuration from './components/sections/property/Configurations & Unit Variants/configuration';
-import TowerDropdown from './components/sections/property/Configurations & Unit Variants/TowerDropdown';
-import { mockData } from './components/sections/property/Configurations & Unit Variants/data';
 import InteractiveCommuteWidget from './components/sections/property/DistanceCommuteSection/InteractiveCommute';
 import AmenitiesSection from './components/sections/property/AmenitiesSection/AmenitiesSection';
 import SpecificationsSection from './components/sections/property/SpecificationsSection/SpecificationsSection';
@@ -32,12 +31,6 @@ import { Button } from './components/ui/button';
 function App() {
   const [activeTab, setActiveTab] = useState<'overview' | 'highlights'>('overview');
   const [layoutTab, setLayoutTab] = useState('layout');
-  
-  const [selectedTower, setSelectedTower] = useState('All Towers');
-  const availableTowers = useMemo(() => {
-    const towers = new Set(mockData.map((item: { tower: string }) => item.tower));
-    return ['All Towers', ...Array.from(towers).sort()];
-  }, []);
 
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -74,6 +67,11 @@ function App() {
           </div>
         </div>
 
+        {/* Sticky Tab Bar */}
+        <div id="tab-nav" className="bg-white sticky top-0 z-40">
+          <HorizontalTabNavigation />
+        </div>
+
         {/* 1. Overview & Highlights */}
         <div id="overview-highlights" className="bg-white">
           <div className="px-4 pb-2">
@@ -82,11 +80,6 @@ function App() {
               {activeTab === 'overview' ? <Overview /> : <Highlights />}
             </div>
           </div>
-        </div>
-
-        {/* Sticky Tab Bar */}
-        <div id="tab-nav" className="bg-white sticky top-0 z-40">
-          <HorizontalTabNavigation />
         </div>
 
         {/* 2. Project Timeline */}
@@ -99,7 +92,7 @@ function App() {
           <ContentSection title="Layout & Towers">
             <div className="px-4 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
-              <div className="mt-1 transition-all duration-300 ease-in-out">
+              <Swipe activeTab={layoutTab} onTabChange={setLayoutTab} className="mt-1 transition-all duration-300 ease-in-out">
                 {layoutTab === 'layout' && <Layout onTowerSelect={handleLayoutTowerSelect} />}
                 {layoutTab === 'shlok' && <TowerA />}
                 {layoutTab === 'ayush' && <TowerB />}
@@ -113,25 +106,16 @@ function App() {
                     />
                   )
                 ))}
-              </div>
+              </Swipe>
             </div>
           </ContentSection>
         </div>
 
         {/* 4. Configurations */}
         <div id="configurations" className="bg-white">
-          <ContentSection
-            title="Configurations"
-            action={
-              <TowerDropdown
-                towers={availableTowers}
-                selected={selectedTower}
-                onSelect={setSelectedTower}
-              />
-            }
-          >
+          <ContentSection title="Configurations">
             <div className="px-4 pb-2">
-              <Configuration selectedTower={selectedTower} />
+              <Configuration />
             </div>
           </ContentSection>
         </div>
@@ -139,7 +123,7 @@ function App() {
         {/* 5. Distance & Commute */}
         <div id="distance-commute" className="bg-white">
           <ContentSection title="Distance & Commute">
-            <div className="px-4 pb-2">
+            <div className="px-2 pb-2">
               <InteractiveCommuteWidget />
             </div>
           </ContentSection>

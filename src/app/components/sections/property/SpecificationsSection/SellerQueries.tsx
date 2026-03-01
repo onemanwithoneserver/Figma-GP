@@ -52,7 +52,7 @@ export default function SellerQueries() {
       <h3 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h3>
       
       {/* Question List */}
-      <div className="space-y-3">
+      <div className="space-y-3 m">
         {visibleQuestions.map((q) => {
           const checked = selected.includes(q);
           return (

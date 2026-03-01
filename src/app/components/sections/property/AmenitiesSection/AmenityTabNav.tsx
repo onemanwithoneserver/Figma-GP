@@ -59,7 +59,7 @@ const AmenityTabNav: React.FC<AmenityTabNavProps> = ({ activeTab, setActiveTab, 
   };
 
   return (
-    <div className="w-full px-2 mb-4 relative group">
+    <div className="w-full relative group">
       {/* LEFT ARROW */}
       {canScrollLeft && (
         <div className="absolute left-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1">

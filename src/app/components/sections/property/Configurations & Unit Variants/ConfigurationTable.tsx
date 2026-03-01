@@ -94,33 +94,36 @@ export default function ConfigurationTable({
   onViewUnit,
 }: ConfigurationTableProps) {
 
+  const [towerFilter, setTowerFilter] = useState<string | null>(null);
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const [facingFilter, setFacingFilter] = useState<string | null>(null);
   const [availFilter, setAvailFilter] = useState<string | null>(null);
 
+  const towerOptions  = useMemo(() => Array.from(new Set(data.map(d => d.tower))).sort(), [data]);
   const typeOptions   = useMemo(() => ['2 BHK', '3 BHK', '4 BHK'], []);
   const facingOptions = useMemo(() => Array.from(new Set(data.map(d => d.facing))).sort(), [data]);
   const availOptions  = useMemo(() => Array.from(new Set(data.map(d => d.availability))).sort(), [data]);
 
   const filteredData = useMemo(() => data.filter(item => {
+    if (towerFilter  && item.tower        !== towerFilter)  return false;
     if (typeFilter   && item.type         !== typeFilter)   return false;
     if (facingFilter && item.facing       !== facingFilter) return false;
     if (availFilter  && item.availability !== availFilter)  return false;
     return true;
-  }), [data, typeFilter, facingFilter, availFilter]);
+  }), [data, towerFilter, typeFilter, facingFilter, availFilter]);
 
-  const hasActiveFilters = typeFilter || facingFilter || availFilter;
+  const hasActiveFilters = towerFilter || typeFilter || facingFilter || availFilter;
 
   return (
     <div className="w-full flex flex-col gap-3">
-      <div className="flex items-center gap-2 mx-4 flex-wrap">
-        <span className="text-[10px] font-semibold text-[#332823] tracking-widest mr-1 ">Filter</span>
+      <div className="flex items-center gap-2 flex-wrap">
+        <FilterPill label="Tower"   options={towerOptions}  value={towerFilter}  onChange={setTowerFilter} />
         <FilterPill label="Type"    options={typeOptions}   value={typeFilter}   onChange={setTypeFilter} />
         <FilterPill label="Facing"  options={facingOptions} value={facingFilter} onChange={setFacingFilter} />
         <FilterPill label="Status"  options={availOptions}  value={availFilter}  onChange={setAvailFilter} />
         {hasActiveFilters && (
           <button
-            onClick={() => { setTypeFilter(null); setFacingFilter(null); setAvailFilter(null); }}
+            onClick={() => { setTowerFilter(null); setTypeFilter(null); setFacingFilter(null); setAvailFilter(null); }}
             className="text-[10px] font-bold text-[#E76F26] hover:underline ml-auto  tracking-wide"
           >
             Clear all

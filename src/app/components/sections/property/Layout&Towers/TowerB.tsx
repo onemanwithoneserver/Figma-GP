@@ -28,10 +28,10 @@ const TowerB = () => (
       
       {/* Status badge */}
       <div className="absolute top-3.5 left-3.5">
-        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-[7px] text-[11px] font-extrabold text-[#F9F7F2] tracking-wide" style={{background: 'rgba(50,40,34,0.9)', backdropFilter: 'blur(6px)', border: '1px solid rgba(229,223,212,0.15)'}}>
+{/*         <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-[7px] text-[11px] font-extrabold text-[#F9F7F2] tracking-wide" style={{background: 'rgba(50,40,34,0.9)', backdropFilter: 'blur(6px)', border: '1px solid rgba(229,223,212,0.15)'}}>
           <span className="w-1.5 h-1.5 rounded-full bg-[#E76F26] animate-pulse" />
           Under construction
-        </span>
+        </span> */}
       </div>
     </div>
 
@@ -65,7 +65,7 @@ const TowerB = () => (
     </div>
 
     {/* ── Engagement ── */}
-    <div className="pt-4" style={{borderTop: '1px solid rgba(50,40,34,0.08)'}}>
+    <div className="pt-1" >
       <TowerEngagementPanel towerName="Ayush" />
     </div>
   </div>

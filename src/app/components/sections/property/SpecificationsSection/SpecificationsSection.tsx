@@ -489,8 +489,8 @@ const SpecificationsSection: React.FC = () => {
       />
 
       {/* ── Accordion Content Card ── */}
-      <div className="mt-4 bg-white ">
-        <div className="px-5 py-2">
+      <div className=" bg-white ">
+        <div className="max-w-md mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}

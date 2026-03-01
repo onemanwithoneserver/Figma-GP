@@ -63,20 +63,6 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
             className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 opacity-85"
           />
           
-          <div className="absolute inset-0 bg-gradient-to-t from-[#322822] via-[#322822]/20 to-transparent opacity-90" />
-
-          <div className="absolute top-4 right-4">
-            <span className="px-2 py-1 rounded-[5px] text-[10px] font-bold  text-[#322822] bg-white shadow-sm ">
-              8 Towers · 3 Phases
-            </span>
-          </div>
-
-          <div className="absolute bottom-6 left-6 flex flex-col gap-0.5 pointer-events-none">
-            <p className="text-[10px] font-bold text-[#fff]/80 tracking-[0.2em] ">Master Plan</p>
-            <p className="text-[28px] md:text-[32px] font-bold text-white leading-tight tracking-tight">
-              Site Overview
-            </p>
-          </div>
 
           <div className="absolute bottom-4 right-4 bg-black/40 p-2 rounded-[7px] text-white/90 backdrop-blur-sm group-hover:bg-black/60 transition-all duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

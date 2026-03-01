@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const mockBackendData = {
@@ -50,6 +50,46 @@ const TimelineView: React.FC = () => {
   const [isHandoverPhotosOpen, setIsHandoverPhotosOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeConstructionIndex, setActiveConstructionIndex] = useState(1);
+  const hasHandoverPhotos = false;
+  const constructionScrollRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkConstructionScroll = () => {
+    const el = constructionScrollRef.current;
+    if (!el) return;
+    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    setCanScrollLeft(el.scrollLeft > 2);
+    setCanScrollRight(el.scrollLeft < maxScrollLeft - 2);
+  };
+
+  const scrollConstruction = (direction: 'left' | 'right') => {
+    const el = constructionScrollRef.current;
+    if (!el) return;
+    const offset = Math.max(140, Math.floor(el.clientWidth * 0.45));
+    el.scrollBy({
+      left: direction === 'left' ? -offset : offset,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    if (!isConstructionOpen) return;
+    const el = constructionScrollRef.current;
+    if (!el) return;
+
+    checkConstructionScroll();
+    const onScroll = () => checkConstructionScroll();
+    const onResize = () => checkConstructionScroll();
+
+    el.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+    };
+  }, [isConstructionOpen]);
 
   return (
     <section className="font-['Outfit',_sans-serif] w-full max-w-[800px] mx-auto px-2">
@@ -123,7 +163,11 @@ const TimelineView: React.FC = () => {
                         <p className="text-[11px] text-[#595959] font-normal leading-none">{doc.date}</p>
                       </div>
                     </div>
-                    <button className="p-1.5 text-[#595959] hover:text-[#322822] transition-colors outline-none">
+                    <button
+                      aria-label={`View ${doc.name}`}
+                      title={`View ${doc.name}`}
+                      className="p-1.5 text-[#595959] hover:text-[#322822] transition-colors outline-none"
+                    >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -153,18 +197,52 @@ const TimelineView: React.FC = () => {
               <AnimatePresence>
                 {isConstructionOpen && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
-                    <div className="w-full overflow-x-auto py-4 pr-2 mt-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="relative mt-1 pr-2">
+                      {canScrollLeft && (
+                        <div className="absolute left-0 top-0 z-20 h-full w-12 flex items-center justify-start pointer-events-none" style={{ background: 'linear-gradient(to right, #F9F7F2 40%, rgba(249,247,242,0))' }}>
+                          <button
+                            type="button"
+                            onClick={() => scrollConstruction('left')}
+                            aria-label="Scroll construction timeline left"
+                            className="pointer-events-auto ml-1 w-6 h-6 rounded-full bg-white/95 border border-[#E5DFD4] flex items-center justify-center text-[#554E48] hover:text-[#322822] hover:border-[#D9D1C6] transition-colors"
+                          >
+                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 18l-6-6 6-6" />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+
+                      {canScrollRight && (
+                        <div className="absolute right-0 top-0 z-20 h-full w-12 flex items-center justify-end pointer-events-none" style={{ background: 'linear-gradient(to left, #F9F7F2 40%, rgba(249,247,242,0))' }}>
+                          <button
+                            type="button"
+                            onClick={() => scrollConstruction('right')}
+                            aria-label="Scroll construction timeline right"
+                            className="pointer-events-auto mr-1 w-6 h-6 rounded-full bg-white/95 border border-[#E5DFD4] flex items-center justify-center text-[#554E48] hover:text-[#322822] hover:border-[#D9D1C6] transition-colors"
+                          >
+                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 6l6 6-6 6" />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
+
+                      <div ref={constructionScrollRef} className="w-full overflow-x-auto py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                       <div className="flex w-full min-w-[320px] justify-between items-start">
                         {mockBackendData.constructionTimeline.map((item, idx) => {
+                          const hasImages = item.images.length > 0;
                           const isPast = idx < activeConstructionIndex;
                           const isActive = idx === activeConstructionIndex;
                           return (
                             <button
                               key={item.id}
-                              onClick={() => setActiveConstructionIndex(idx)}
-                              className="relative flex-1 flex flex-col items-center group outline-none"
+                              type="button"
+                              onClick={() => hasImages && setActiveConstructionIndex(idx)}
+                              disabled={!hasImages}
+                              className={`relative flex-1 flex flex-col items-center outline-none ${hasImages ? 'group cursor-pointer' : 'cursor-not-allowed opacity-70'}`}
                             >
-                              <span className={`text-[11px] font-normal mb-3 transition-colors duration-300 ${isActive ? 'text-[#322822] font-medium' : 'text-[#595959] group-hover:text-[#322822]'}`}>
+                              <span className={`text-[11px] font-normal mb-3 transition-colors duration-300 ${isActive ? 'text-[#322822] font-medium' : hasImages ? 'text-[#595959] group-hover:text-[#322822]' : 'text-[#A19891]'}`}>
                                 {item.date}
                               </span>
                               <div className="relative w-full flex justify-center items-center h-5">
@@ -176,12 +254,13 @@ const TimelineView: React.FC = () => {
                                 )}
                                 <div className="relative flex items-center justify-center w-5 h-5 z-10">
                                   {/* Thinner, more refined nodes */}
-                                  <div className={`rounded-full transition-all duration-300 border-[2px] ${isPast || isActive ? 'w-[10px] h-[10px] bg-[#E76F26] border-[#E76F26]' : 'w-[8px] h-[8px] bg-[#FDFBF8] border-[#D1D5DB] group-hover:border-[#595959]'} ${isActive ? 'scale-[1.3] shadow-[0_0_8px_rgba(231,111,38,0.4)]' : ''}`} />
+                                  <div className={`rounded-full transition-all duration-300 border-[2px] ${isPast || isActive ? 'w-[10px] h-[10px] bg-[#E76F26] border-[#E76F26]' : hasImages ? 'w-[8px] h-[8px] bg-[#FDFBF8] border-[#D1D5DB] group-hover:border-[#595959]' : 'w-[8px] h-[8px] bg-[#F3EFE9] border-[#D9D1C6]'} ${isActive ? 'scale-[1.3] shadow-[0_0_8px_rgba(231,111,38,0.4)]' : ''}`} />
                                 </div>
                               </div>
                             </button>
                           );
                         })}
+                      </div>
                       </div>
                     </div>
 
@@ -236,13 +315,19 @@ const TimelineView: React.FC = () => {
                 ))}
               </div>
               <button
-                onClick={() => setIsHandoverPhotosOpen(!isHandoverPhotosOpen)}
-                className="flex items-center gap-1.5 text-[12px] font-medium text-[#4A525A] hover:text-[#322822] bg-[#F4EFE6] hover:bg-[#E5DFD4] px-3 py-1.5 rounded-[5px] transition-colors outline-none"
+                type="button"
+                onClick={() => hasHandoverPhotos && setIsHandoverPhotosOpen(!isHandoverPhotosOpen)}
+                disabled={!hasHandoverPhotos}
+                className={`flex items-center gap-1.5 text-[12px] font-medium px-3 py-1.5 rounded-[5px] transition-colors outline-none ${
+                  hasHandoverPhotos
+                    ? 'text-[#4A525A] hover:text-[#322822] bg-[#F4EFE6] hover:bg-[#E5DFD4]'
+                    : 'text-[#A19891] bg-[#F4EFE6] cursor-not-allowed'
+                }`}
               >
                 <svg className={`w-3.5 h-3.5 transition-transform ${isHandoverPhotosOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
-                {isHandoverPhotosOpen ? 'Hide Section' : 'View Photos'}
+                {hasHandoverPhotos ? (isHandoverPhotosOpen ? 'Hide Section' : 'View Photos') : 'Photos not uploaded yet'}
               </button>
               <AnimatePresence>
                 {isHandoverPhotosOpen && (
