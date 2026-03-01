@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TabNavigation from './SpecificationsTabNav'; 
 import SellerQueries from './SellerQueries';
@@ -428,13 +428,20 @@ const SPECIFICATIONS_DATA = [
 ];
 
 
-const AccordionItem = ({ feature }: { feature: { title: string, details: string[] } }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const AccordionItem = ({
+  feature,
+  isOpen,
+  onToggle,
+}: {
+  feature: { title: string, details: string[] };
+  isOpen: boolean;
+  onToggle: () => void;
+}) => {
 
   return (
 <div className="border-b border-gray-100 last:border-none">
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={onToggle}
         className="flex items-center justify-between w-full py-4 text-left focus:outline-none group"
       >
         <div className="flex items-center gap-3">
@@ -476,7 +483,12 @@ const AccordionItem = ({ feature }: { feature: { title: string, details: string[
 
 const SpecificationsSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('quality-construction');
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const activeData = SPECIFICATIONS_DATA.find(item => item.id === activeTab) || SPECIFICATIONS_DATA[0];
+
+  useEffect(() => {
+    setOpenIndex(null);
+  }, [activeTab]);
 
   return (
     <div className="font-['Outfit',_sans-serif] ">
@@ -501,7 +513,12 @@ const SpecificationsSection: React.FC = () => {
             >
               <div className="flex flex-col">
                 {activeData.features.map((feature, idx) => (
-                  <AccordionItem key={idx} feature={feature} />
+                  <AccordionItem
+                    key={idx}
+                    feature={feature}
+                    isOpen={openIndex === idx}
+                    onToggle={() => setOpenIndex(prev => (prev === idx ? null : idx))}
+                  />
                 ))}
               </div>
             </motion.div>
