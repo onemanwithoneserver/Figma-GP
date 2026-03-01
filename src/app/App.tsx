@@ -54,7 +54,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#EFECE5]">
+    <div className="min-h-screen bg-[#ffffff]">
       {/* relative added to main container */}
       <div className="overflow-x-clip max-w-[390px] mx-auto pb-15 min-h-screen flex flex-col gap-[4px] relative">
         {/* Hero */}
@@ -164,26 +164,7 @@ function App() {
 
         {/* 9. Project Files */}
         <div id="project-files" className="bg-white">
-          <ContentSection
-            title="Project Files"
-            action={
-              <button
-                className="group flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-bold text-[#F85B01] hover:text-white rounded-[7px] bg-gradient-to-br from-orange-50 to-orange-100/50 border border-orange-100 hover:from-[#F85B01] hover:to-[#E05000] hover:border-[#F85B01] transition-all duration-200 shadow-sm hover:shadow-md active:scale-95"
-                title="Download all files"
-              >
-                <svg className="transition-transform duration-200 group-hover:-translate-y-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" y1="15" x2="12" y2="3" />
-                </svg>
-                Download All
-              </button>
-            }
-          >
-            <div className="px-4 pb-2">
-              <ProjectFilesSection />
-            </div>
-          </ContentSection>
+          <ProjectFilesSection />
         </div>
 
         {/* 10. Exit Summary */}

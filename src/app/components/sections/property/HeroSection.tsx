@@ -19,12 +19,8 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
 
   return (
     <>
-      {/* Thumbs-Up Button */}
-      <button
-        onClick={() => handleVote("like")}
-        aria-label="Like this feature"
-        aria-pressed={vote === "like"}
-        className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[14px] left-0 -ml-1 ${
+
+      <button onClick={() => handleVote("like")} aria-label="Like this feature" className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[14px] left-0 -ml-1 ${
           vote === "like"
             ? "bg-[#FAF8F5] ring-[3px] ring-[#EAE4D9] shadow-sm"
             : "bg-[#FAF8F5] ring-[3px] ring-[#F2EFE9] hover:ring-[#EAE4D9]"
@@ -44,7 +40,6 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
       <button
         onClick={() => handleVote("dislike")}
         aria-label="Dislike this feature"
-        aria-pressed={vote === "dislike"}
         className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-all focus:outline-none absolute -bottom-[14px] right-0 -mr-1 ${
           vote === "dislike"
             ? "bg-[#FAF8F5] ring-[3px] ring-[#EAE4D9] shadow-sm"
@@ -127,7 +122,7 @@ const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-[#312822]/80 via-transparent to-transparent" />
 
         <div className="absolute top-4 right-4 z-20">
-          <span className="inline-flex items-center rounded-[7px] bg-[#E76F26] px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md">
+          <span className="inline-flex items-center rounded-[7px] bg-[#322822] px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md">
             {offerRibbonText}
           </span>
         </div>
@@ -179,7 +174,6 @@ const HeroSection: React.FC = () => {
                 <h2 className="font-bold text-[#322822] text-[14px] tracking-tight leading-none">Gully Properties</h2>
                 <CheckCircle className="w-3.5 h-3.5 text-[#E76F26]" strokeWidth={2.5} aria-label="Verified Developer" />
               </div>
-              <p className="text-[11px] text-[#10B981] font-bold tracking-wide">Verified Developer</p>
             </div>
           </div>
 
