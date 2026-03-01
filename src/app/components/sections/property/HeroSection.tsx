@@ -5,6 +5,7 @@ import { MapPin, CheckCircle, ThumbsUp, ThumbsDown, Play } from "lucide-react";
 import AcresIcon from "../../../../Files/Clip path group.svg?react";
 import UnitsIcon from "../../../../Files/units.svg?react";
 import FloorsIcon from "../../../../Files/floors.svg?react";
+import accountNewLogo from "../../../../Files/account_new.png";
 
 // --- VOTE BUTTON COMPONENT ---
 interface VoteButtonProps {
@@ -164,7 +165,7 @@ const HeroSection: React.FC = () => {
           <div className="flex items-center gap-3 pb-3 border-b border-stone-200/80 mb-4">
             <div className="w-11 h-11 flex items-center justify-center bg-white shadow-sm border border-stone-100 rounded-[7px] overflow-hidden flex-shrink-0 p-1">
               <img
-                src="/src/Files/account_new.png"
+                src={accountNewLogo}
                 alt="Gully Properties Logo"
                 className="w-full h-full object-contain"
               />
