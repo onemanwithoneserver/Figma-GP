@@ -63,7 +63,7 @@ const Layout = () => {
 
           <div className="absolute top-4 right-4">
             <span className="px-2 py-1 rounded-[5px] text-[10px] font-bold  text-[#322822] bg-white shadow-sm ">
-              8 Wings · 3 Phases
+              8 Towers · 3 Phases
             </span>
           </div>
 
