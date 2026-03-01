@@ -65,12 +65,12 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
   };
 
   return (
-    <div className="w-auto mb-4 mx-2 relative group">
+    <div className="w-fit max-w-full mb-4 mx-auto my-3 relative group">
       
       {/* LEFT FADE OVERLAY & ARROW */}
       {canScrollLeft && (
         <div 
-          className="absolute left-0 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1"
+          className="absolute left-0 top-0.5 bottom-0.5 w-auto z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1"
           style={{
             background: `linear-gradient(to right, ${COLORS.container} 40%, transparent)`,
           }}
@@ -115,9 +115,9 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
             backgroundColor: COLORS.container, 
             borderColor: '#E8E2D9' 
         }}
-        className="relative flex items-center p-1 rounded-[7px] border overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
+        className="relative w-fit max-w-full flex items-center p-1 rounded-[7px] border overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
       >
-        <div className="flex gap-1.5 px-0.5 w-full"> 
+        <div className="flex gap-1 px-0.5 w-max">
           {tabs.map((tab) => {
             const isActive = activeTab === tab;
             
@@ -125,7 +125,7 @@ export default function BHKTabNav({ tabs, activeTab, onTabChange }: BHKTabNavPro
               <button
                 key={tab}
                 onClick={() => onTabChange(tab)}
-                className="relative flex-1 min-w-max py-1.5 px-4 transition-colors duration-300 z-10 outline-none flex items-center justify-center rounded-[7px]"
+                className="relative w-auto shrink-0 min-w-max py-1.5 px-3 transition-colors duration-300 z-10 outline-none flex items-center justify-center rounded-[7px]"
                 style={{ color: isActive ? COLORS.white : COLORS.textInactive }}
               >
                 {isActive && (

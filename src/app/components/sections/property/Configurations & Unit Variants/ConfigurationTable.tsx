@@ -94,33 +94,33 @@ export default function ConfigurationTable({
   onViewUnit,
 }: ConfigurationTableProps) {
 
-  const [buaFilter, setBuaFilter] = useState<string | null>(null);
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const [facingFilter, setFacingFilter] = useState<string | null>(null);
   const [availFilter, setAvailFilter] = useState<string | null>(null);
 
-  const buaOptions    = useMemo(() => Array.from(new Set(data.map(d => d.bua))).sort(), [data]);
+  const typeOptions   = useMemo(() => ['2 BHK', '3 BHK', '4 BHK'], []);
   const facingOptions = useMemo(() => Array.from(new Set(data.map(d => d.facing))).sort(), [data]);
   const availOptions  = useMemo(() => Array.from(new Set(data.map(d => d.availability))).sort(), [data]);
 
   const filteredData = useMemo(() => data.filter(item => {
-    if (buaFilter    && item.bua          !== buaFilter)    return false;
+    if (typeFilter   && item.type         !== typeFilter)   return false;
     if (facingFilter && item.facing       !== facingFilter) return false;
     if (availFilter  && item.availability !== availFilter)  return false;
     return true;
-  }), [data, buaFilter, facingFilter, availFilter]);
+  }), [data, typeFilter, facingFilter, availFilter]);
 
-  const hasActiveFilters = buaFilter || facingFilter || availFilter;
+  const hasActiveFilters = typeFilter || facingFilter || availFilter;
 
   return (
     <div className="w-full flex flex-col gap-3">
       <div className="flex items-center gap-2 mx-4 flex-wrap">
-        <span className="text-[10px] font-semibold text-[#8C827A] tracking-widest mr-1 ">Filter</span>
-        <FilterPill label="BUA"     options={buaOptions}    value={buaFilter}    onChange={setBuaFilter} />
+        <span className="text-[10px] font-semibold text-[#332823] tracking-widest mr-1 ">Filter</span>
+        <FilterPill label="Type"    options={typeOptions}   value={typeFilter}   onChange={setTypeFilter} />
         <FilterPill label="Facing"  options={facingOptions} value={facingFilter} onChange={setFacingFilter} />
         <FilterPill label="Status"  options={availOptions}  value={availFilter}  onChange={setAvailFilter} />
         {hasActiveFilters && (
           <button
-            onClick={() => { setBuaFilter(null); setFacingFilter(null); setAvailFilter(null); }}
+            onClick={() => { setTypeFilter(null); setFacingFilter(null); setAvailFilter(null); }}
             className="text-[10px] font-bold text-[#E76F26] hover:underline ml-auto  tracking-wide"
           >
             Clear all
@@ -141,7 +141,7 @@ export default function ConfigurationTable({
           <table className="w-full text-left border-collapse table-auto">
             <thead>
               <tr className="bg-[#E76F26]">
-                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">BUA</th>
+                <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Type</th>
                 <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Facing</th>
                 <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Status</th>
                 <th className="border border-[#C94A00] px-1 py-1.5 text-[11px] font-extrabold text-white text-center tracking-wide ">Save</th>
@@ -153,8 +153,7 @@ export default function ConfigurationTable({
               {filteredData.map((item, idx) => (
                 <tr key={item.id} className={`transition-colors hover:bg-[#F4EFE6]/50 ${idx % 2 === 0 ? 'bg-white' : 'bg-[#F9F7F2]/50'}`}>
                   <td className="border border-[#E5DFD4] px-2 py-2.5 align-middle">
-                    <span className="font-extrabold text-[12px] text-[#322822]">{item.bua}</span>
-                    <span className="text-[9px] font-bold text-[#8C827A] ml-1 ">sq.ft</span>
+                    <span className="font-extrabold text-[12px] text-[#322822]">{item.type}</span>
                   </td>
 
                   <td className="border border-[#E5DFD4] px-2 py-2.5 align-middle text-[12px] font-bold text-[#554E48]">

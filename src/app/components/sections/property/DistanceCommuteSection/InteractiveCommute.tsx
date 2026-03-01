@@ -37,10 +37,6 @@ export default function InteractiveCommute() {
 
   return (
     <div className="w-full ">
-      {/* Section Title */}
-      <h2 className="text-[20px] font-['Outfit',_sans-serif] font-bold text-[#322822] tracking-tight">
-        Distance / Commute To
-      </h2>
         
         {/* Tab Navigation */}
         <TabNavigation 

@@ -117,7 +117,9 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
               key={idx}
               src={imgSrc} 
               alt={`Layout marking ${idx + 1}`} 
-              className="w-full h-[250px] flex-shrink-0 object-contain mix-blend-multiply snap-center"
+              className="w-full h-[250px] md:h-[320px] flex-shrink-0 object-contain object-top bg-white px-0.5 pb-0.5 pt-0 snap-center"
+              loading="eager"
+              draggable={false}
             />
           ))}
         </div>
@@ -128,6 +130,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             <button
               key={idx}
               onClick={() => scrollToImage(idx)}
+              aria-label={`View image ${idx + 1}`}
               className={`transition-all duration-300 rounded-full shadow-sm ${
                 activeImageIndex === idx 
                   ? 'w-4 h-1.5 bg-[#E76F26]' 
