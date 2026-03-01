@@ -20,6 +20,14 @@ function PlaceIcon({ icon }: { icon: string }) {
   );
 }
 
+function TileArrow() {
+  return (
+    <div className="flex-shrink-0 text-[#8A7D74] group-hover:text-[#322822] transition-colors duration-200" aria-hidden="true">
+      <Icons.ChevronRight />
+    </div>
+  );
+}
+
 export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace }: MyFrequentPlacesProps) {
   const [showAddPage, setShowAddPage] = useState(false);
 
@@ -32,14 +40,14 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
     return (
       <div className="flex flex-col bg-[#FDFBF8] rounded-b-[7px] -mx-3 -mt-3 animate-in fade-in duration-300">
         <div className="px-4 py-3 bg-white border-b border-[#E5DFD4] flex items-center gap-2">
-          <button onClick={() => setShowAddPage(false)} className="p-1 -ml-1 text-[#312822]">
+          <button onClick={() => setShowAddPage(false)} className="p-1 -ml-1 text-[#312822]" aria-label="Back" title="Back">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M19 12H5m7-7l-7 7 7 7"/>
             </svg>
           </button>
           <h3 className="text-[15px] font-bold text-[#312822]">Add New Place</h3>
         </div>
-        <AddNewPlace onSave={handleSaveAndReturn} onCancel={() => setShowAddPage(false)} />
+        <AddNewPlace title={currentData.title} onSave={handleSaveAndReturn} onCancel={() => setShowAddPage(false)} />
       </div>
     );
   }
@@ -62,12 +70,13 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
             </div>
           ) : (
             currentData.items.map((item) => (
-              <div key={item.id} className="flex items-center gap-3 p-3.5 rounded-[7px] border border-[#E5DFD4]/60 bg-white hover:border-[#E5DFD4] shadow-sm cursor-pointer transition-all duration-200">
+              <div key={item.id} className="group flex items-center gap-3 p-3.5 rounded-[7px] border border-[#E5DFD4]/60 bg-white hover:border-[#E5DFD4] shadow-sm cursor-pointer transition-all duration-200">
                 <PlaceIcon icon={item.icon} />
                 <div className="flex-1 min-w-0">
                   <p className="text-[14.5px] font-bold text-[#312822] truncate mb-0.5">{item.name}</p>
                   <p className="text-[12.5px] text-[#312822] font-medium">{item.distance}</p>
                 </div>
+                <TileArrow />
               </div>
             ))
           )}
