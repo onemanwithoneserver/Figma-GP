@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+type LayoutProps = {
+  onTowerSelect?: (towerId: string) => void;
+};
+
 const statusConfig = {
   primary: { 
     bg: 'bg-[#F85B01]/10 border border-[#F85B01]/20', 
@@ -30,7 +34,7 @@ const galleryImages = [
   "https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?auto=format&fit=crop&w=1200&q=80"
 ];
 
-const Layout = () => {
+const Layout = ({ onTowerSelect }: LayoutProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -93,7 +97,8 @@ const Layout = () => {
             return (
               <div
                 key={tower.id}
-                className={`group flex items-center gap-3 rounded-[7px] pl-2 pr-2 py-1.5 transition-all duration-300 bg-white border border-[#E5DFD4]/50 hover:border-[#322822]/15 hover:shadow-md ${isFuture ? 'opacity-70' : 'opacity-100'}`}
+                className={`group flex items-center gap-3 rounded-[7px] pl-2 pr-2 py-1.5 transition-all duration-300 bg-white border border-[#E5DFD4]/50 hover:border-[#322822]/15 hover:shadow-md ${isFuture ? 'opacity-70' : 'opacity-100'} cursor-pointer`}
+                onClick={() => onTowerSelect?.(tower.id)}
               >
                 {/* Initial Box - Returned to Orange for active, Original dark for future */}
                 <div className={`w-10 h-10 rounded-[7px] flex-shrink-0 flex items-center justify-center text-[14px] font-bold text-white transition-colors duration-300 ${isFuture ? 'bg-[#322822]/80' : 'bg-[#E65100]'}`}>

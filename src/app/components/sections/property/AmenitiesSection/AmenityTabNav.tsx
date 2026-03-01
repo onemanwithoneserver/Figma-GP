@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 
 interface AmenityTabNavProps {
@@ -10,6 +11,7 @@ interface AmenityTabNavProps {
 
 const AmenityTabNav: React.FC<AmenityTabNavProps> = ({ activeTab, setActiveTab, amenitiesData }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
@@ -28,17 +30,20 @@ const AmenityTabNav: React.FC<AmenityTabNavProps> = ({ activeTab, setActiveTab, 
     return () => window.removeEventListener('resize', checkScroll);
   }, [amenitiesData]);
 
-  // Scroll active tab into view smoothly
+  // Keep active tab near the middle when possible
   useEffect(() => {
-    if (scrollContainerRef.current) {
-      const activeElement = scrollContainerRef.current.querySelector(`[data-id="${activeTab}"]`);
-      if (activeElement) {
-        (activeElement as HTMLElement).scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center'
-        });
-      }
+    const activeBtn = buttonRefs.current.get(activeTab);
+    const container = scrollContainerRef.current;
+
+    if (activeBtn && container) {
+      const targetLeft = activeBtn.offsetLeft - (container.clientWidth - activeBtn.offsetWidth) / 2;
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      const clampedLeft = Math.max(0, Math.min(targetLeft, maxScrollLeft));
+
+      container.scrollTo({
+        left: clampedLeft,
+        behavior: 'smooth',
+      });
     }
   }, [activeTab]);
 
@@ -54,17 +59,16 @@ const AmenityTabNav: React.FC<AmenityTabNavProps> = ({ activeTab, setActiveTab, 
   };
 
   return (
-    <div className="relative w-full rounded-[7px] bg-[#F4F1EA] flex items-center p-1.5 mb-2 border border-[#E5DFD4]">
-      {/* LEFT ARROW & FADE */}
+    <div className="w-full px-2 mb-4 relative group">
+      {/* LEFT ARROW */}
       {canScrollLeft && (
-        <div className="absolute left-0 top-0 bottom-0 w-12 z-20 pointer-events-none flex items-center justify-start pl-2.5">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#F4F1EA] via-[#F4F1EA] to-transparent -z-10 rounded-l-[7px] from-40%"></div>
+        <div className="absolute left-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1">
           <button
             onClick={() => scroll('left')}
-            className="pointer-events-auto text-[#322822] hover:opacity-70 transition-opacity"
+            className="pointer-events-auto p-1.5 rounded-full text-[#322822] bg-transparent hover:bg-transparent transition-colors"
             aria-label="Scroll left"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="m15 18-6-6 6-6"/>
             </svg>
           </button>
@@ -75,37 +79,54 @@ const AmenityTabNav: React.FC<AmenityTabNavProps> = ({ activeTab, setActiveTab, 
       <div
         ref={scrollContainerRef}
         onScroll={checkScroll}
-        className="flex overflow-x-auto gap-1 w-full relative z-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
+        className="relative flex items-center p-1 rounded-[2px] overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
       >
-        {amenitiesData.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              data-id={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 px-4 py-1.5 text-[13.5px] font-bold tracking-wide rounded-[5px] transition-all duration-200 outline-none flex items-center justify-center
-                ${isActive
-                  ? 'bg-[#322822] text-[#ffffff]'
-                  : 'bg-transparent text-[#322822] hover:bg-black/5'
+        <div className="flex min-w-max flex-nowrap gap-1.5 px-0.5">
+          {amenitiesData.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                ref={(el) => {
+                  if (el) buttonRefs.current.set(tab.id, el);
+                  else buttonRefs.current.delete(tab.id);
+                }}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative flex-none py-1.5 px-3 sm:px-3.5 md:px-4 transition-all duration-200 z-10 outline-none flex items-center justify-center rounded-[4px] border ${
+                  isActive
+                    ? 'border-transparent bg-transparent'
+                    : 'border-transparent bg-[#F4EFE6] hover:bg-[#E5DFD4] shadow-none'
                 }`}
-            >
-              {tab.tabLabel}
-            </button>
-          );
-        })}
+                style={{ color: isActive ? '#FFFFFF' : '#322822' }}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="amenity-active-pill"
+                    className="absolute inset-0 rounded-[3px] -z-10"
+                    style={{
+                      background: 'linear-gradient(135deg, #F85B01, #C94A00)'
+                    }}
+                    transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+                  />
+                )}
+                <span className="relative z-20 text-[11px] tracking-widest font-bold whitespace-nowrap">
+                  {tab.tabLabel}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* RIGHT ARROW & FADE */}
+      {/* RIGHT ARROW */}
       {canScrollRight && (
-        <div className="absolute right-0 top-0 bottom-0 w-12 z-20 pointer-events-none flex items-center justify-end pr-2.5">
-          <div className="absolute inset-0 bg-gradient-to-l from-[#F4F1EA] via-[#F4F1EA] to-transparent -z-10 rounded-r-[7px] from-40%"></div>
+        <div className="absolute right-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-r-[7px] flex items-center justify-end pr-1">
           <button
             onClick={() => scroll('right')}
-            className="pointer-events-auto text-[#322822] hover:opacity-70 transition-opacity"
+            className="pointer-events-auto p-1.5 rounded-full text-[#322822] bg-transparent hover:bg-transparent transition-colors"
             aria-label="Scroll right"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="m9 18 6-6-6-6"/>
             </svg>
           </button>

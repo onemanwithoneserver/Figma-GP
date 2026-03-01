@@ -45,26 +45,20 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
     return () => window.removeEventListener('resize', checkScroll);
   }, []);
 
-  // Keep active tab visible without forcing aggressive re-centering
+  // Keep active tab near the middle when possible
   useEffect(() => {
     const activeBtn = buttonRefs.current.get(activeTab);
     const container = scrollContainerRef.current;
 
     if (activeBtn && container) {
-      const containerRect = container.getBoundingClientRect();
-      const buttonRect = activeBtn.getBoundingClientRect();
+      const targetLeft = activeBtn.offsetLeft - (container.clientWidth - activeBtn.offsetWidth) / 2;
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      const clampedLeft = Math.max(0, Math.min(targetLeft, maxScrollLeft));
 
-      if (buttonRect.left < containerRect.left) {
-        container.scrollBy({
-          left: buttonRect.left - containerRect.left - 12,
-          behavior: 'smooth',
-        });
-      } else if (buttonRect.right > containerRect.right) {
-        container.scrollBy({
-          left: buttonRect.right - containerRect.right + 12,
-          behavior: 'smooth',
-        });
-      }
+      container.scrollTo({
+        left: clampedLeft,
+        behavior: 'smooth',
+      });
     }
   }, [activeTab]);
 

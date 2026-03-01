@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import { TabInfo } from './commuteData';
 
 interface TabNavigationProps {
@@ -9,6 +10,7 @@ interface TabNavigationProps {
 
 export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNavigationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
@@ -28,17 +30,20 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
     return () => window.removeEventListener('resize', checkScroll);
   }, [tabs]);
 
-  // Scroll active tab into view
+  // Keep active tab near the middle when possible
   useEffect(() => {
-    if (containerRef.current) {
-      const activeElement = containerRef.current.querySelector('[data-active="true"]');
-      if (activeElement) {
-        activeElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-          inline: 'center' 
-        });
-      }
+    const activeBtn = buttonRefs.current.get(activeTab);
+    const container = containerRef.current;
+
+    if (activeBtn && container) {
+      const targetLeft = activeBtn.offsetLeft - (container.clientWidth - activeBtn.offsetWidth) / 2;
+      const maxScrollLeft = container.scrollWidth - container.clientWidth;
+      const clampedLeft = Math.max(0, Math.min(targetLeft, maxScrollLeft));
+
+      container.scrollTo({
+        left: clampedLeft,
+        behavior: 'smooth',
+      });
     }
   }, [activeTab]);
 
@@ -54,14 +59,14 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
   };
 
   return (
-    <div className="w-auto mb-4 mx-2 relative group">
+    <div className="w-full px-2 mb-4 relative group">
       
-      {/* Left Arrow & Fade */}
+      {/* Left Arrow */}
       {canScrollLeft && (
-        <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-[#EBE9E2] via-[#EBE9E2] to-transparent pointer-events-none rounded-l-[7px] z-30 flex items-center justify-start pl-1">
+        <div className="absolute left-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1">
           <button 
             onClick={() => scroll('left')}
-            className="pointer-events-auto p-1 rounded-full text-[#152B3C] hover:bg-black/10 transition-colors"
+            className="pointer-events-auto p-1.5 rounded-full text-[#322822] bg-transparent hover:bg-transparent transition-colors"
             aria-label="Scroll left"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -75,34 +80,50 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
       <div 
         ref={containerRef}
         onScroll={checkScroll}
-        className="flex overflow-x-auto gap-2 px-1.5 py-1.5 bg-[#EBE9E2] rounded-[7px] items-center relative z-20 [&::-webkit-scrollbar]:hidden" 
+        className="relative flex items-center p-1 rounded-[2px] overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth" 
         style={{ scrollbarWidth: 'none' }}
       >
-        {tabs.map((tab) => {
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              data-active={isActive}
-              onClick={() => onTabClick(tab.id)}
-              className={`flex-shrink-0 px-4 py-2 rounded-[5px] text-[13px] font-bold tracking-wide transition-all duration-200 outline-none flex items-center justify-center
-                ${isActive 
-                  ? 'bg-[#332822] text-[#ffffff]' 
-                  : 'bg-transparent text-[#152B3C] hover:bg-black/5'
+        <div className="flex min-w-max flex-nowrap gap-1.5 px-0.5">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                ref={(el) => {
+                  if (el) buttonRefs.current.set(tab.id, el);
+                  else buttonRefs.current.delete(tab.id);
+                }}
+                onClick={() => onTabClick(tab.id)}
+                className={`relative flex-none py-1.5 px-3 sm:px-3.5 md:px-4 transition-all duration-200 z-10 outline-none flex items-center justify-center rounded-[4px] border ${
+                  isActive
+                    ? 'border-transparent bg-transparent'
+                    : 'border-transparent bg-[#F4EFE6] hover:bg-[#E5DFD4] shadow-none'
                 }`}
-            >
-              {tab.label}
-            </button>
-          );
-        })}
+                style={{ color: isActive ? '#FFFFFF' : '#322822' }}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="commute-active-pill"
+                    className="absolute inset-0 rounded-[3px] -z-10"
+                    style={{ background: 'linear-gradient(135deg, #F85B01, #C94A00)' }}
+                    transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
+                  />
+                )}
+                <span className="relative z-20 text-[11px] tracking-widest font-bold whitespace-nowrap">
+                  {tab.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Right Arrow & Fade */}
+      {/* Right Arrow */}
       {canScrollRight && (
-        <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-[#EBE9E2] via-[#EBE9E2] to-transparent pointer-events-none rounded-r-[7px] z-30 flex items-center justify-end pr-1">
+        <div className="absolute right-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-r-[7px] flex items-center justify-end pr-1">
           <button 
             onClick={() => scroll('right')}
-            className="pointer-events-auto p-1 rounded-full text-[#152B3C] hover:bg-black/10 transition-colors"
+            className="pointer-events-auto p-1.5 rounded-full text-[#322822] bg-transparent hover:bg-transparent transition-colors"
             aria-label="Scroll right"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

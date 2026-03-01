@@ -53,6 +53,16 @@ function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleLayoutTowerSelect = (towerId: string) => {
+    setLayoutTab(towerId);
+    requestAnimationFrame(() => {
+      document.getElementById('layout-towers')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+  };
+
   return (
     <div className="min-h-screen bg-[#ffffff]">
       {/* relative added to main container */}
@@ -90,7 +100,7 @@ function App() {
             <div className="px-4 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
               <div className="mt-1 transition-all duration-300 ease-in-out">
-                {layoutTab === 'layout' && <Layout />}
+                {layoutTab === 'layout' && <Layout onTowerSelect={handleLayoutTowerSelect} />}
                 {layoutTab === 'shlok' && <TowerA />}
                 {layoutTab === 'ayush' && <TowerB />}
                 {layoutTab === 'ananta' && <TowerC />}
