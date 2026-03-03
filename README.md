@@ -1,5 +1,3 @@
-# Testing
-
 ## Deploy to GitHub Pages
 
 This project is configured for GitHub Pages with repository name `Figma-GP`.
@@ -16,4 +14,4 @@ This project is configured for GitHub Pages with repository name `Figma-GP`.
 
 Your site URL will be:
 
-- `https://<your-github-username>.github.io/Figma-GP/`
+- `https://onemanwithoneserver.github.io/`
