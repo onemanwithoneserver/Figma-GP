@@ -163,7 +163,7 @@ function App() {
 
         {/* 10. Exit Summary */}
         <div id="exit-summary" className="bg-white">
-          <div className="px-4 pb-2">
+          <div className="">
             <ExitSummarySection />
           </div>
         </div>
