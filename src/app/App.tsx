@@ -20,7 +20,8 @@ import AmenitiesSection from './components/sections/property/AmenitiesSection/Am
 import SpecificationsSection from './components/sections/property/SpecificationsSection/SpecificationsSection';
 import PaymentPlan from './components/sections/property/PaymentPlansSection/PaymentPlan';
 import ProjectFilesSection from './components/sections/property/ProjectFilesSection';
-import ExitSummarySection from './components/sections/property/ExitSummarySection';
+import ProjectSummary from './components/sections/property/ExitSummarySection/ProjectSummary';
+import Question from './components/sections/property/ExitSummarySection/Question';
 import PropertyMeetNav from './components/sections/property/ProjectMeetSection/PropertyMeetNav';
 import ContentSection from './components/sections/property/ContentSection';
 import FooterNav from './components/sections/property/FooterNav';
@@ -161,12 +162,11 @@ function App() {
           <ProjectFilesSection />
         </div>
 
-        {/* 10. Exit Summary */}
-        <div id="exit-summary" className="bg-white">
-          <div className="">
-            <ExitSummarySection />
-          </div>
-        </div>
+        {/* 10. Project Summary & Questions */}
+        <section id="exit-summary" className="bg-white">
+          <ProjectSummary />
+          <Question />
+        </section>
 
         {/* 11. Project Meet */}
         <div id="project-meet" className="bg-white">
