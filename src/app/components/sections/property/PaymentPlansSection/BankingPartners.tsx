@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 
 const BANKS = [
   {
@@ -25,60 +25,44 @@ const BANKS = [
 
 export default function BankingPartners() {
   return (
-    <div className="w-full bg-white font-['Outfit',_sans-serif] p-4">
-
-      {/* ── Header ── */}
-      <div className="flex justify-between items-center mb-4">
+    <div className="w-full bg-white font-['Outfit',_sans-serif] p-2">
+      <div className="flex justify-between items-center mb-1.5">
         <div>
-          <h3 className="text-[18px] font-extrabold text-[#0F172A] tracking-tight">Loan Assistance</h3>
-          <p className="text-[12.5px] font-medium text-gray-500 mt-0.5">Compare home loan rates</p>
+          <h3 className="text-[16px] font-bold text-[#322822]">Loan Assistance</h3>
+          <p className="text-[11px] font-medium text-[#6B5E57] mt-0.5">Compare home loan rates</p>
         </div>
-
       </div>
 
-      {/* ── Bank Cards ── */}
-      <div className="flex flex-col gap-2.5 mb-5">
+      <div className="flex flex-col gap-1 mb-2">
         {BANKS.map((bank) => (
-          <div
-            key={bank.name}
-            className="flex items-center justify-between p-3.5 rounded-[7px] border border-orange-200 bg-orange-50/50 shadow-[0_2px_10px_rgba(249,115,22,0.10)] transition-colors"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-[7px] flex items-center justify-center bg-white border border-[#E8E5DF] shadow-sm overflow-hidden shrink-0 p-1.5">
-                <img
-                  src={bank.logoUrl}
-                  alt={bank.name + ' logo'}
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                />
+          <div key={bank.name} className="flex items-center justify-between p-2 rounded-[5px] bg-white border border-[#E5DFD4] transition-colors">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-[5px] flex items-center justify-center bg-white overflow-hidden shrink-0 p-1">
+                <img src={bank.logoUrl} alt={bank.name + ' logo'} className="w-full h-full object-contain" loading="lazy" />
               </div>
               <div>
-                <div className="flex items-center gap-1.5">
-                  <p className="text-[14px] font-bold text-[#0F172A]">{bank.name}</p>
+                <div className="flex items-center gap-1">
+                  <p className="text-[12px] font-semibold text-[#322822]">{bank.name}</p>
                 </div>
-                <p className="text-[12px] text-gray-500 font-medium">
-                  ROI from{' '}
-                  <span className="font-extrabold text-[#0F172A]">{bank.rate}</span>
-                  <span className="text-gray-400"> p.a.*</span>
+                <p className="text-[10px] text-[#6B5E57] font-medium">
+                  ROI from <span className="font-semibold text-[#322822]">{bank.rate}</span>
+                  <span className="text-[#6B5E57]"> p.a.</span>
                 </p>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-[10px] text-gray-400 font-bold tracking-wide">Processing</p>
-              <p className="text-[13px] font-extrabold text-[#0F172A]">{bank.processing}</p>
+              <p className="text-[10px] text-[#6B5E57] font-medium">Processing</p>
+              <p className="text-[11px] font-semibold text-[#322822]">{bank.processing}</p>
             </div>
           </div>
         ))}
       </div>
 
-      <p className="text-[11px] text-gray-400 font-medium mb-4">
-        *Rates are indicative and subject to individual eligibility & bank T&Cs.
-      </p>
+      <p className="text-[10px] text-[#6B5E57] font-medium mb-2">*Rates are indicative and subject to individual eligibility and bank terms.</p>
 
       <button
         aria-label="Check your home loan eligibility"
-        className="w-full py-3.5 rounded-[7px] text-[14.5px] font-extrabold text-white transition-colors shadow-lg active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:outline-none"
-        style={{ background: 'linear-gradient(90deg, #F97316 0%, #ea6c0e 100%)' }}
+        className="w-full py-1.5 rounded-[5px] text-[11px] font-semibold text-white transition-colors focus-visible:ring-2 focus-visible:ring-[#E76F26]/20 focus-visible:outline-none bg-[#E76F26]"
       >
         Check My Eligibility
       </button>
