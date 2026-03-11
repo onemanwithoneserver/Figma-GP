@@ -52,8 +52,24 @@ export default function SellerQueries() {
   };
 
   return (
-    <div className="py-2 px-3 space-y-4 font-['Outfit',_sans-serif] bg-white">
-      <h3 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h3>
+    <div className="py-2 px-3 space-y-3 font-['Outfit',_sans-serif] bg-white">
+      <div className="flex items-center justify-between gap-1">
+        <h3 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h3>
+        {!isAdding && (
+          <button
+            type="button"
+            onClick={() => setIsAdding(true)}
+            className="inline-flex items-center gap-1.5 rounded-[5px] border border-[#E76F26]/30 bg-white px-2 py-1 shadow-sm transition-all hover:border-[#E76F26] hover:shadow-[0_2px_8px_rgba(231,111,38,0.14)] active:scale-[0.98]"
+          >
+            <span className="flex h-4.5 w-4.5 items-center justify-center rounded-[4px] bg-[#E76F26] text-white">
+              <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeWidth={2.5} d="M12 4v16m8-8H4" />
+              </svg>
+            </span>
+            <span className="text-[11px] font-bold leading-none text-[#C65D20]">Custom Question</span>
+          </button>
+        )}
+      </div>
       {/* QUESTIONS */}
       <div className="flex flex-col gap-3">
         {questions.map((q) => {
@@ -88,29 +104,11 @@ export default function SellerQueries() {
         })}
       </div>
 
-      <div className="space-y-3">
-        {/* LOAD MORE */}
-        {allQuestions.length > 2 && (
-          <button
-            onClick={() => setShowMore(!showMore)}
-            className="flex items-center gap-2.5 w-full group focus:outline-none"
-          >
-            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
-              <svg className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeWidth={2.5} d="M5 15l7-7 7 7" />
-              </svg>
-            </div>
-            <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2">
-              {showMore ? "Show fewer questions" : "Load more questions"}
-            </span>
-          </button>
-        )}
-
-        {/* CUSTOM QUESTION INPUT LOGIC */}
-        {isAdding ? (
-          <form onSubmit={handleAddCustom} className="flex items-center gap-2.5 w-full animate-in fade-in duration-200">
+      <div className="space-y-2.5">
+        {isAdding && (
+          <form onSubmit={handleAddCustom} className="flex items-center gap-2 w-full  px-2.5 py-2 animate-in fade-in duration-200">
             <div className="w-4 h-4 rounded-[4px] flex items-center justify-center border border-[#322822] bg-[#322822]">
-               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+               <div className="w-1.5 h-1.5 rounded-[5px] bg-white animate-pulse" />
             </div>
             <input
               ref={inputRef}
@@ -122,21 +120,25 @@ export default function SellerQueries() {
               className="text-[12px] font-bold text-[#322822] outline-none border-b border-[#E76F26] w-full pb-0.5 bg-transparent placeholder:text-[#8C827A]/50"
             />
           </form>
-        ) : (
-          <button 
-            onClick={() => setIsAdding(true)}
-            className="flex items-center gap-2.5 w-full group focus:outline-none"
+        )}
+
+        {/* LOAD MORE */}
+        {allQuestions.length > 2 && (
+          <button
+            onClick={() => setShowMore(!showMore)}
+            className="flex items-center gap-2 w-full group focus:outline-none"
           >
-            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center border border-dashed border-[#8C827A] group-hover:border-[#E76F26] group-hover:bg-[#E76F26]/10 transition-all">
-              <svg className="w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeWidth={2.5} d="M12 4v16m8-8H4" />
+            <div className="w-4 h-4 rounded-[4px] flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
+              <svg className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeWidth={2.5} d="M5 15l7-7 7 7" />
               </svg>
             </div>
-            <span className="text-[12px] font-bold text-[#554E48] group-hover:text-[#E76F26] transition-colors">
-              Custom question
+            <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2">
+              {showMore ? "Show fewer" : "Load more"}
             </span>
           </button>
         )}
+
       </div>
 
       {/* PRIMARY ACTION BUTTON */}

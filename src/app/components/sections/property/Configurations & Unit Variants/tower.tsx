@@ -22,6 +22,9 @@ const towerNameMap: Record<string, string> = {
 
 export default function Tower({ onClose, unitData = defaultUnitData }: TowerProps) {
   const [isSaved, setIsSaved] = useState(true);
+  const [selectedSuitability, setSelectedSuitability] = useState<string | null>(null);
+  const [notForMeFeedback, setNotForMeFeedback] = useState('');
+  const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
   
   // Carousel state
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -46,6 +49,12 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
   };
 
   const images = [displayData.imageUrl, displayData.imageUrl]; // using the same image twice for demo
+  const suitabilityOptions = [
+    { emoji: '😍', label: 'Love it' },
+    { emoji: '🙂', label: 'Like it' },
+    { emoji: '😐', label: "it's okay" },
+    { emoji: '😕', label: 'Not for me' }
+  ];
 
   // Sync scroll position with the active dot
   const handleScroll = () => {
@@ -74,28 +83,42 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
     }
   };
 
+  const handleSuitabilitySelect = (label: string) => {
+    setSelectedSuitability(label);
+    if (label !== 'Not for me') {
+      setNotForMeFeedback('');
+      setIsFeedbackSubmitted(false);
+    }
+  };
+
+  const handleFeedbackSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!notForMeFeedback.trim()) return;
+    setIsFeedbackSubmitted(true);
+  };
+
   return (
     <div className="w-full rounded-[7px] border border-[#E5DFD4] font-['Outfit',_sans-serif] text-[#322822] overflow-hidden flex flex-col shadow-sm">
       
       {/* Header - Stats bar */}
-      <div className="flex items-center justify-between px-4 py-3 bg-[#322822] border-b border-[#E5DFD4]">
-        <div className="flex items-center gap-2.5 text-sm font-medium">
-          <span className="text-white/70 text-[11px] font-semibold">Bua</span>
-          <strong className="text-[15px] text-white font-semibold">{displayData.bua}</strong>
-          <span className="text-white/70 text-[11px]">sq.ft</span>
-          <div className="w-px h-3.5 bg-white/20"></div>
-          <span className="text-white text-[12px] font-semibold">{displayData.facing}</span>
-          <div className="w-px h-3.5 bg-white/20"></div>
-          <span className={`font-semibold text-[11px] ${getAvailabilityStyles(displayData.availability)}`}>
+      <div className="flex items-center justify-between px-3 py-2 bg-[#322822] border-b border-[#E5DFD4]">
+        <div className="flex items-center gap-2 text-sm font-normal">
+          <span className="text-white/70 text-[10px] font-normal">Bua</span>
+          <strong className="text-[12px] text-white font-semibold">{displayData.bua}</strong>
+          <span className="text-white/70 text-[10px]">sq.ft</span>
+          <div className="w-px h-2.5 bg-white/20"></div>
+          <span className="text-white text-[11px] font-normal">{displayData.facing}</span>
+          <div className="w-px h-2.5 bg-white/20"></div>
+          <span className={`font-normal text-[10px] ${getAvailabilityStyles(displayData.availability)}`}>
             {displayData.availability}
           </span>
         </div>
         <button 
           onClick={onClose} 
-          className="p-1.5 rounded-[7px] flex items-center justify-center transition-all bg-white/10 border border-white/15 hover:bg-white/20"
+          className="p-1 rounded-[6px] flex items-center justify-center transition-all bg-white/10 border border-white/15 hover:bg-white/20"
           title="Close view"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -115,7 +138,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
               key={idx}
               src={imgSrc} 
               alt={`Layout marking ${idx + 1}`} 
-              className="w-[96%] h-[220px] md:h-[280px] mx-auto flex-shrink-0 object-contain object-top bg-white px-0.5 pb-0.5 pt-0 snap-center"
+              className="w-[97%] h-[180px] md:h-[220px] mx-auto flex-shrink-0 object-contain object-top bg-white px-[1px] pb-[1px] pt-0 snap-center"
               loading="eager"
               draggable={false}
             />
@@ -123,7 +146,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </div>
 
         {/* Repositioned Indicator Dots - Overlay on Image */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1 z-10">
           {images.map((_, idx) => (
             <button
               key={idx}
@@ -131,8 +154,8 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
               aria-label={`View image ${idx + 1}`}
               className={`transition-all duration-300 rounded-full shadow-sm ${
                 activeImageIndex === idx 
-                  ? 'w-4 h-1.5 bg-[#E76F26]' 
-                  : 'w-1.5 h-1.5 bg-[#E5DFD4] hover:bg-[#E76F26]/50'
+                  ? 'w-3 h-1 bg-[#E76F26]' 
+                  : 'w-1 h-1 bg-[#E5DFD4] hover:bg-[#E76F26]/50'
               }`}
             />
           ))}
@@ -140,43 +163,94 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       </div>
 
       {/* Title Bar - Displays Actual Name and Unit No. */}
-      <div className="px-5 py-3.5 bg-[#FDFBF8] border-b border-[#E5DFD4]">
-        <h3 className="text-[17px] text-[#322822] font-bold tracking-wide">
-          {displayData.towerName} <span className="text-[#E5DFD4] font-bold mx-1.5">|</span> Unit No. {displayData.unitNo}
+      <div className="px-3 py-2 bg-[#FDFBF8] border-b border-[#E5DFD4]">
+        <h3 className="text-[14px] text-[#322822] font-semibold tracking-wide">
+          {displayData.towerName} <span className="text-[#E5DFD4] font-semibold mx-1">|</span> Unit No. {displayData.unitNo}
         </h3>
       </div>
 
       {/* Specs List with Estimated Cost */}
-      <div className="px-5 py-2 bg-white">
+      <div className="px-3 py-[2px] bg-white">
         {displayData.specs.map((spec, index) => (
-          <div key={index} className={`flex justify-between items-center py-2.5 border-b border-[#E5DFD4] text-[14px] transition-colors hover:bg-[#F4EFE6]/30 -mx-5 px-5 hover:rounded-[5px] ${index % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
-            <span className="text-[#554E48] font-semibold">{spec.name}</span>
-            <span className="font-bold text-[#322822]">{spec.dimensions}</span>
+          <div key={index} className={`flex justify-between items-center py-[2px] border-b border-[#E5DFD4] text-[12px] transition-colors hover:bg-[#F4EFE6]/30 -mx-3 px-3 hover:rounded-[3px] ${index % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
+            <span className="text-[#554E48] font-normal">{spec.name}</span>
+            <span className="font-semibold text-[#322822]">{spec.dimensions}</span>
           </div>
         ))}
         
         {/* Cost Row */}
-        <div className={`flex justify-between items-center py-3 border-b border-[#E5DFD4] last:border-0 text-[14px] transition-colors hover:bg-[#F4EFE6]/30 -mx-5 px-5 hover:rounded-[5px] ${displayData.specs.length % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
-          <span className="text-[#554E48] font-bold">Estimated cost</span>
-          <span className="font-extrabold text-[#E76F26] text-[18px] leading-none">
+        <div className={`flex justify-between items-center py-[2px] border-b border-[#E5DFD4] last:border-0 text-[12px] transition-colors hover:bg-[#F4EFE6]/30 -mx-3 px-3 hover:rounded-[3px] ${displayData.specs.length % 2 === 0 ? '' : 'bg-[#F9F7F2]/40'}`}>
+          <span className="text-[#554E48] font-semibold">Estimated cost</span>
+          <span className="font-bold text-[#E76F26] text-[16px] leading-none">
             {displayData.price
               .replace(/\s*Crore\s*/i, 'Cr')
               .replace(/\s*Lakh\s*/i, 'L')
               .replace(/\s+/g, '')}
           </span>
         </div>
+
+        <div className="pt-[2px] pb-[2px]">
+          <p className="text-[13px] font-normal text-[#322822] mb-[2px]">Does this floor plan suit your needs?</p>
+          <div className="flex flex-wrap gap-[2px]">
+            {suitabilityOptions.map((option) => {
+              const isActive = selectedSuitability === option.label;
+              return (
+                <button
+                  key={option.label}
+                  type="button"
+                  onClick={() => handleSuitabilitySelect(option.label)}
+                  className={`h-[22px] px-[6px] rounded-[2px] border text-[11px] font-normal inline-flex items-center gap-[2px] transition-colors ${
+                    isActive
+                      ? 'bg-[#E76F26] text-white border-[#E76F26]'
+                      : 'bg-[#F9F7F2] text-[#554E48] border-[#E5DFD4] hover:bg-[#F4EFE6]'
+                  }`}
+                >
+                  <span aria-hidden="true">{option.emoji}</span>
+                  <span>{option.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {selectedSuitability === 'Not for me' && (
+            <form onSubmit={handleFeedbackSubmit} className="mt-[2px] flex flex-col gap-[2px]">
+              <textarea
+                value={notForMeFeedback}
+                onChange={(event) => {
+                  setNotForMeFeedback(event.target.value);
+                  if (isFeedbackSubmitted) setIsFeedbackSubmitted(false);
+                }}
+                rows={3}
+                placeholder="Tell us what could be better"
+                className="w-full resize-none rounded-[2px] border border-[#E5DFD4] bg-white px-[4px] py-[2px] text-[11px] font-normal text-[#322822] outline-none focus:border-[#E76F26]"
+              />
+              <div className="flex items-center justify-between gap-[2px]">
+                <span className="text-[10px] text-[#7A6F67]">
+                  {isFeedbackSubmitted ? 'Thanks for your feedback.' : 'Share feedback and submit'}
+                </span>
+                <button
+                  type="submit"
+                  className="h-[22px] px-[8px] rounded-[2px] border border-[#E76F26] bg-[#E76F26] text-white text-[11px] font-normal disabled:opacity-50"
+                  disabled={!notForMeFeedback.trim()}
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
 
       {/* Sticky Action Footer */}
-      <div className="w-full bg-white px-3 py-2 shrink-0">
-        <div className="flex items-center gap-2">
+      <div className="w-full bg-white px-[2px] py-[2px] shrink-0">
+        <div className="flex items-center gap-[2px]">
 
           {/* SAVE BUTTON */}
           <button
             title={isSaved ? "Saved" : "Save plan"}
             onClick={() => setIsSaved(!isSaved)}
-            className={`w-[44px] h-[40px] flex items-center justify-center 
-            rounded-[7px] border shadow-sm
+            className={`w-[34px] h-[28px] flex items-center justify-center 
+            rounded-[4px] border shadow-sm
             transition-all duration-200 active:scale-95
             ${
               isSaved
@@ -185,8 +259,8 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             }`}
           >
             <svg
-              width="18"
-              height="18"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill={isSaved ? "currentColor" : "none"}
               stroke="currentColor"
@@ -202,16 +276,16 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
           {/* GO BACK */}
           <button
             onClick={onClose}
-            className="flex-1 h-[40px] flex items-center justify-center gap-1.5
+            className="flex-1 h-[28px] flex items-center justify-center gap-[2px]
             bg-white border border-[#E5DFD4]
-            text-[#322822] font-semibold text-[13px]
-            rounded-[7px] shadow-sm
+            text-[#322822] font-normal text-[11px]
+            rounded-[4px] shadow-sm
             hover:bg-[#F9F7F2]
             transition-all duration-200"
           >
             <svg
-              width="16"
-              height="16"
+              width="12"
+              height="12"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"

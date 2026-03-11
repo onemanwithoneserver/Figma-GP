@@ -85,10 +85,26 @@ const TowerEngagementPanel = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto font-['Outfit',_sans-serif] bg-white rounded-[7px] overflow-hidden pb-2">
+    <div className="max-w-md mx-auto font-['Outfit',_sans-serif] bg-white rounded-[5px] overflow-hidden pb-2">
       {/* ── Section 2: Questions List ── */}
-      <div className="px-4 py-3 space-y-3">
-        <h4 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h4>
+      <div className="px-4 py-2.5 space-y-2.5">
+        <div className="flex items-center justify-between gap-1">
+          <h4 className="text-[14px] font-bold text-[#322822] leading-tight">Ask Seller</h4>
+          {!isAdding && (
+            <button
+              type="button"
+              onClick={() => setIsAdding(true)}
+              className="inline-flex items-center gap-1.5 rounded-[5px] border border-[#E76F26]/30 bg-white px-2 py-1 shadow-sm transition-all hover:border-[#E76F26] hover:shadow-[0_2px_8px_rgba(231,111,38,0.14)] active:scale-[0.98]"
+            >
+              <span className="flex h-4.5 w-4.5 items-center justify-center rounded-[4px] bg-[#E76F26] text-white">
+                <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                </svg>
+              </span>
+              <span className="text-[11px] font-bold leading-none text-[#C65D20]">Custom Question</span>
+            </button>
+          )}
+        </div>
         {visibleQuestions.map((q) => {
           const checked = selected.includes(q);
           return (
@@ -122,32 +138,11 @@ const TowerEngagementPanel = () => {
       </div>
 
       {/* ── Section 3: Controls ── */}
-      <div className="px-4 pb-3 space-y-3">
-        {questions.length > 2 && (
-          <button
-            onClick={() => setShowMore(!showMore)}
-            className="flex items-center gap-2.5 w-full group focus:outline-none"
-          >
-            <div className="w-4 h-4 rounded-[4px] flex-shrink-0 flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
-              <svg
-                className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
-              </svg>
-            </div>
-            <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2 leading-tight">
-              {showMore ? "Show fewer questions" : "Load more questions"}
-            </span>
-          </button>
-        )}
-
-        {isAdding ? (
-          <form onSubmit={handleAddCustom} className="flex items-center gap-2.5 w-full animate-in fade-in duration-200">
+      <div className="px-4 pb-2.5 space-y-2.5">
+        {isAdding && (
+          <form onSubmit={handleAddCustom} className="flex items-center gap-2 w-full  px-2.5 py-2 animate-in fade-in duration-200">
             <div className="w-4 h-4 rounded-[4px] flex-shrink-0 flex items-center justify-center border border-[#322822] bg-[#322822]">
-              <div className="w-1.5 h-1.5 rounded-full bg-white" />
+              <div className="w-1.5 h-1.5 rounded-[5px] bg-white" />
             </div>
             <input
               ref={inputRef}
@@ -160,23 +155,29 @@ const TowerEngagementPanel = () => {
               placeholder="Type your question..."
             />
           </form>
-        ) : (
-          <button onClick={() => setIsAdding(true)} className="flex items-center gap-2.5 w-full group focus:outline-none">
-            <div className="w-4 h-4 rounded-[4px] flex-shrink-0 flex items-center justify-center border border-dashed border-[#8C827A] group-hover:border-[#E76F26] group-hover:bg-[#E76F26]/10 transition-all">
+        )}
+
+        {questions.length > 2 && (
+          <button
+            onClick={() => setShowMore(!showMore)}
+            className="flex items-center gap-2 w-full group focus:outline-none"
+          >
+            <div className="w-4 h-4 rounded-[4px] flex-shrink-0 flex items-center justify-center bg-[#F9F7F2] border border-[#E5DFD4] group-hover:border-[#E76F26] transition-colors">
               <svg
-                className="w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26]"
+                className={`w-2.5 h-2.5 text-[#8C827A] group-hover:text-[#E76F26] transition-transform ${showMore ? "" : "rotate-180"}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
               </svg>
             </div>
-            <span className="text-[12px] font-bold text-[#554E48] group-hover:text-[#E76F26] transition-colors">
-              Custom question
+            <span className="text-[12px] font-bold text-[#E76F26] underline decoration-1 underline-offset-2 leading-tight">
+              {showMore ? "Show fewer" : "Load more"}
             </span>
           </button>
         )}
+
       </div>
     </div>
   );
