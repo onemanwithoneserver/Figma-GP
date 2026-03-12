@@ -70,12 +70,12 @@ const EyeIcon = ({ className = "" }: { className?: string }) => (
 
 const ProjectFilesSection: React.FC = () => {
   return (
-    <div className="w-full rounded-[7px] border border-gray-100 bg-gradient-to-br from-white via-gray-50/50 to-white px-3 py-2 shadow-xl shadow-black/5">
+    <div className="w-full rounded-[6px] bg-[#FFF4EC] border  px-3 py-2">
       <div className="flex items-center justify-between px-1 pb-3 pt-1">
-        <h2 className="text-[18px] font-bold text-[#1F2933] drop-shadow-sm">Project Files</h2>
+        <h2 className="text-[18px] px-2 font-bold text-[#1F2933] drop-shadow-sm">Project Files</h2>
         <button
           type="button"
-          className="group flex items-center gap-1 rounded-[7px] border border-orange-100 bg-gradient-to-br from-orange-50 to-orange-100/50 px-2.5 py-1.5 text-[11px] font-bold text-[#F85B01] shadow-sm transition-all duration-200 hover:border-[#F85B01] hover:from-[#F85B01] hover:to-[#E05000] hover:text-white hover:shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] focus-visible:ring-offset-2"
+          className="group flex items-center gap-1 rounded-[7px] border border-orange-600 bg-gradient-to-br from-orange-50 to-orange-100/50 px-2.5 py-1.5 text-[11px] font-bold text-[#F85B01] shadow-sm transition-all duration-200 hover:border-[#F85B01] hover:from-[#F85B01] hover:to-[#E05000] hover:text-white hover:shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] focus-visible:ring-offset-2"
           title="View"
         >
           <EyeIcon className="transition-transform duration-200 group-hover:scale-110" />

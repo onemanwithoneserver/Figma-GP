@@ -104,7 +104,7 @@ const Question = () => {
         <button
           type="button"
           onClick={handleFinalSubmit}
-          className="flex-1 rounded-[8px] bg-[#E06D28] px-3 py-2 text-[15px] font-extrabold text-white shadow-sm transition-all hover:bg-[#C85D20] active:scale-[0.98]"
+          className="flex-1 rounded-[6px] bg-[#E06D28] px-2.5 py-1.5 text-[12px] font-extrabold text-white shadow-sm transition-all hover:bg-[#C85D20] active:scale-[0.98]"
         >
           Contact Seller
         </button>

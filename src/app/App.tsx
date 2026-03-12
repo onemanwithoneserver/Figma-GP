@@ -171,7 +171,7 @@ function App() {
         {/* 11. Project Meet */}
         <div id="project-meet" className="bg-white">
           <ContentSection title="Project Meet">
-            <div className="px-4 pb-2">
+            <div className="px-1">
               <PropertyMeetNav />
             </div>
           </ContentSection>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, Bookmark, Share2, Heart, MapPin, Star, ChevronDown, Check, X, Phone } from 'lucide-react';
 import HorizontalTabNavigation from './HorizontalTabNavigation'; // Ensure path is correct
+import ProjectSummary from './property/ExitSummarySection/ProjectSummary';
 
 const PropertyDetails: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'highlights'>('overview');
@@ -88,8 +89,8 @@ const PropertyDetails: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <button className="px-4 py-2 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white text-[13px] font-bold rounded-[7px] hover:shadow-lg hover:scale-105 transition-all flex items-center gap-1 shadow-md">
-                <Phone className="w-3 h-3" />
+              <button className="px-3 py-1.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white text-[10px] font-bold rounded-[5.5px] hover:shadow-lg hover:scale-105 transition-all flex items-center gap-1 shadow-md">
+                <Phone className="w-2.5 h-2.5" />
                 Contact
               </button>
             </div>
@@ -267,15 +268,7 @@ const PropertyDetails: React.FC = () => {
           ))}
         </div>
       </ContentSection>
-
-      {/* EXIT SUMMARY */}
-      <ContentSection id="exit-summary" title="Exit Summary">
-        <div className="h-40 bg-gradient-to-br from-gray-100 to-gray-200 rounded-[7px] border-2 border-dashed border-gray-300 flex items-center justify-center shadow-sm">
-          <span className="text-gray-400 text-sm">Summary Content</span>
-        </div>
-      </ContentSection>
-
-      {/* PROJECT MEET */}
+      <ProjectSummary />
       <ContentSection id="project-meet" title="Project Meet">
         <div className="space-y-3 mb-6">
           <div className="h-32 bg-gradient-to-br from-gray-100 to-gray-200 rounded-[7px] border-2 border-dashed border-gray-300 flex items-center justify-center shadow-sm">
