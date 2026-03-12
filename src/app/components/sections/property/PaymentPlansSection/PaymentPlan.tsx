@@ -7,8 +7,8 @@ import PaymentSchedule from './PaymentSchedule';
 import Sellers from './Sellers';
 
 const TABS = [
-  { id: 'cost', label: 'Cost' },
   { id: 'offers', label: 'Offers' },
+  { id: 'cost', label: 'Cost' },
   { id: 'sellers', label: 'Sellers' },
   { id: 'banking', label: 'Banking' },
   { id: 'schedule', label: 'Schedule' },
@@ -123,7 +123,11 @@ const PaymentPlan: React.FC = () => {
         )}
       </div>
 
-      <div id={`panel-${activeTab}`} role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300">
+      <div
+        id={`panel-${activeTab}`}
+        role="tabpanel"
+        className={`bg-white overflow-hidden transition-all duration-300${['cost', 'schedule'].includes(activeTab) ? ' min-h-[320px]' : ''}`}
+      >
         {renderContent()}
       </div>
     </div>

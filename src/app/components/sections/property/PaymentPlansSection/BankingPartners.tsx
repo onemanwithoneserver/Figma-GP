@@ -28,8 +28,7 @@ export default function BankingPartners() {
     <div className="w-full bg-white font-['Outfit',_sans-serif] p-2">
       <div className="flex justify-between items-center mb-1.5">
         <div>
-          <h3 className="text-[16px] font-bold text-[#322822]">Loan Assistance</h3>
-          <p className="text-[11px] font-medium text-[#6B5E57] mt-0.5">Compare home loan rates</p>
+          <p className="text-[14px] font-medium text-[#6B5E57] mt-0.5">Compare home loan rates</p>
         </div>
       </div>
 

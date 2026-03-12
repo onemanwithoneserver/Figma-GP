@@ -70,17 +70,17 @@ const EyeIcon = ({ className = "" }: { className?: string }) => (
 
 const ProjectFilesSection: React.FC = () => {
   return (
-    <div className="w-full rounded-[6px] bg-[#FFF4EC] border  px-3 py-2">
+    <div className="w-full rounded-[5px] bg-[#1A1816] border px-3 py-2">
       <div className="flex items-center justify-between px-1 pb-3 pt-1">
-        <h2 className="text-[18px] px-2 font-bold text-[#1F2933] drop-shadow-sm">Project Files</h2>
+        <h2 className="text-[18px] px-2 font-bold text-white drop-shadow-sm">Project Files</h2>
         <button
-          type="button"
-          className="group flex items-center gap-1 rounded-[7px] border border-orange-600 bg-gradient-to-br from-orange-50 to-orange-100/50 px-2.5 py-1.5 text-[11px] font-bold text-[#F85B01] shadow-sm transition-all duration-200 hover:border-[#F85B01] hover:from-[#F85B01] hover:to-[#E05000] hover:text-white hover:shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] focus-visible:ring-offset-2"
-          title="View"
-        >
-          <EyeIcon className="transition-transform duration-200 group-hover:scale-110" />
-          View All
-        </button>
+  type="button"
+  className="group flex items-center gap-1 rounded-[5px] border border-[#F85B01] bg-gradient-to-br from-[#F85B01] to-[#E05000] px-2.5 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all duration-200 hover:brightness-110 hover:shadow-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] focus-visible:ring-offset-2"
+  title="View"
+>
+  <EyeIcon className="transition-transform duration-200 group-hover:scale-110" />
+  View All
+</button>
       </div>
       <div className="overflow-x-auto scrollbar-hide">
         <div className="flex min-w-max items-start gap-1.5">
@@ -88,7 +88,7 @@ const ProjectFilesSection: React.FC = () => {
           <button
             key={file.id}
             type="button"
-            className="group flex w-[64px] shrink-0 flex-col items-center justify-start gap-1.5 rounded-[7px] px-1 py-1.5 text-[#322822] transition-all duration-200 hover:bg-white hover:text-[#F85B01] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
+            className="group flex w-[64px] shrink-0 flex-col items-center justify-start gap-1.5 rounded-[5px] px-1 py-1.5 text-[#322822] bg-white/90 transition-all duration-200 hover:bg-white hover:text-[#F85B01] hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
           >
             <PdfIcon className="h-11 w-11 transition-transform duration-200 group-hover:scale-105" />
             <span className="whitespace-nowrap text-center text-[11px] font-bold leading-tight text-[#322822] transition-colors duration-200 group-hover:text-[#F85B01]">

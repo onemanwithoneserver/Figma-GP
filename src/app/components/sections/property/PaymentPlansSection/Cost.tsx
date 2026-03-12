@@ -33,8 +33,7 @@ export default function Cost() {
   return (
     <div className="w-full bg-white font-['Outfit',_sans-serif]">
       <div className="px-2 pt-2 pb-1.5">
-        <h3 className="text-[16px] font-bold text-[#322822]">Cost Breakdown</h3>
-        <p className="text-[11px] font-medium text-[#6B5E57]">Transparent breakup of major charges</p>
+        <p className="text-[14px] font-medium text-[#6B5E57]">Transparent breakup of major charges</p>
       </div>
 
       <div className="px-2 pb-2 flex flex-col gap-1">

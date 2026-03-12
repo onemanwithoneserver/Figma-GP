@@ -52,8 +52,6 @@ export default function Sellers() {
   return (
     <div className="w-full bg-white font-['Outfit',_sans-serif] p-2">
       <div className="mb-1.5">
-        <h3 className="text-[16px] font-bold text-[#322822] mb-0.5">Authorized Sellers</h3>
-        <p className="text-[11px] font-medium text-[#6B5E57]">Verified channel partners</p>
       </div>
 
       <div className="flex flex-col gap-1.5 mb-2">

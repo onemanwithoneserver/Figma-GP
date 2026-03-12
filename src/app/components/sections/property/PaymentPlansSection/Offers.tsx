@@ -41,7 +41,7 @@ const Icons = {
   )
 };
 
-const OFFERS_DATA: OfferItem[] = [
+const OFFERS_DATA: (OfferItem & { color: string; bg: string })[] = [
   {
     id: '1',
     badge: 'Finance Scheme',
@@ -49,6 +49,8 @@ const OFFERS_DATA: OfferItem[] = [
     description: 'Pay 20% now and nothing until you get the keys. Partnered exclusively with SBI and HDFC bank.',
     validity: 'Valid till 31st Oct',
     iconSymbol: 'sparkles',
+    color: '#E76F26',
+    bg: '#FFF4EC',
   },
   {
     id: '2',
@@ -57,6 +59,8 @@ const OFFERS_DATA: OfferItem[] = [
     description: 'Premium modular kitchen setup with chimney and hob included for 3 BHK configurations.',
     validity: 'First 50 bookings only',
     iconSymbol: 'gift',
+    color: '#1E90FF',
+    bg: '#E6F2FF',
   },
   {
     id: '3',
@@ -65,6 +69,8 @@ const OFFERS_DATA: OfferItem[] = [
     description: 'Exclusive spot booking discount applied directly to your base price.',
     validity: 'Valid for today',
     iconSymbol: 'tag',
+    color: '#22A06B',
+    bg: '#E6FFF2',
   }
 ];
 
@@ -93,22 +99,35 @@ export default function Offers() {
   return (
     <div className="w-full bg-white font-['Outfit',_sans-serif]">
       <div className="px-2 pt-2 pb-1.5">
-        <h3 className="text-[16px] font-bold text-[#322822]">Current Offers</h3>
-        <p className="text-[11px] font-medium text-[#6B5E57]">Compact view of active schemes</p>
       </div>
 
       <div className="px-2 flex flex-col gap-1.5 pb-2">
         {OFFERS_DATA.map((offer) => (
-          <article key={offer.id} className="relative overflow-hidden rounded-[5px] bg-white border border-[#E5DFD4]">
-            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#E76F26]" aria-hidden="true" />
+          <article
+            key={offer.id}
+            className="relative overflow-hidden rounded-[5px] bg-white border"
+            style={{ borderColor: offer.color }}
+          >
+            <div
+              className="absolute left-0 top-0 bottom-0 w-[3px]"
+              aria-hidden="true"
+              style={{ background: offer.color }}
+            />
 
             <div className="relative pl-3 pr-2 py-2 flex items-start gap-2">
-              <div className="w-8 h-8 rounded-[5px] flex-shrink-0 flex items-center justify-center bg-[#FFF4EC]" aria-hidden="true">
+              <div
+                className="w-8 h-8 rounded-[5px] flex-shrink-0 flex items-center justify-center"
+                aria-hidden="true"
+                style={{ background: offer.bg }}
+              >
                 {renderIcon(offer.iconSymbol)}
               </div>
 
               <div className="flex-1 min-w-0">
-                <span className="inline-block text-[10px] font-medium px-1.5 py-0.5 rounded-[5px] text-[#E76F26] bg-[#FFF4EC] mb-1">
+                <span
+                  className="inline-block text-[10px] font-medium px-1.5 py-0.5 rounded-[5px] mb-1"
+                  style={{ color: offer.color, background: offer.bg }}
+                >
                   {offer.badge}
                 </span>
 
@@ -122,7 +141,8 @@ export default function Offers() {
                     {offer.validity}
                   </div>
                   <button
-                    className="flex items-center gap-1 text-[11px] font-semibold text-[#E76F26] transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none rounded-[5px]"
+                    className="flex items-center gap-1 text-[11px] font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none rounded-[5px]"
+                    style={{ color: offer.color }}
                     aria-label={`View offer: ${offer.title}`}
                   >
                     View
