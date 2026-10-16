@@ -1,5 +1,6 @@
-﻿import React from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { motion } from 'motion/react';
+import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
 
 interface HighlightItem {
   title: string;
@@ -7,6 +8,7 @@ interface HighlightItem {
 }
 
 const Highlights: React.FC = () => {
+  const { reducedMotion, itemVariants, staggerVariants } = useMotionSettings();
   const highlightsData: HighlightItem[] = [
     { title: 'Prime Location', description: 'Strategically located with excellent connectivity.' },
     { title: 'Premium Builder', description: 'Developed by Gully Properties, known for quality.' },
@@ -15,36 +17,27 @@ const Highlights: React.FC = () => {
     { title: 'Easy Finance', description: 'Attractive home loan options from leading banks.' },
   ];
 
-  const containerAnim = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.07 } }
-  };
-
-  const itemAnim = {
-    hidden: { opacity: 0, y: 14 },
-    show: { opacity: 1, y: 0, transition: { type: 'spring' as const, stiffness: 300, damping: 24 } }
-  };
-
   return (
     <section className="p-4 relative">
       <motion.div
-        variants={containerAnim}
-        initial="hidden"
+        variants={staggerVariants}
+        initial={reducedMotion ? false : 'hidden'}
         animate="show"
         className="flex flex-col gap-y-2.5"
       >
         {highlightsData.map((highlight, index) => (
           <motion.article
-            variants={itemAnim}
+            variants={itemVariants}
+            whileHover={reducedMotion ? undefined : { y: -2 }}
             key={index}
-            className="group flex items-stretch w-full rounded-[7px] bg-white border border-[#E5DFD4] hover:-translate-y-[1px] transition-all duration-300 overflow-hidden"
+            className="group flex items-stretch w-full rounded-control bg-white border border-outline transition-shadow duration-200 hover:shadow-md overflow-hidden"
           >
             {/* Number column - Flat soft beige */}
-            <div className="w-[52px] shrink-0 flex items-center justify-center bg-[#F4EFE6] relative">
+            <div className="w-[52px] shrink-0 flex items-center justify-center bg-surface-muted relative">
               {/* Solid vertical accent */}
-              <div className="absolute inset-y-0 left-0 w-[3px] bg-[#F85B01]" />
+              <div className="absolute inset-y-0 left-0 w-[3px] bg-brand" />
               {/* Semibold number */}
-              <span className="text-[20px] font-semibold text-[#F85B01] leading-none relative z-10">
+              <span className="text-[20px] font-semibold text-brand leading-none relative z-10">
                 {String(index + 1).padStart(2, '0')}
               </span>
             </div>
@@ -52,11 +45,11 @@ const Highlights: React.FC = () => {
             {/* Content column */}
             <div className="flex-1 px-4 py-3 flex flex-col justify-center">
               {/* Brand dominant title, semibold */}
-              <h3 className="text-[13px] font-semibold text-[#322822] leading-tight mb-0.5 group-hover:text-[#F85B01] transition-colors duration-300">
+              <h3 className="text-[13px] font-semibold text-ink leading-tight mb-0.5 group-hover:text-brand transition-colors duration-300">
                 {highlight.title}
               </h3>
               {/* Warmer, grounded description */}
-              <p className="text-[11.5px] text-[#6B5E57] font-medium leading-relaxed">
+              <p className="text-[11.5px] text-ink-muted font-medium leading-relaxed">
                 {highlight.description}
               </p>
             </div>

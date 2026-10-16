@@ -1,3 +1,4 @@
+import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React from 'react';
 
 let _tabIdCounter = 0;
@@ -14,7 +15,7 @@ const FolderTab: React.FC<{
   const inactiveGradId = `grad-inactive-${uid}`;
 
   return (
-    <button
+    <ActionButton
       onClick={onClick}
       className={`relative h-[38px] w-[160px] sm:w-[180px] shrink-0 outline-none transition-all duration-300 hover:-translate-y-0.5 ${className}`}
     >
@@ -64,7 +65,7 @@ const FolderTab: React.FC<{
       >
         {label}
       </span>
-    </button>
+    </ActionButton>
   );
 };
 

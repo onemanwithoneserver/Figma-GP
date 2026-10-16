@@ -21,12 +21,12 @@ export default function InteractiveCommute() {
       frequent: {
         ...prev.frequent,
         items: [
-          { 
-            id: Date.now().toString(), 
-            name: finalName, 
-            distance: '3.2 km', 
-            color: prev.frequent.color, 
-            icon: 'building' 
+          {
+            id: Date.now().toString(),
+            name: finalName,
+            distance: '3.2 km',
+            color: prev.frequent.color,
+            icon: 'building'
           },
           ...prev.frequent.items
         ]
@@ -37,27 +37,27 @@ export default function InteractiveCommute() {
 
   return (
     <div className="w-full ">
-        
+
         {/* Tab Navigation */}
-        <TabNavigation 
-          tabs={INITIAL_TABS} 
-          activeTab={activeTab} 
-          onTabClick={setActiveTab} 
+        <TabNavigation
+          tabs={INITIAL_TABS}
+          activeTab={activeTab}
+          onTabClick={setActiveTab}
         />
 
-        <div className="py-1 px-1 bg-[#ffffff] flex-1 rounded-b-[7px]">
+        <div className="py-1 px-1 bg-white flex-1 rounded-b-[7px]">
           {/* Success Notification */}
           {successToast && (
-            <div className="flex items-center gap-2 bg-[#F4EFE6] text-[#322822] px-4 py-3 rounded-[7px] mb-4 text-[13px] font-bold border border-[#E5DFD4] shadow-sm animate-pulse">
+            <div className="flex items-center gap-2 bg-surface-muted text-ink px-4 py-3 rounded-control mb-4 text-[13px] font-bold border border-outline shadow-sm animate-pulse">
               <Icons.Check /> {successToast}
             </div>
           )}
-          
+
           {/* Places List */}
-          <MyFrequentPlaces 
-            activeTabId={activeTab} 
-            currentData={tabData[activeTab]} 
-            onSavePlace={handleSavePlace} 
+          <MyFrequentPlaces
+            activeTabId={activeTab}
+            currentData={tabData[activeTab]}
+            onSavePlace={handleSavePlace}
           />
         </div>
       </div>

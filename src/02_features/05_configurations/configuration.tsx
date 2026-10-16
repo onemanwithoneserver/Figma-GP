@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { AppDialog } from '../../03_shared/02_ui/AppDialog';
 import Tower from './tower';
 import ConfigurationTable from './ConfigurationTable';
 import SellerQueries from './SellerQueries';
@@ -54,17 +55,14 @@ export default function Configuration() {
       </div>
 
       {selectedUnit && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/45 backdrop-blur-[1px] flex items-center justify-center p-3"
-          onClick={() => setSelectedUnit(null)}
-        >
+        <AppDialog open onClose={() => setSelectedUnit(null)} label="Floor plan details">
           <div
-            className="w-[92vw] max-w-[340px] max-h-[78vh] overflow-y-auto rounded-[7px] [scrollbar-width:thin] [scrollbar-color:#B8AEA2_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#B8AEA2] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-[2px] [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-content hover:[&::-webkit-scrollbar-thumb]:bg-[#9B8F82]"
+            className="w-[92vw] max-w-[340px] max-h-[78vh] overflow-y-auto rounded-control [scrollbar-width:thin] [scrollbar-color:#B8AEA2_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#B8AEA2] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-[2px] [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-content hover:[&::-webkit-scrollbar-thumb]:bg-[#9B8F82]"
             onClick={(e) => e.stopPropagation()}
           >
             <Tower unitData={selectedUnit} onClose={() => setSelectedUnit(null)} />
           </div>
-        </div>
+        </AppDialog>
       )}
     </div>
   );

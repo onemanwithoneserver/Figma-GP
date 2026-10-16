@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'motion/react';
+import { TransitionPanel } from '../../03_shared/04_motion/TransitionPanel';
+import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
 import SellerQueries from './SellerQueries';
 
 import AmenityTabNav from './AmenityTabNav';
@@ -99,6 +101,7 @@ const Icons = {
 };
 
 const AmenitiesSection: React.FC = () => {
+  const { reducedMotion, itemVariants, staggerVariants } = useMotionSettings();
 
   const [activeTab, setActiveTab] = useState<string>('highlights');
 
@@ -118,38 +121,31 @@ const AmenitiesSection: React.FC = () => {
       />
 
       <div>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, x: 10 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -10 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
+        <TransitionPanel transitionKey={activeTab}>
             {/* ── Feature Image & List Card ── */}
             <div className="bg-white px-4 py-1 ">
               {activeData.imageUrl && (
-                <div className="mb-4 rounded-[7px] py-1 overflow-hidden aspect-video border border-[#F4F1EA]">
-                  <img 
-                    src={activeData.imageUrl} 
-                    alt={activeData.tabLabel} 
-                    className="w-full h-full object-cover" 
+                <div className="mb-4 rounded-control py-1 overflow-hidden aspect-video border border-[#F4F1EA]">
+                  <img
+                    src={activeData.imageUrl}
+                    alt={activeData.tabLabel}
+                    className="w-full h-full object-cover"
                   />
                 </div>
               )}
 
-              <div className="space-y-3 py-1.5">
+              <motion.div variants={staggerVariants} initial={reducedMotion ? false : 'hidden'} animate="show" className="space-y-3 py-1.5">
                 {activeData.features.map((feature, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <div className="mt-1 flex-shrink-0 w-4 h-4 rounded-full bg-[#E76F26] flex items-center justify-center text-white">
+                  <motion.div variants={itemVariants} key={feature} className="flex items-start gap-3">
+                    <div className="mt-1 flex-shrink-0 w-4 h-4 rounded-full bg-brand-warm flex items-center justify-center text-white">
                       <Icons.Check size={9} strokeWidth={4} />
                     </div>
-                    <span className="text-[14px] text-[#322822] font-medium leading-tight">
+                    <span className="text-[14px] text-ink font-medium leading-tight">
                       {feature}
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
 
               {/* ── Seller Queries ── */}
               <div className="mt-2 -ml-4">
@@ -157,8 +153,7 @@ const AmenitiesSection: React.FC = () => {
 
               </div>
             </div>
-          </motion.div>
-        </AnimatePresence>
+        </TransitionPanel>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
-﻿import React, { useState } from 'react';
+import { ActionButton } from '../../03_shared/02_ui/ActionButton';
+import React, { useState } from 'react';
 
 interface OfferItem {
   id: string;
@@ -105,7 +106,7 @@ export default function Offers() {
         {OFFERS_DATA.map((offer) => (
           <article
             key={offer.id}
-            className="relative overflow-hidden rounded-[5px] bg-white border"
+            className="relative overflow-hidden rounded-chip bg-white border"
             style={{ borderColor: offer.color }}
           >
             <div
@@ -116,7 +117,7 @@ export default function Offers() {
 
             <div className="relative pl-3 pr-2 py-2 flex items-start gap-2">
               <div
-                className="w-8 h-8 rounded-[5px] flex-shrink-0 flex items-center justify-center"
+                className="w-8 h-8 rounded-chip flex-shrink-0 flex items-center justify-center"
                 aria-hidden="true"
                 style={{ background: offer.bg }}
               >
@@ -125,28 +126,28 @@ export default function Offers() {
 
               <div className="flex-1 min-w-0">
                 <span
-                  className="inline-block text-[10px] font-medium px-1.5 py-0.5 rounded-[5px] mb-1"
+                  className="inline-block text-[10px] font-medium px-1.5 py-0.5 rounded-chip mb-1"
                   style={{ color: offer.color, background: offer.bg }}
                 >
                   {offer.badge}
                 </span>
 
-                <h4 className="text-[13px] font-semibold text-[#322822] leading-tight mb-0.5">{offer.title}</h4>
+                <h4 className="text-[13px] font-semibold text-ink leading-tight mb-0.5">{offer.title}</h4>
 
-                <p className="text-[11px] font-medium text-[#6B5E57] leading-[1.4] mb-1.5">{offer.description}</p>
+                <p className="text-[11px] font-medium text-ink-muted leading-[1.4] mb-1.5">{offer.description}</p>
 
-                <div className="flex items-center justify-between pt-1 border-t border-[#E5DFD4]/80">
-                  <div className="flex items-center gap-1 text-[10px] font-medium text-[#6B5E57]">
+                <div className="flex items-center justify-between pt-1 border-t border-outline/80">
+                  <div className="flex items-center gap-1 text-[10px] font-medium text-ink-muted">
                     <Icons.Clock />
                     {offer.validity}
                   </div>
-                  <button
-                    className="flex items-center gap-1 text-[11px] font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none rounded-[5px]"
+                  <ActionButton
+                    className="flex items-center gap-1 text-[11px] font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:outline-none rounded-chip"
                     style={{ color: offer.color }}
                     aria-label={`View offer: ${offer.title}`}
                   >
                     View
-                  </button>
+                  </ActionButton>
                 </div>
               </div>
             </div>
@@ -155,21 +156,21 @@ export default function Offers() {
       </div>
 
       <div className="px-2 pb-2">
-        <p className="text-[11px] font-medium text-[#322822] mb-1">How do these offers look?</p>
+        <p className="text-[11px] font-medium text-ink mb-1">How do these offers look?</p>
         <div className="flex flex-wrap gap-1">
           {FEEDBACK_OPTIONS.map((opt) => {
             const isSelected = feedback === opt.id;
             return (
-              <button
+              <ActionButton
                 key={opt.id}
                 onClick={() => setFeedback(opt.id)}
                 title={isSelected ? `${opt.label} (selected)` : opt.label}
-                className={`flex items-center gap-1 px-2 py-1 rounded-[5px] text-[11px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-[#322822]/20 focus-visible:outline-none ${
-                  isSelected ? 'bg-[#E76F26] text-white' : 'bg-[#F9F7F2] text-[#6B5E57]'
+                className={`flex items-center gap-1 px-2 py-1 rounded-chip text-[11px] font-medium transition-colors focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:outline-none ${
+                  isSelected ? 'bg-brand-warm text-white' : 'bg-surface text-ink-muted'
                 }`}
               >
                 {opt.label}
-              </button>
+              </ActionButton>
             );
           })}
         </div>

@@ -1,6 +1,33 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Property page palette shared by Tailwind and Material UI. */
+  --brand: #F85B01;
+  --brand-dark: #C94A00;
+  --brand-warm: #E76F26;
+  --brand-booking: #E06D28;
+  --ink: #322822;
+  --ink-deep: #1E1713;
+  --ink-muted: #6B5E57;
+  --ink-subtle: #8C827A;
+  --surface: #F9F7F2;
+  --surface-soft: #FDFBF8;
+  --surface-muted: #F4EFE6;
+  --surface-tab: #F3EEE6;
+  --outline: #E5DFD4;
+  --radius-control: 7px;
+  --radius-card: 6px;
+  --radius-chip: 5px;
+  --radius-tab: 4px;
+  --shadow-stat: 0 4px 12px rgba(0,0,0,0.02);
+  --shadow-brand: 0 4px 12px rgba(248,91,1,0.25);
+  --shadow-footer: 0 -4px 25px rgba(0,0,0,0.06);
+  --gradient-brand: linear-gradient(135deg, var(--brand), #E24E00);
+  --gradient-active: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  --gradient-ink: linear-gradient(135deg, var(--ink), var(--ink-deep));
+  --gradient-photo: linear-gradient(to top, rgba(50,40,34,0.88) 0%, rgba(50,40,34,0.4) 50%, transparent 100%);
+  --gradient-scroll-left: linear-gradient(to right, var(--surface) 40%, rgba(249,247,242,0));
+  --gradient-scroll-right: linear-gradient(to left, var(--surface) 40%, rgba(249,247,242,0));
   --font-size: 16px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
@@ -79,6 +106,19 @@
 }
 
 @theme inline {
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-warm: var(--brand-warm);
+  --color-brand-booking: var(--brand-booking);
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-tab: var(--surface-tab);
+  --color-outline: var(--outline);
   --font-sans: 'Outfit', sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);

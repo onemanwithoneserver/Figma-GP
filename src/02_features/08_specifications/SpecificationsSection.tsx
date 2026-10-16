@@ -1,6 +1,9 @@
+import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import TabNavigation from './SpecificationsTabNav'; 
+import { motion, AnimatePresence } from 'motion/react';
+import { TransitionPanel } from '../../03_shared/04_motion/TransitionPanel';
+import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
+import TabNavigation from './SpecificationsTabNav';
 import SellerQueries from './SellerQueries';
 
 // --- Icons ---
@@ -11,10 +14,10 @@ const CheckIcon = () => (
 );
 
 const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
-  <motion.svg 
+  <motion.svg
     animate={{ rotate: isOpen ? 180 : 0 }}
     width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-    className="text-[#E76F26]"
+    className="text-brand-warm"
   >
     <polyline points="6 9 12 15 18 9" />
   </motion.svg>
@@ -437,10 +440,11 @@ const AccordionItem = ({
   isOpen: boolean;
   onToggle: () => void;
 }) => {
+  const { reducedMotion, transition } = useMotionSettings();
 
   return (
 <div className="border-b border-gray-100 last:border-none">
-      <button 
+      <ActionButton
         onClick={onToggle}
         className="flex items-center justify-between w-full py-4 text-left focus:outline-none group"
       >
@@ -448,20 +452,20 @@ const AccordionItem = ({
           <div className="flex-shrink-0 w-4 h-4 rounded-[999px] flex items-center justify-center transition-colors duration-200 bg-[#E96F26] text-white">
             <CheckIcon />
           </div>
-          <span className="text-[14px] font-bold text-[#322822] tracking-tight group-hover:text-[#E76F26] transition-colors">
+          <span className="text-[14px] font-bold text-ink tracking-tight group-hover:text-brand-warm transition-colors">
             {feature.title}
           </span>
         </div>
         <ChevronIcon isOpen={isOpen} />
-      </button>
+      </ActionButton>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
+            initial={reducedMotion ? false : { height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            transition={transition}
             className="overflow-hidden"
           >
             <div className="pl-8 pb-4 flex flex-col gap-2.5">
@@ -492,9 +496,9 @@ const SpecificationsSection: React.FC = () => {
 
   return (
     <div className="">
-      
+
       {/* ── Using your TabNavigation Reference ── */}
-      <TabNavigation 
+      <TabNavigation
         tabs={SPECIFICATIONS_DATA.map(tab => ({ id: tab.id, label: tab.label }))}
         activeTab={activeTab}
         onTabClick={setActiveTab}
@@ -503,14 +507,7 @@ const SpecificationsSection: React.FC = () => {
       {/* ── Accordion Content Card ── */}
       <div className=" bg-white ">
         <div className="max-w-md mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3 }}
-            >
+          <TransitionPanel transitionKey={activeTab}>
               <div className="flex flex-col">
                 {activeData.features.map((feature, idx) => (
                   <AccordionItem
@@ -521,8 +518,7 @@ const SpecificationsSection: React.FC = () => {
                   />
                 ))}
               </div>
-            </motion.div>
-          </AnimatePresence>
+          </TransitionPanel>
         </div>
          <SellerQueries />
       </div>

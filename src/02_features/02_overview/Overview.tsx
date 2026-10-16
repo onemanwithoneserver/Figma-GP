@@ -1,5 +1,9 @@
-﻿import React, { useState } from 'react';
-import { motion, Variants, AnimatePresence } from 'framer-motion';
+import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded';
+import { cn } from '../../03_shared/03_utils/utils';
+import { MotionButton } from '../../03_shared/02_ui/ActionButton';
+import React, { useState } from 'react';
+import { motion, Variants, AnimatePresence } from 'motion/react';
+import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
 
 // Import popup images
 import skyscrapperIcon from '../../05_assets/01_popup_images/skyscrapper.png';
@@ -31,27 +35,30 @@ interface OverviewItem {
 // --- OVERVIEW TILE COMPONENT (Compact Luxury) ---
 const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variants: Variants }>(
   ({ item, variants }, ref) => {
+  const { reducedMotion } = useMotionSettings();
   return (
-    <motion.article 
+    <motion.article
       ref={ref}
       variants={variants}
-      layout
+      layout={reducedMotion ? false : 'position'}
+      exit="exit"
+      whileHover={reducedMotion ? undefined : { y: -2 }}
       // Reduced padding from py-5 to py-3 and px-3 to px-2
-      className="relative flex flex-col items-center text-center pt-3 pb-3 px-2 rounded-[6px] bg-white shadow-sm border border-[#E5DFD4]/60 transition-all duration-300 hover:shadow-md"
+      className="relative flex flex-col items-center text-center pt-3 pb-3 px-2 rounded-card bg-white shadow-sm border border-outline/60 transition-shadow duration-200 hover:shadow-md"
     >
       {/* Property Icon - Slightly smaller (w-6 h-6) */}
       <img
         src={item.icon}
         alt={item.label}
-        className="w-6 h-6 mb-1.5 object-contain"
-        style={{ filter: 'url(#brand-orange-filter)' }}
+        className={cn("w-6 h-6 mb-1.5 object-contain", "[filter:url(#brand-orange-filter)]")}
+
       />
-      
+
       {/* Label & Value - Tightened typography */}
       <h3 className="text-[13px] font-medium tracking-wider text-[#7A6F68] mb-0.5 leading-tight">
         {item.label}
       </h3>
-      <p className="text-[14px] font-semibold text-[#322822] leading-tight">
+      <p className="text-[14px] font-semibold text-ink leading-tight">
         {item.value}
       </p>
     </motion.article>
@@ -60,6 +67,7 @@ const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variant
 
 // --- MAIN OVERVIEW SECTION ---
 const Overview: React.FC = () => {
+  const { reducedMotion, itemVariants, staggerVariants } = useMotionSettings();
   const [showAllDetails, setShowAllDetails] = useState(false);
 
   const allOverviewData: OverviewItem[] = [
@@ -86,33 +94,23 @@ const Overview: React.FC = () => {
 
   const displayedItems = showAllDetails ? allOverviewData : allOverviewData.slice(0, 6);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1, transition: { staggerChildren: 0.03 } }
-  };
-
-  const itemVariants = {
-    hidden: { y: 8, opacity: 0 },
-    show: { y: 0, opacity: 1, transition: { type: 'spring', stiffness: 300, damping: 25 } }
-  };
-
   return (
-    <section className="p-0 relative bg-[#FDFBF8]">
+    <section className="p-0 relative bg-surface-soft">
       <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
         <defs>
           <filter id="brand-orange-filter" colorInterpolationFilters="sRGB">
-            <feColorMatrix 
-              type="matrix" 
-              values="0 0 0 0 0.9058 0 0 0 0 0.4352 0 0 0 0 0.1490 0 0 0 1 0" 
+            <feColorMatrix
+              type="matrix"
+              values="0 0 0 0 0.9058 0 0 0 0 0.4352 0 0 0 0 0.1490 0 0 0 1 0"
             />
           </filter>
         </defs>
       </svg>
 
       {/* Reduced gap-x-3 to gap-x-2 and gap-y-4 to gap-y-2.5 */}
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
+      <motion.div
+        variants={staggerVariants}
+        initial={reducedMotion ? false : 'hidden'}
         animate="show"
         className="grid grid-cols-3 gap-x-2 gap-y-2.5 pb-2"
       >
@@ -125,20 +123,15 @@ const Overview: React.FC = () => {
 
       {/* Toggle Button - Reduced margin-top (mt-4) */}
       <div className="flex justify-center mt-4">
-        <motion.button
+        <MotionButton
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => setShowAllDetails(!showAllDetails)}
-          className="px-2 py-1 bg-[#382C27] text-[#ffffff]  text-[14px] font-medium tracking-wide flex items-center gap-2 rounded-[6px] shadow-sm transition-all outline-none"
+          className="px-2 py-1 bg-[#382C27] text-white  text-[14px] font-medium tracking-wide flex items-center gap-2 rounded-card shadow-sm transition-colors outline-none"
         >
           {showAllDetails ? 'Show less' : 'See all details'}
-          <svg 
-            className={`w-3 h-3 transition-transform duration-300 ${showAllDetails ? 'rotate-180' : ''}`} 
-            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-          </svg>
-        </motion.button>
+          <ExpandMoreRounded className={`w-3 h-3 transition-transform duration-300 ${showAllDetails ? 'rotate-180' : ''}`}  />
+        </MotionButton>
       </div>
     </section>
   );

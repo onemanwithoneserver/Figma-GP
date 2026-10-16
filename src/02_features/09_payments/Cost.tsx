@@ -1,4 +1,5 @@
-﻿import React from 'react';
+import { ActionButton } from '../../03_shared/02_ui/ActionButton';
+import React from 'react';
 
 interface CostItem {
   id: string;
@@ -33,51 +34,51 @@ export default function Cost() {
   return (
     <div className="w-full bg-white ">
       <div className="px-2 pt-2 pb-1.5">
-        <p className="text-[14px] font-medium text-[#6B5E57]">Transparent breakup of major charges</p>
+        <p className="text-[14px] font-medium text-ink-muted">Transparent breakup of major charges</p>
       </div>
 
       <div className="px-2 pb-2 flex flex-col gap-1">
         {COST_BREAKDOWN.map((item) => (
           <div
             key={item.id}
-            className={`rounded-[5px] px-2 py-1.5 flex items-center justify-between gap-2 ${item.highlight ? 'bg-[#FFF4EC] border border-[#FFD4B2]' : 'bg-white border border-[#E5DFD4]'}`}
+            className={`rounded-chip px-2 py-1.5 flex items-center justify-between gap-2 ${item.highlight ? 'bg-[#FFF4EC] border border-[#FFD4B2]' : 'bg-white border border-outline'}`}
           >
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1 flex-wrap">
-                <p className="text-[12px] font-semibold text-[#322822]">{item.component}</p>
-                {item.highlight && <span className="text-[9px] font-medium text-[#E76F26] bg-[#FFF4EC] px-1 py-0.5 rounded-[5px]">Key</span>}
+                <p className="text-[12px] font-semibold text-ink">{item.component}</p>
+                {item.highlight && <span className="text-[9px] font-medium text-brand-warm bg-[#FFF4EC] px-1 py-0.5 rounded-chip">Key</span>}
               </div>
-              <p className="text-[10px] font-medium text-[#6B5E57] mt-0.5 flex items-center gap-1">
+              <p className="text-[10px] font-medium text-ink-muted mt-0.5 flex items-center gap-1">
                 {item.info}
                 {item.hasInfoIcon && (
-                  <button
+                  <ActionButton
                     aria-label={`More info about ${item.component}`}
-                    className="flex-shrink-0 focus-visible:ring-2 focus-visible:ring-[#322822]/20 rounded-[5px] outline-none"
+                    className="flex-shrink-0 focus-visible:ring-2 focus-visible:ring-ink/20 rounded-chip outline-none"
                   >
                     <Icons.InfoCircle />
-                  </button>
+                  </ActionButton>
                 )}
               </p>
             </div>
-            <p className="text-[12px] font-semibold text-[#322822] flex-shrink-0 text-right">{item.amount}</p>
+            <p className="text-[12px] font-semibold text-ink flex-shrink-0 text-right">{item.amount}</p>
           </div>
         ))}
       </div>
 
       <div className="px-2 pb-2">
-        <div className="rounded-[5px] p-2 bg-[#FFF4EC] border border-[#FFD4B2]">
-          <p className="text-[10px] font-medium text-[#6B5E57] mb-0.5">Estimated Total</p>
-          <p className="text-[18px] font-bold text-[#322822]">
+        <div className="rounded-chip p-2 bg-[#FFF4EC] border border-[#FFD4B2]">
+          <p className="text-[10px] font-medium text-ink-muted mb-0.5">Estimated Total</p>
+          <p className="text-[18px] font-bold text-ink">
             ₹1.58 Cr
-            <span className="text-[12px] font-medium text-[#6B5E57] ml-1">to 1.62 Cr</span>
+            <span className="text-[12px] font-medium text-ink-muted ml-1">to 1.62 Cr</span>
           </p>
-          <p className="text-[10px] text-[#6B5E57] mt-0.5 mb-1.5">*Varies based on unit floor, type & statutory charges</p>
-          <button
-            className="flex items-center gap-1 bg-[#E76F26] text-white text-[11px] font-semibold px-2 py-1 rounded-[5px] transition-colors focus-visible:ring-2 focus-visible:ring-[#E76F26]/20 focus-visible:outline-none"
+          <p className="text-[10px] text-ink-muted mt-0.5 mb-1.5">*Varies based on unit floor, type & statutory charges</p>
+          <ActionButton
+            className="flex items-center gap-1 bg-brand-warm text-white text-[11px] font-semibold px-2 py-1 rounded-chip transition-colors focus-visible:ring-2 focus-visible:ring-brand-warm/20 focus-visible:outline-none"
             aria-label="View seller-wise pricing breakdown"
           >
             View Seller-wise Pricing
-          </button>
+          </ActionButton>
         </div>
       </div>
 

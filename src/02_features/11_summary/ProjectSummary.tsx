@@ -1,3 +1,7 @@
+import { getScrollBehavior } from '../../03_shared/04_motion/useMotionSettings';
+import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded';
+import { cn } from '../../03_shared/03_utils/utils';
+import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import { useState } from 'react';
 import React from 'react';
 
@@ -75,13 +79,13 @@ const ProjectSummary: React.FC = () => {
 
   const handleTabClick = (id: string, e: React.MouseEvent<HTMLButtonElement>) => {
     setActiveTab(id);
-    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    e.currentTarget.scrollIntoView({ behavior: getScrollBehavior(), block: 'nearest', inline: 'center' });
     requestAnimationFrame(updateScrollButtons);
   };
 
   const scrollTabs = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: direction === 'left' ? -140 : 140, behavior: 'smooth' });
+    scrollRef.current.scrollBy({ left: direction === 'left' ? -140 : 140, behavior: getScrollBehavior() });
   };
 
   const getTabData = () => {
@@ -119,16 +123,16 @@ const ProjectSummary: React.FC = () => {
         <div className="flex justify-center">
           <div className="relative w-full max-w-xl">
             {canScrollLeft && (
-              <button
+              <ActionButton
                 type="button"
                 onClick={() => scrollTabs('left')}
                 aria-label="Scroll tabs left"
-                className="absolute left-1 top-1/2 -translate-y-1/2 z-10 h-7 w-7 rounded-[4px] bg-[#F3EEE6] text-[#322822] flex items-center justify-center"
+                className="absolute left-1 top-1/2 -translate-y-1/2 z-10 h-7 w-7 rounded-tab bg-surface-tab text-ink flex items-center justify-center"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="m15 18-6-6 6-6" />
                 </svg>
-              </button>
+              </ActionButton>
             )}
 
             <div
@@ -140,33 +144,31 @@ const ProjectSummary: React.FC = () => {
               {TAB_CONFIG.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (
-                  <button
+                  <ActionButton
                     key={tab.key}
                     role="tab"
                     aria-selected={isActive}
                     aria-controls={`panel-${tab.key}`}
                     onClick={(e) => handleTabClick(tab.key, e)}
-                    className="flex-shrink-0 flex items-center justify-center px-1 py-2 text-[12px] leading-none font-semibold rounded-[4px] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[#E76F26]/25"
-                    style={isActive ? { background: '#E76F26', color: '#FFFFFF' } : { background: '#F3EEE6', color: '#322822' }}
+                    className={cn("flex-shrink-0 flex items-center justify-center px-1 py-2 text-[12px] leading-none font-semibold rounded-tab transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-brand-warm/25", isActive ? "bg-brand-warm text-white" : "bg-surface-tab text-ink")}
+
                   >
                     <span className="mr-1">{tab.emoji}</span>
                     {tab.label}
-                  </button>
+                  </ActionButton>
                 );
               })}
             </div>
 
             {canScrollRight && (
-              <button
+              <ActionButton
                 type="button"
                 onClick={() => scrollTabs('right')}
                 aria-label="Scroll tabs right"
-                className="absolute right-1 top-1/2 -translate-y-1/2 z-10 h-7 w-7 rounded-[4px] bg-[#F3EEE6] text-[#322822] flex items-center justify-center"
+                className="absolute right-1 top-1/2 -translate-y-1/2 z-10 h-7 w-7 rounded-tab bg-surface-tab text-ink flex items-center justify-center"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </button>
+                <ChevronRightRounded className={["", "w-[14px] h-[14px]"].join(' ')} aria-hidden="true" />
+              </ActionButton>
             )}
           </div>
         </div>
@@ -212,7 +214,7 @@ const ProjectSummary: React.FC = () => {
                   <path d="M3 9H21M9 21V9" stroke="#FFF4EC" strokeWidth="1.5"/>
                 </svg>
               </span>
-              <span style={{ color: '#E06D28' }}>Saved Floor Plans</span>
+              <span className={"text-brand-booking"} >Saved Floor Plans</span>
             </h3>
             <div className="flex flex-col gap-y-3">
               {SUMMARY_DATA.savedPlans.map((plan) => (

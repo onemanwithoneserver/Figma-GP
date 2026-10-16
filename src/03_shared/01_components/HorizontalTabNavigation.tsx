@@ -1,5 +1,9 @@
+import { getScrollBehavior } from '../04_motion/useMotionSettings';
+import { ActionButton } from '../02_ui/ActionButton';
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Box from '@mui/material/Box';
+import ChevronLeft from '@mui/icons-material/ChevronLeftRounded';
+import ChevronRight from '@mui/icons-material/ChevronRightRounded';
 
 interface TabItem {
   id: string;
@@ -61,7 +65,7 @@ const HorizontalTabNavigation: React.FC = () => {
     if (!btn || !container) return;
 
     const target = btn.offsetLeft - container.offsetWidth / 2 + btn.offsetWidth / 2;
-    container.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+    container.scrollTo({ left: Math.max(0, target), behavior: getScrollBehavior() });
   }, []);
 
   useEffect(() => {
@@ -132,7 +136,7 @@ const HorizontalTabNavigation: React.FC = () => {
     const navHeight = navRef.current?.getBoundingClientRect().height ?? 56;
     const targetY = section.getBoundingClientRect().top + window.scrollY - navHeight - 8;
 
-    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    window.scrollTo({ top: targetY, behavior: getScrollBehavior() });
 
     const unlock = () => { clickScrollingRef.current = false; };
     if ('onscrollend' in window) {
@@ -145,34 +149,34 @@ const HorizontalTabNavigation: React.FC = () => {
   const manualScroll = useCallback((direction: 'left' | 'right') => {
     scrollContainerRef.current?.scrollBy({
       left: direction === 'left' ? -200 : 200,
-      behavior: 'smooth',
+      behavior: getScrollBehavior(),
     });
   }, []);
 
   return (
-    <nav
+    <Box component="nav"
       ref={navRef}
       aria-label="Property sections"
-      className={`w-full bg-[#F9F7F2] overflow-hidden transition-all duration-300 ${
+      className={`w-full bg-surface overflow-hidden transition-all duration-300 ${
         isBarVisible
-          ? 'max-h-20 opacity-100 translate-y-0 pointer-events-auto border-b border-[#E5DFD4]'
+          ? 'max-h-20 opacity-100 translate-y-0 pointer-events-auto border-b border-outline'
           : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none border-b border-transparent'
       }`}
     >
       <div className="max-w-[1200px] mx-auto flex items-center">
         <div className="w-8 flex-shrink-0 flex justify-center">
           {showLeftArrow && (
-            <button
+            <ActionButton
               onClick={() => manualScroll('left')}
               aria-label="Scroll tabs left"
               title="Scroll tabs left"
               className="flex items-center justify-center outline-none"
             >
-              <ChevronLeft 
-                className="w-6 h-6 text-[#6B5E57] hover:text-[#F85B01] hover:scale-105 transition-all duration-300" 
-                strokeWidth={2.5} 
+              <ChevronLeft
+                className="w-6 h-6 text-ink-muted hover:text-brand hover:scale-105 transition-all duration-300"
+                strokeWidth={2.5}
               />
-            </button>
+            </ActionButton>
           )}
         </div>
 
@@ -183,43 +187,43 @@ const HorizontalTabNavigation: React.FC = () => {
         >
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
-            
+
             // Hide the active tab from the scrollable list
             if (isActive) return null;
 
             return (
-              <button
+              <ActionButton
                 key={tab.id}
                 ref={(el) => { tabRefs.current[tab.id] = el; }}
                 onClick={() => handleTabClick(tab)}
                 className="group flex flex-col items-center justify-center flex-shrink-0 px-4 py-1 gap-1.5 transition-all duration-300 outline-none"
               >
-                <span className="text-[15px] font-medium text-[#6B5E57] whitespace-nowrap group-hover:text-[#322822] transition-colors duration-300">
+                <span className="text-[15px] font-medium text-ink-muted whitespace-nowrap group-hover:text-ink transition-colors duration-300">
                   {tab.label}
                 </span>
-                <div className="h-[2px] w-full bg-[#E5DFD4] group-hover:bg-[#F85B01] transition-colors duration-300" />
-              </button>
+                <div className="h-[2px] w-full bg-outline group-hover:bg-brand transition-colors duration-300" />
+              </ActionButton>
             );
           })}
         </div>
 
         <div className="w-8 flex-shrink-0 flex justify-center">
           {showRightArrow && (
-            <button
+            <ActionButton
               onClick={() => manualScroll('right')}
               aria-label="Scroll tabs right"
               title="Scroll tabs right"
               className="flex items-center justify-center outline-none"
             >
-              <ChevronRight 
-                className="w-6 h-6 text-[#6B5E57] hover:text-[#F85B01] hover:scale-105 transition-all duration-300" 
-                strokeWidth={2.5} 
+              <ChevronRight
+                className="w-6 h-6 text-ink-muted hover:text-brand hover:scale-105 transition-all duration-300"
+                strokeWidth={2.5}
               />
-            </button>
+            </ActionButton>
           )}
         </div>
       </div>
-    </nav>
+    </Box>
   );
 };
 

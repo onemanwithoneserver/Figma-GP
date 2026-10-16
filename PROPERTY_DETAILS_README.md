@@ -21,7 +21,7 @@ Feature folders under `src/02_features/` follow the displayed page order:
 12. `12_meetings`: visit tabs and slot booking.
 
 Shared navigation and section wrappers live in `src/03_shared/01_components/`.
-The button and back-to-top icon live in `src/03_shared/02_ui/`.
+Shared Material UI buttons, dialogs, tabs, and icons live in `src/03_shared/02_ui/`.
 
 ## Styling and assets
 
@@ -29,6 +29,8 @@ Global styles are imported once through `src/04_styles/index.css`.
 Outfit is loaded in `fonts.css` and configured in `theme.css`; components inherit
 it without repeating font-family declarations. Tailwind scans source files through
 `src/04_styles/tailwind.css` and is integrated using the Vite plugin.
+`AppThemeProvider` uses the same CSS tokens for Material UI. Tailwind utilities
+control component appearance, while Material UI supplies interaction behavior.
 
 Local images and SVGs live in `src/05_assets/`; remote image URLs are defined in
 the feature components. Keep layout, colors, and typography changes in the relevant
