@@ -1,3 +1,7 @@
+import FilterAltOutlined from '@mui/icons-material/FilterAltOutlined';
+import StarBorderRounded from '@mui/icons-material/StarBorderRounded';
+import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
+import StarRounded from '@mui/icons-material/StarRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import type { UnitItem } from './types';
@@ -43,9 +47,7 @@ const FilterPill = ({
             : 'bg-surface text-ink border-outline hover:border-ink'
           }`}
       >
-        <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-        </svg>
+        <FilterAltOutlined className="w-3 h-3 shrink-0" />
         {label}{isActive ? `: ${value}` : ''}
         {isActive && (
           <span
@@ -135,9 +137,7 @@ export default function ConfigurationTable({
       <div className="w-full bg-white rounded-control  border border-outline overflow-hidden shadow-sm">
         {filteredData.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-ink-subtle gap-2">
-            <svg className="w-9 h-9 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-            </svg>
+            <FilterAltOutlined className="w-9 h-9 opacity-40" />
             <p className="text-[13px] font-extrabold text-ink">No units match your filters</p>
             <p className="text-[11px] text-ink-subtle font-medium">Try adjusting or clearing the filters above</p>
           </div>
@@ -172,9 +172,7 @@ export default function ConfigurationTable({
 
                   <td className="border border-outline px-1 py-2.5 align-middle text-center">
                     <ActionButton onClick={() => onToggleSave(item.id)} title={savedItems.has(item.id) ? 'Remove from saved' : 'Save unit'} className="inline-block align-middle hover:scale-110 transition-transform">
-                      <svg className={`w-4 h-4 ${savedItems.has(item.id) ? 'text-brand-warm' : 'text-ink-subtle'}`} viewBox="0 0 24 24" fill={savedItems.has(item.id) ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2">
-                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                      </svg>
+                      {savedItems.has(item.id) ? <StarRounded className="h-4 w-4 text-brand-warm" /> : <StarBorderRounded className="h-4 w-4 text-ink-subtle" />}
                     </ActionButton>
                   </td>
 
@@ -186,10 +184,7 @@ export default function ConfigurationTable({
                       disabled={item.availability === 'Sold Out'}
                       onClick={() => onViewUnit(item)}
                     >
-                      <svg className="w-4 h-4 mx-auto" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                      </svg>
+                      <VisibilityOutlined className="w-4 h-4 mx-auto" />
                     </ActionButton>
                   </td>
                 </tr>

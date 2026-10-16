@@ -1,3 +1,4 @@
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useState } from 'react';
 import { Icons, TabData } from './commuteData';
@@ -42,9 +43,7 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
       <div className="flex flex-col bg-surface-soft rounded-b-[7px] -mx-3 -mt-3 animate-in fade-in duration-300">
         <div className="px-4 py-3 bg-white border-b border-outline flex items-center gap-2">
           <ActionButton onClick={() => setShowAddPage(false)} className="p-1 -ml-1 text-[#312822]" aria-label="Back" title="Back">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M19 12H5m7-7l-7 7 7 7"/>
-            </svg>
+            <ArrowBackRounded className="w-[18px] h-[18px]" />
           </ActionButton>
           <h3 className="text-[15px] font-bold text-[#312822]">Add New Place</h3>
         </div>

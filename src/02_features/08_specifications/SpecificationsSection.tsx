@@ -1,3 +1,5 @@
+import CheckRounded from '@mui/icons-material/CheckRounded';
+import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -8,19 +10,13 @@ import SellerQueries from './SellerQueries';
 
 // --- Icons ---
 const CheckIcon = () => (
-  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12" />
-  </svg>
+  <CheckRounded className="w-[12px] h-[12px]" />
 );
 
 const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
-  <motion.svg
-    animate={{ rotate: isOpen ? 180 : 0 }}
-    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-    className="text-brand-warm"
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </motion.svg>
+  <motion.span animate={{ rotate: isOpen ? 180 : 0 }} className="flex h-4 w-4 shrink-0">
+    <ExpandMoreRounded className="h-4 w-4 text-brand-warm" />
+  </motion.span>
 );
 
 

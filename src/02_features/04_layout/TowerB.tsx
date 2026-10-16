@@ -1,3 +1,4 @@
+import WarningAmberRounded from '@mui/icons-material/WarningAmberRounded';
 import { cn } from '../../03_shared/03_utils/utils';
 import React from 'react';
 import TowerEngagementPanel from './TowerEngagementPanel';
@@ -40,7 +41,7 @@ const TowerB = () => (
     <div className={cn("mb-5 rounded-control overflow-hidden shadow-sm", "bg-ink-gradient")} >
       <div className="px-4 py-3 flex items-center gap-3">
         <div className={cn("w-7 h-7 rounded-control flex-shrink-0 flex items-center justify-center", "[background:rgba(231,111,38,0.15)] [border:1px_solid_rgba(231,111,38,0.25)]")} >
-          <svg className="w-4 h-4 text-brand-warm" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.75-2.97L13.75 4a2 2 0 00-3.5 0L3.25 16.03A2 2 0 005.07 19z" /></svg>
+          <WarningAmberRounded className="w-4 h-4 text-brand-warm" />
         </div>
         <div>
           <p className="text-[14px] font-extrabold text-surface">Currently under construction</p>

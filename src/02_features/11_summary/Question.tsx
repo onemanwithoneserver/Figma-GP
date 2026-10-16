@@ -1,3 +1,4 @@
+import AddRounded from '@mui/icons-material/AddRounded';
 import CheckRounded from '@mui/icons-material/CheckRounded';
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
@@ -89,10 +90,7 @@ const Question = () => {
               onClick={() => setShowAskInput(true)}
               className="flex items-center gap-1.5 rounded-chip border border-brand-booking bg-[#FFF8F4] px-3 py-1.5 text-[13px] font-bold text-brand-booking transition-colors hover:bg-[#FFEBE0] active:scale-[0.98]"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
+              <AddRounded className="w-[14px] h-[14px]" />
               Ask seller
             </ActionButton>
           )}

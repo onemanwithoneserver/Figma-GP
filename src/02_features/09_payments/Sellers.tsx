@@ -1,3 +1,6 @@
+import VerifiedRounded from '@mui/icons-material/VerifiedRounded';
+import StarRounded from '@mui/icons-material/StarRounded';
+import OpenInNewRounded from '@mui/icons-material/OpenInNewRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React from 'react';
 
@@ -12,21 +15,13 @@ interface Seller {
 
 const Icons = {
   Verified: () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="#E76F26" stroke="white" strokeWidth="2">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-    </svg>
+    <VerifiedRounded className="w-[14px] h-[14px] text-brand-warm" />
   ),
   Star: () => (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="#E76F26">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-    </svg>
+    <StarRounded className="w-[12px] h-[12px] text-[#E76F26]" />
   ),
   ExternalLink: () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-      <polyline points="15 3 21 3 21 9"></polyline>
-      <line x1="10" y1="14" x2="21" y2="3"></line>
-    </svg>
+    <OpenInNewRounded className="w-[14px] h-[14px]" />
   )
 };
 

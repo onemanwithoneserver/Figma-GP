@@ -1,3 +1,7 @@
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded';
+import BookmarkBorderRounded from '@mui/icons-material/BookmarkBorderRounded';
+import BookmarkRounded from '@mui/icons-material/BookmarkRounded';
 import { getScrollBehavior } from '../../03_shared/04_motion/useMotionSettings';
 import { cn } from '../../03_shared/03_utils/utils';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
@@ -112,10 +116,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
           className="p-1 rounded-card flex items-center justify-center transition-all bg-white/10 border border-white/15 hover:bg-white/20"
           title="Close view"
         >
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
+          <CloseRounded opacity="0.9" className="w-[12px] h-[12px] text-white" />
         </ActionButton>
       </div>
 
@@ -242,19 +243,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             hover:bg-surface-muted hover:text-ink
             transition-all duration-200 active:scale-95"
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="19" y1="12" x2="5" y2="12" />
-              <polyline points="12 19 5 12 12 5" />
-            </svg>
+            <ArrowBackRounded className="w-[14px] h-[14px]" />
             Go back
           </ActionButton>
 
@@ -269,18 +258,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
                 : 'bg-white text-[#554E48] border-outline hover:bg-surface-muted hover:text-ink'
             }`}
           >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill={isSaved ? "currentColor" : "none"}
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-            </svg>
+            {isSaved ? <BookmarkRounded className="h-[14px] w-[14px]" /> : <BookmarkBorderRounded className="h-[14px] w-[14px]" />}
             {isSaved ? 'Saved' : 'Save plan'}
           </ActionButton>
 

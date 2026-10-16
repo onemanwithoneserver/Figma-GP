@@ -2,22 +2,22 @@ import { MotionButton } from '../02_ui/ActionButton';
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import Bookmark from '@mui/icons-material/BookmarkBorderRounded';
-import EyeOff from '@mui/icons-material/VisibilityOffOutlined';
-import Share2 from '@mui/icons-material/ShareOutlined';
-import X from '@mui/icons-material/CloseRounded';
-import Phone from '@mui/icons-material/LocalPhoneOutlined';
+import BookmarkBorderRounded from '@mui/icons-material/BookmarkBorderRounded';
+import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
+import ShareOutlined from '@mui/icons-material/ShareOutlined';
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import LocalPhoneOutlined from '@mui/icons-material/LocalPhoneOutlined';
 import { motion } from 'motion/react';
 import { useMotionSettings } from '../04_motion/useMotionSettings';
 
 const FooterNav: React.FC = () => {
   const { reducedMotion, transition } = useMotionSettings();
   const navItems = [
-    { icon: Bookmark, label: "Save", id: "save" },
-    { icon: EyeOff, label: "Hide", id: "hide" },
-    { icon: Phone, label: "Contact", id: "contact", isCenter: true },
-    { icon: Share2, label: "Share", id: "share" },
-    { icon: X, label: "Close", id: "close", isDestructive: true }
+    { icon: BookmarkBorderRounded, label: "Save", id: "save" },
+    { icon: VisibilityOffOutlined, label: "Hide", id: "hide" },
+    { icon: LocalPhoneOutlined, label: "Contact", id: "contact", isCenter: true },
+    { icon: ShareOutlined, label: "Share", id: "share" },
+    { icon: CloseRounded, label: "Close", id: "close", isDestructive: true }
   ];
 
   return (
@@ -38,7 +38,7 @@ const FooterNav: React.FC = () => {
                     whileTap={{ scale: 0.92 }}
                     className="w-10 h-10 flex items-center justify-center bg-ink text-white rounded-full shadow-lg shadow-ink/30 mb-0.5 z-10"
                   >
-                    <item.icon className="w-4 h-4 fill-white/20" strokeWidth={2} />
+                    <item.icon className="w-4 h-4 text-white" />
                   </MotionButton>
                   <span className="text-[11px] font-bold text-slate-800 tracking-wide">
                     {item.label}
@@ -63,7 +63,6 @@ const FooterNav: React.FC = () => {
                   />
                   <item.icon
                     className="relative z-20 w-4 h-4 text-white transition-colors duration-300"
-                    strokeWidth={1.5}
                   />
                 </div>
                 <span className={`text-[12px] font-medium mt-0.5 ${

@@ -1,3 +1,6 @@
+import ApartmentOutlined from '@mui/icons-material/ApartmentOutlined';
+import AccessTimeRounded from '@mui/icons-material/AccessTimeRounded';
+import BoltRounded from '@mui/icons-material/BoltRounded';
 import { cn } from '../../03_shared/03_utils/utils';
 import React from 'react';
 import TowerEngagementPanel from './TowerEngagementPanel';
@@ -52,9 +55,7 @@ const ShowcaseTower = ({
             <div className={cn("absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-control opacity-15", "[background:radial-gradient(circle,_#E76F26_0%,_transparent_70%)]")}  />
             {/* Building silhouette */}
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-              <svg className="w-14 h-14 text-outline/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.8} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
+              <ApartmentOutlined className="w-14 h-14 text-outline/50" />
               <span className="text-[12px] font-extrabold text-surface tracking-wide">Render pending</span>
             </div>
           </>
@@ -78,10 +79,10 @@ const ShowcaseTower = ({
 
           >
             {isFuture ? (
-              <svg className="w-4 h-4 text-outline" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <AccessTimeRounded className="w-4 h-4 text-outline" />
             ) : (
               // Active Icon updated to #E76F26
-              <svg className="w-4 h-4 text-brand-warm" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+              <BoltRounded className="w-4 h-4 text-brand-warm" />
             )}
           </div>
           <div>

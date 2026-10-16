@@ -1,3 +1,4 @@
+import CheckRounded from '@mui/icons-material/CheckRounded';
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { TransitionPanel } from '../../03_shared/04_motion/TransitionPanel';
@@ -93,10 +94,8 @@ const AMENITIES_DATA: AmenityData[] = [
 ];
 
 const Icons = {
-  Check: ({ size = 10, strokeWidth = 3 }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
+  Check: ({ size = 10 }) => (
+    <CheckRounded style={{ width: size, height: size }} />
   )
 };
 
@@ -138,7 +137,7 @@ const AmenitiesSection: React.FC = () => {
                 {activeData.features.map((feature, index) => (
                   <motion.div variants={itemVariants} key={feature} className="flex items-start gap-3">
                     <div className="mt-1 flex-shrink-0 w-4 h-4 rounded-full bg-brand-warm flex items-center justify-center text-white">
-                      <Icons.Check size={9} strokeWidth={4} />
+                      <Icons.Check size={9} />
                     </div>
                     <span className="text-[14px] text-ink font-medium leading-tight">
                       {feature}

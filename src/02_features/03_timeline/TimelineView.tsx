@@ -1,3 +1,7 @@
+import DescriptionOutlined from '@mui/icons-material/DescriptionOutlined';
+import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
+import ChevronLeftRounded from '@mui/icons-material/ChevronLeftRounded';
+import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded';
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded';
 import { cn } from '../../03_shared/03_utils/utils';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
@@ -161,9 +165,7 @@ const TimelineView: React.FC = () => {
                   <div key={doc.id} className="flex items-center justify-between bg-surface-soft p-4 rounded-control shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 flex items-center justify-center bg-surface-muted text-[#4A525A] rounded-chip">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
-                        </svg>
+                        <DescriptionOutlined className="w-4 h-4" />
                       </div>
                       <div className="flex flex-col justify-center">
                         <p className="text-[13px] font-medium text-ink leading-none mb-1.5">{doc.name}</p>
@@ -175,10 +177,7 @@ const TimelineView: React.FC = () => {
                       title={`View ${doc.name}`}
                       className="p-1.5 text-[#595959] hover:text-ink transition-colors outline-none"
                     >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
+                      <VisibilityOutlined className="w-4 h-4" />
                     </ActionButton>
                   </div>
                 ))}
@@ -211,9 +210,7 @@ const TimelineView: React.FC = () => {
                             aria-label="Scroll construction timeline left"
                             className="pointer-events-auto ml-1 w-6 h-6 rounded-full bg-white/95 border border-outline flex items-center justify-center text-[#554E48] hover:text-ink hover:border-[#D9D1C6] transition-colors"
                           >
-                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 18l-6-6 6-6" />
-                            </svg>
+                            <ChevronLeftRounded className="w-3.5 h-3.5" />
                           </ActionButton>
                         </div>
                       )}
@@ -226,9 +223,7 @@ const TimelineView: React.FC = () => {
                             aria-label="Scroll construction timeline right"
                             className="pointer-events-auto mr-1 w-6 h-6 rounded-full bg-white/95 border border-outline flex items-center justify-center text-[#554E48] hover:text-ink hover:border-[#D9D1C6] transition-colors"
                           >
-                            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 6l6 6-6 6" />
-                            </svg>
+                            <ChevronRightRounded className="w-3.5 h-3.5" />
                           </ActionButton>
                         </div>
                       )}

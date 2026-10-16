@@ -1,3 +1,4 @@
+import ChevronLeftRounded from '@mui/icons-material/ChevronLeftRounded';
 import { getScrollBehavior } from '../../03_shared/04_motion/useMotionSettings';
 import ChevronRightRounded from '@mui/icons-material/ChevronRightRounded';
 import { cn } from '../../03_shared/03_utils/utils';
@@ -75,9 +76,7 @@ export default function TabNavigation({ tabs, activeTab, onTabClick }: TabNaviga
             className="pointer-events-auto p-1.5 rounded-full text-ink bg-transparent hover:bg-transparent transition-colors"
             aria-label="Scroll left"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m15 18-6-6 6-6"/>
-            </svg>
+            <ChevronLeftRounded className="w-[18px] h-[18px]" />
           </ActionButton>
         </div>
       )}
