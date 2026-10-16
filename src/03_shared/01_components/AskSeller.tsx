@@ -62,11 +62,11 @@ export default function AskSeller({ initialQuestions, initiallySelected = true, 
           const checked = selected.includes(question);
           return (
             <ActionButton key={question} onClick={() => toggleQuestion(question)} aria-pressed={checked}
-              className="group flex w-full items-start gap-2.5 text-left transition-opacity active:opacity-80">
+              className="group flex w-full items-start justify-start gap-2.5 text-left transition-opacity active:opacity-80">
               <span className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-tab shadow-sm transition-colors ${checked ? 'bg-ink-gradient' : 'border border-outline bg-surface'}`}>
                 {checked && <CheckRounded className="h-2.5 w-2.5 text-outline" />}
               </span>
-              <span className={`text-[12px] font-semibold leading-tight transition-colors group-hover:text-brand-warm ${checked ? 'text-ink' : 'text-[#554E48]'}`}>
+              <span className={`min-w-0 flex-1 text-[12px] font-semibold leading-tight transition-colors group-hover:text-brand-warm ${checked ? 'text-ink' : 'text-[#554E48]'}`}>
                 {question}
               </span>
             </ActionButton>
@@ -76,7 +76,7 @@ export default function AskSeller({ initialQuestions, initiallySelected = true, 
 
       <div className="space-y-2.5">
         {isAdding && (
-          <form onSubmit={addQuestion} className="flex w-full items-center gap-2 px-2.5 py-2 animate-in fade-in duration-200">
+          <form onSubmit={addQuestion} className="flex w-full items-center gap-2.5 py-2 animate-in fade-in duration-200">
             <ActionButton type="submit" aria-label="Add custom question"
               className="flex h-4 w-4 shrink-0 items-center justify-center rounded-tab border border-ink bg-ink">
               <span aria-hidden="true" className="h-1.5 w-1.5 rounded-chip bg-white" />
@@ -93,7 +93,7 @@ export default function AskSeller({ initialQuestions, initiallySelected = true, 
         {questions.length > 2 && (
           <ActionButton onClick={() => setExpanded(previous => !previous)}
             aria-expanded={expanded} aria-controls={`${id}-questions`}
-            className="group flex w-full items-center gap-2.5 text-left">
+            className="group flex w-full items-center justify-start gap-2.5 text-left">
             <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-tab border border-outline bg-surface transition-colors group-hover:border-brand-warm">
               <KeyboardArrowUpRounded className={`h-2.5 w-2.5 text-ink-subtle transition-transform group-hover:text-brand-warm ${expanded ? '' : 'rotate-180'}`} />
             </span>
