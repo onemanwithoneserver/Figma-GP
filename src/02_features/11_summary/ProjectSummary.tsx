@@ -68,7 +68,7 @@ const ProjectSummary: React.FC = () => {
 
   return (
     <div className="bg-white">
-      <div id="panel-summary" role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300 p-2 sm:p-3 rounded-control border border-[#EBE4DC]/80 shadow-xs">
+      <div id="panel-summary" role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300 p-2 sm:p-3 rounded-control  shadow-xs">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-[20px] font-extrabold text-[#3A312B]">Project Summary</h2>
           <span className="text-[20px]">
