@@ -26,16 +26,39 @@ const ShowcaseTower = ({
   const isFuture = status === 'Future Phase';
 
   const displaySpecs = customSpecs || [
-    { label: 'Configurations',  value: 'TBD',      icon: KingBedRounded },
-    { label: 'Floors',          value: 'TBD',      icon: ApartmentRounded },
-    { label: 'Total Units',     value: 'TBD',      icon: HomeWorkRounded },
-    { label: 'Units / Floor',   value: 'TBD',      icon: GridViewRounded },
-    { label: 'Passenger Lifts', value: 'TBD',      icon: ElevatorRounded },
-    { label: 'Service Lifts',   value: 'TBD',      icon: EngineeringRounded },
-    { label: 'Lift Ratio',      value: 'TBD',      icon: SpeedRounded },
-    { label: 'Status',          value: 'Planning', icon: VerifiedRounded,      muted: true },
-    { label: 'Handover',        value: 'TBA',      icon: CalendarMonthRounded, muted: true },
+    { label: 'Configurations',  value: 'TBD',      icon: KingBedRounded,       variant: 'default' },
+    { label: 'Floors',          value: 'TBD',      icon: ApartmentRounded,     variant: 'default' },
+    { label: 'Total Units',     value: 'TBD',      icon: HomeWorkRounded,      variant: 'default' },
+    { label: 'Units / Floor',   value: 'TBD',      icon: GridViewRounded,      variant: 'default' },
+    { label: 'Passenger Lifts', value: 'TBD',      icon: ElevatorRounded,      variant: 'default' },
+    { label: 'Service Lifts',   value: 'TBD',      icon: EngineeringRounded,   variant: 'default' },
+    { label: 'Lift Ratio',      value: 'TBD',      icon: SpeedRounded,         variant: 'default' },
+    { label: 'Status',          value: 'Planning', icon: VerifiedRounded,      variant: 'status-prelaunch' },
+    { label: 'Handover',        value: 'TBA',      icon: CalendarMonthRounded, variant: 'muted' },
   ];
+
+  const getVariantStyles = (variant) => {
+    switch (variant) {
+      case 'status-prelaunch':
+        return {
+          card: 'border-blue-200/80 bg-blue-50/20 hover:border-blue-300',
+          badge: 'bg-blue-100/80 text-blue-700 group-hover:bg-blue-600 group-hover:text-white',
+          value: 'text-blue-700',
+        };
+      case 'muted':
+        return {
+          card: 'border-outline bg-surface',
+          badge: 'bg-[#EDE8E1] text-[#8C827A] group-hover:bg-brand-warm group-hover:text-white',
+          value: 'text-[#8C827A]',
+        };
+      default:
+        return {
+          card: 'border-outline bg-surface hover:border-brand-warm/40 hover:bg-white',
+          badge: 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-brand-warm group-hover:text-white',
+          value: 'text-ink',
+        };
+    }
+  };
 
   return (
     <div className="w-full space-y-0">
@@ -102,17 +125,18 @@ const ShowcaseTower = ({
         <div className="grid grid-cols-3 gap-2">
           {displaySpecs.map((s, i) => {
             const Icon = s.icon;
+            const styles = getVariantStyles(s.variant);
+
             return (
               <div
                 key={i}
-                className="bg-surface border border-outline rounded-control px-1.5 py-2 sm:py-2.5 flex flex-col items-center justify-center gap-1 text-center shadow-xs hover:shadow-md hover:border-brand-warm/40 hover:bg-white transition-all duration-200 group"
+                className={cn(
+                  "border rounded-control px-1.5 py-2 sm:py-2.5 flex flex-col items-center justify-center gap-1 text-center shadow-xs hover:shadow-md transition-all duration-200 group",
+                  styles.card
+                )}
               >
                 {Icon && (
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                    s.accent
-                      ? 'bg-brand-warm/15 text-brand-warm group-hover:bg-brand-warm group-hover:text-white'
-                      : 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-brand-warm group-hover:text-white'
-                  }`}>
+                  <div className={cn("w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200", styles.badge)}>
                     <Icon style={{ fontSize: 16 }} />
                   </div>
                 )}
@@ -121,9 +145,7 @@ const ShowcaseTower = ({
                   {s.label}
                 </span>
 
-                <span className={`text-[12px] font-extrabold leading-tight tracking-tight ${
-                  s.accent ? 'text-brand-warm' : s.muted ? 'text-[#554E48]' : 'text-ink'
-                }`}>
+                <span className={cn("text-[12px] font-extrabold leading-tight tracking-tight", styles.value)}>
                   {s.value}
                 </span>
               </div>

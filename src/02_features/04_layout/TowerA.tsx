@@ -12,16 +12,39 @@ import VerifiedRounded from '@mui/icons-material/VerifiedRounded';
 import CalendarMonthRounded from '@mui/icons-material/CalendarMonthRounded';
 
 const specs = [
-  { label: 'Configurations',        value: '2 & 3 BHK',          icon: KingBedRounded,       accent: false },
-  { label: 'Floors',                value: 'G + 14',             icon: ApartmentRounded,     accent: false },
-  { label: 'Total Units',           value: '84 Apartments',      icon: HomeWorkRounded,      accent: false },
-  { label: 'No.of units per floor', value: '6 Units',            icon: GridViewRounded,      accent: false },
-  { label: 'Passenger Lifts',       value: '2 High-speed',       icon: ElevatorRounded,      accent: false },
-  { label: 'Service Lifts',         value: '1 Dedicated',        icon: EngineeringRounded,   accent: false },
-  { label: 'Lift Ratio',            value: '1 per 28 Flats',     icon: SpeedRounded,         accent: false },
-  { label: 'Status',                value: 'Ready to Move',      icon: VerifiedRounded,      accent: true  },
-  { label: 'Handover',              value: 'Oct 2024',           icon: CalendarMonthRounded, accent: true  },
+  { label: 'Configurations',        value: '2 & 3 BHK',          icon: KingBedRounded,       variant: 'default' },
+  { label: 'Floors',                value: 'G + 14',             icon: ApartmentRounded,     variant: 'default' },
+  { label: 'Total Units',           value: '84 Apartments',      icon: HomeWorkRounded,      variant: 'default' },
+  { label: 'No.of units per floor', value: '6 Units',            icon: GridViewRounded,      variant: 'default' },
+  { label: 'Passenger Lifts',       value: '2 High-speed',       icon: ElevatorRounded,      variant: 'default' },
+  { label: 'Service Lifts',         value: '1 Dedicated',        icon: EngineeringRounded,   variant: 'default' },
+  { label: 'Lift Ratio',            value: '1 per 28 Flats',     icon: SpeedRounded,         variant: 'default' },
+  { label: 'Status',                value: 'Ready to Move',      icon: VerifiedRounded,      variant: 'status' },
+  { label: 'Handover',              value: 'Oct 2024',           icon: CalendarMonthRounded, variant: 'handover' },
 ];
+
+const getVariantStyles = (variant?: string) => {
+  switch (variant) {
+    case 'status':
+      return {
+        card: 'border-emerald-200/80 bg-emerald-50/20 hover:border-emerald-300',
+        badge: 'bg-emerald-100/80 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white',
+        value: 'text-emerald-700',
+      };
+    case 'handover':
+      return {
+        card: 'border-amber-200/80 bg-amber-50/20 hover:border-brand-warm/40',
+        badge: 'bg-brand-warm/15 text-brand-warm group-hover:bg-brand-warm group-hover:text-white',
+        value: 'text-brand-warm',
+      };
+    default:
+      return {
+        card: 'border-outline bg-surface hover:border-brand-warm/40 hover:bg-white',
+        badge: 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-brand-warm group-hover:text-white',
+        value: 'text-[#9A3F00]',
+      };
+  }
+};
 
 const TowerA = () => (
   <div className="w-full space-y-0">
@@ -44,17 +67,18 @@ const TowerA = () => (
       <div className="grid grid-cols-3 gap-2">
         {specs.map((s, i) => {
           const Icon = s.icon;
+          const styles = getVariantStyles(s.variant);
+
           return (
             <div
               key={i}
-              className="bg-surface border border-outline rounded-control px-1.5 py-2 sm:py-2.5 flex flex-col items-center justify-center gap-1 text-center shadow-xs hover:shadow-md hover:border-brand-warm/40 hover:bg-white transition-all duration-200 group"
+              className={cn(
+                "border rounded-control px-1.5 py-2 sm:py-2.5 flex flex-col items-center justify-center gap-1 text-center shadow-xs hover:shadow-md transition-all duration-200 group",
+                styles.card
+              )}
             >
               {Icon && (
-                <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                  s.accent
-                    ? 'bg-brand-warm/15 text-brand-warm group-hover:bg-brand-warm group-hover:text-white'
-                    : 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-brand-warm group-hover:text-white'
-                }`}>
+                <div className={cn("w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-all duration-200", styles.badge)}>
                   <Icon style={{ fontSize: 16 }} />
                 </div>
               )}
@@ -63,9 +87,7 @@ const TowerA = () => (
                 {s.label}
               </span>
 
-              <span className={`text-[12px] font-extrabold leading-tight tracking-tight ${
-                s.accent ? 'text-[#FC6100]' : 'text-[#9A3F00]'
-              }`}>
+              <span className={cn("text-[12px] font-extrabold leading-tight tracking-tight", styles.value)}>
                 {s.value}
               </span>
             </div>
