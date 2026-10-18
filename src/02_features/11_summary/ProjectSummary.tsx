@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import CheckRounded from '@mui/icons-material/CheckRounded';
 
 interface SavedPlan {
   id: string;
   type: string;
   area: string;
-  price: string;
   tower: string;
+  price: string;
   facing: string;
 }
 
@@ -18,14 +17,14 @@ const FACTORS: Record<'likes' | 'neutral' | 'apprehensions', string[]> = {
     'Vaastu / Facing',
   ],
   neutral: [
-    'Price Alignment',
-    'Clubhouse Delivery Schedule',
-    'Open Space & Density',
+    'Pricing & Payment Structure',
+    'Clubhouse Delivery Milestones',
+    'Open Green Space Ratio',
   ],
   apprehensions: [
+    'Peak Hour Road Traffic Buffer',
     'Higher Absolute Ticket Size',
-    'Possession Timeline Buffer',
-    'Long-term Maintenance',
+    'Long-term Society Maintenance',
   ],
 };
 
@@ -34,23 +33,23 @@ const SAVED_PLANS: SavedPlan[] = [
     id: 'p1',
     type: '2 BHK',
     area: '1280 sq ft',
-    price: '₹1.12 Cr',
     tower: 'Tower B',
+    price: '₹1.12 Cr',
     facing: 'East Facing',
   },
   {
     id: 'p2',
     type: '3 BHK',
     area: '1650 sq ft',
-    price: '₹1.48 Cr',
     tower: 'Tower A',
+    price: '₹1.48 Cr',
     facing: 'East Facing',
   },
 ];
 
 const TABS = [
   { key: 'likes' as const, label: 'Likes', emoji: '👍' },
-  { key: 'neutral' as const, label: 'Neutral', emoji: '🙄' },
+  { key: 'neutral' as const, label: 'Neutral', emoji: '😐' },
   { key: 'apprehensions' as const, label: 'Apprehensions', emoji: '❓' },
 ];
 
@@ -63,127 +62,162 @@ const ProjectSummary: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-white px-4 py-5 sm:px-6 sm:py-6 rounded-[16px] border border-gray-100 shadow-sm mb-4">
-      <div className="flex items-start justify-between gap-3 mb-1">
-        <div>
-          <h2 className="text-[25px] sm:text-[27px] font-black text-[#2B231D] tracking-tight leading-tight">
-            Project Summary
-          </h2>
-          <p className="text-[13.5px] sm:text-[14px] text-[#6B7280] font-normal mt-1 leading-normal">
-            Review the factors below based on your select preferences.
-          </p>
-        </div>
-
-        <div className="p-1 text-[#5C4D44] flex-shrink-0 mt-0.5" aria-hidden="true">
-          <svg
-            width="22"
-            height="24"
-            viewBox="0 0 20 22"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="2.5" y="4.5" width="15" height="16" rx="2" />
-            <path d="M7 4.5V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1.5" />
-            <line x1="5.5" y1="9.5" x2="14.5" y2="9.5" />
-            <line x1="5.5" y1="13.5" x2="14.5" y2="13.5" />
-            <line x1="5.5" y1="17.5" x2="11.5" y2="17.5" />
-          </svg>
-        </div>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2.5 my-4">
-        {TABS.map((tab) => {
-          const isActive = activeTab === tab.key;
-          return (
-            <motion.button
-              key={tab.key}
-              type="button"
-              whileTap={{ scale: 0.96 }}
-              onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-[10px] text-[13.5px] sm:text-[14.5px] font-bold transition-all duration-150 cursor-pointer outline-none select-none ${
-                isActive
-                  ? 'bg-[#E76F26] text-white shadow-sm'
-                  : 'bg-[#F5EFEB] text-[#2D241E] hover:bg-[#EFE8E3]'
-              }`}
+    <div className="bg-white">
+      <div id="panel-summary" role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300 p-1">
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-[20px] font-extrabold text-[#3A312B]">Project Summary</h2>
+          <span className="text-[20px]">
+            <svg
+              className="w-[22px] h-[22px] text-[#7A5C3A]"
+              focusable="false"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
             >
-              <span className="text-[14px]">{tab.emoji}</span>
-              <span>{tab.label}</span>
-            </motion.button>
-          );
-        })}
-      </div>
-
-      <div className="mb-6">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.15 }}
-            className="flex flex-col gap-3"
-          >
-            {FACTORS[activeTab].map((title) => (
-              <div key={title} className="flex items-center gap-2.5">
-                <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#E76F26] text-white flex-shrink-0 shadow-xs">
-                  <CheckRounded style={{ fontSize: 13, strokeWidth: 1.5 }} />
-                </div>
-                <span className="text-[16px] sm:text-[17px] font-black text-[#2B231D] tracking-tight">
-                  {title}
-                </span>
-              </div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      <div className="pt-2">
-        <div className="flex items-center gap-2 mb-3.5">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-[#E76F26] flex-shrink-0">
-            <rect x="2" y="2" width="6" height="16" rx="2" fill="currentColor" />
-            <rect x="11" y="2" width="7" height="16" rx="2" fill="currentColor" />
-          </svg>
-          <h3 className="text-[20px] sm:text-[21px] font-black text-[#E76F26] tracking-tight">
-            Saved Floor Plans
-          </h3>
+              <path
+                fill="currentColor"
+                d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7zm12-4h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04-.39.08-.74.28-1.01.55-.18.18-.33.4-.43.64-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
+              />
+            </svg>
+          </span>
         </div>
 
-        <div className="flex flex-col gap-3.5">
-          {SAVED_PLANS.map((plan) => {
-            const isChecked = Boolean(savedPlans[plan.id]);
+        <div className="mb-1">
+          <p className="text-[12px] text-[#6B6B7B]">Review the factors below based on your select preferences.</p>
+        </div>
 
-            return (
-              <div
-                key={plan.id}
-                onClick={() => toggleSavePlan(plan.id)}
-                className="flex items-start gap-3 cursor-pointer group select-none"
+        <div className="flex justify-start sm:justify-center">
+          <div className="relative w-full max-w-xl">
+            <div className="flex overflow-x-auto scrollbar-hide gap-2 px-1 pt-2 pb-1.5 bg-white" role="tablist" aria-label="Project Summary section navigation">
+              {TABS.map((tab) => {
+                const isActive = activeTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    aria-controls={`panel-${tab.key}`}
+                    onClick={() => setActiveTab(tab.key)}
+                    className={`flex-shrink-0 flex items-center justify-center px-3.5 py-1.5 text-[12px] leading-none font-semibold rounded-tab transition-all duration-200 outline-none cursor-pointer select-none ${
+                      isActive
+                        ? 'bg-brand-warm text-white shadow-sm ring-1 ring-brand-warm/30'
+                        : 'bg-surface-tab text-ink hover:bg-[#EAE4DC]'
+                    }`}
+                  >
+                    <span className="mr-1">{tab.emoji}</span>
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-5 mt-2">
+          <div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, y: 3 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -3 }}
+                transition={{ duration: 0.15 }}
+                className="flex flex-col gap-y-2.5"
               >
-                <div
-                  className={`w-5 h-5 rounded-[4px] mt-0.5 flex items-center justify-center flex-shrink-0 transition-colors ${
-                    isChecked
-                      ? 'bg-[#2E2722] text-white'
-                      : 'border-2 border-gray-400 bg-white group-hover:border-gray-600'
-                  }`}
-                >
-                  {isChecked && (
-                    <CheckRounded style={{ fontSize: 14, strokeWidth: 2 }} />
-                  )}
-                </div>
+                {FACTORS[activeTab].map((item) => (
+                  <div key={item} className="ml-3 flex items-center gap-x-2">
+                    <svg
+                      className="w-[16px] h-[16px] text-brand-booking flex-shrink-0"
+                      focusable="false"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M9.29 16.29 5.7 12.7a.996.996 0 0 1 0-1.41c.39-.39 1.02-.39 1.41 0L10 14.17l6.88-6.88c.39-.39 1.02-.39 1.41 0s.39 1.02 0 1.41l-7.59 7.59c-.38.39-1.02.39-1.41 0"
+                      />
+                    </svg>
+                    <span className="text-[14px] font-bold text-[#3A312B] leading-tight">
+                      {item}
+                    </span>
+                  </div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-                <div className="flex-1 min-w-0">
-                  <span className="text-[16.5px] sm:text-[17.5px] font-black text-[#2B231D] block leading-tight">
-                    {plan.type} • {plan.area}
-                  </span>
-                  <span className="text-[13px] sm:text-[13.5px] text-[#6B7280] font-medium block mt-0.5 leading-snug">
-                    {plan.tower} • {plan.price} • {plan.facing}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+          <div>
+            <h3 className="mb-2 flex items-center text-[16px] font-extrabold">
+              <span className="mr-1.5 flex items-center">
+                <svg
+                  className="w-[18px] h-[18px] text-brand-booking"
+                  focusable="false"
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M9 21H5c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2m6 0h4c1.1 0 2-.9 2-2v-5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v5c0 1.1.9 2 2 2m6-13V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2"
+                  />
+                </svg>
+              </span>
+              <span className="text-brand-booking">Saved Floor Plans</span>
+            </h3>
+
+            <div className="flex flex-col gap-y-3">
+              {SAVED_PLANS.map((plan) => {
+                const isChecked = Boolean(savedPlans[plan.id]);
+                return (
+                  <div
+                    key={plan.id}
+                    onClick={() => toggleSavePlan(plan.id)}
+                    className="ml-3 flex items-start gap-x-2 cursor-pointer group select-none transition-opacity duration-150"
+                  >
+                    <button
+                      type="button"
+                      aria-label={`Toggle ${plan.type}`}
+                      className="mt-0.5 shrink-0 text-[#3A312B] group-hover:text-brand-booking transition-colors cursor-pointer outline-none"
+                    >
+                      {isChecked ? (
+                        <svg
+                          className="w-[16px] h-[16px]"
+                          focusable="false"
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-8.29 13.29c-.39.39-1.02.39-1.41 0L5.71 12.7a.996.996 0 0 1 0-1.41c.39-.39 1.02-.39 1.41 0L10 14.17l6.88-6.88c.39-.39 1.02-.39 1.41 0s.39 1.02 0 1.41z"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="w-[16px] h-[16px] text-gray-400 group-hover:text-[#3A312B]"
+                          focusable="false"
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                          />
+                        </svg>
+                      )}
+                    </button>
+
+                    <div className="flex flex-col ml-0.5 min-w-0">
+                      <span className="text-[14px] font-bold text-[#3A312B] leading-tight">
+                        {plan.type} • {plan.area}
+                      </span>
+                      <span className="text-[12px] font-medium text-[#7A716A] mt-0.5">
+                        {plan.tower}  ·  {plan.price}  ·  {plan.facing}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
