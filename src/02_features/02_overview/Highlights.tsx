@@ -8,7 +8,7 @@ import FamilyRestroomRounded from '@mui/icons-material/FamilyRestroomRounded';
 import ParkRounded from '@mui/icons-material/ParkRounded';
 import FitnessCenterRounded from '@mui/icons-material/FitnessCenterRounded';
 import LocationCityRounded from '@mui/icons-material/LocationCityRounded';
-import MonetizationOnRounded from '@mui/icons-material/MonetizationOnRounded';
+import CurrencyRupeeRounded from '@mui/icons-material/CurrencyRupeeRounded';
 import DirectionsSubwayRounded from '@mui/icons-material/DirectionsSubwayRounded';
 import SecurityRounded from '@mui/icons-material/SecurityRounded';
 
@@ -70,7 +70,7 @@ const INVESTMENT_HIGHLIGHTS: HighlightItem[] = [
     title: 'High Rental Yield Potential',
     description: 'Situated 15 mins from key tech corridors and financial hubs, ensuring continuous demand from IT professionals and high occupancy rates.',
     badge: 'Steady Cashflow',
-    icon: MonetizationOnRounded,
+    icon: CurrencyRupeeRounded,
     metric: '~4.2% Rental Yield',
   },
   {
