@@ -20,6 +20,18 @@ export default defineConfig({
     },
   },
 
+  server: {
+    port: 5173,
+    host: true,
+    strictPort: false,
+    open: false,
+  },
+  preview: {
+    port: 4173,
+    host: true,
+    strictPort: false,
+    open: false,
+  },
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.csv'],
 })

@@ -126,9 +126,9 @@ const Highlights: React.FC<HighlightsProps> = ({ mode = 'self-use' }) => {
 
       <motion.div
         variants={staggerVariants}
-        initial={reducedMotion ? false : 'hidden'}
+        initial="hidden"
         whileInView="show"
-        viewport={{ once: false }}
+        viewport={{ once: true, amount: 0.05 }}
         className="flex flex-col gap-y-2.5"
       >
         {data.map((item, index) => {

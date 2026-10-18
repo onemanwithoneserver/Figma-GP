@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { ActionButton, MotionButton } from '../../03_shared/02_ui/ActionButton';
+import { MotionButton } from '../../03_shared/02_ui/ActionButton';
 import { AppDialog } from '../../03_shared/02_ui/AppDialog';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
-
-interface ProjectFileItem {
-  id: number;
-  label: string;
-  size: string;
-  description: string;
-}
+import { SamplePdfViewer } from './SamplePdfViewer';
+import { ModernPdfDropdown, type ProjectFileItem } from './ModernPdfDropdown';
+import { motion, AnimatePresence } from 'motion/react';
 
 const PROJECT_FILES: ProjectFileItem[] = [
   { id: 1, label: 'Brochure', size: '4.8 MB', description: 'Complete project walkthrough & amenities' },
@@ -77,16 +73,21 @@ const EyeIcon = ({ className = 'w-3.5 h-3.5' }: { className?: string }) => (
 const ProjectFilesSection: React.FC = () => {
   const { reducedMotion } = useMotionSettings();
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<ProjectFileItem | null>(null);
+  const [selectedFile, setSelectedFile] = useState<ProjectFileItem>(PROJECT_FILES[0]);
 
-  const handleFileClick = (file: ProjectFileItem) => {
+  const handleCardClick = (file: ProjectFileItem) => {
     setSelectedFile(file);
+    setModalOpen(true);
+  };
+
+  const handleViewAllClick = () => {
+    setSelectedFile(PROJECT_FILES[0]);
     setModalOpen(true);
   };
 
   return (
     <div className="w-full rounded-[10px] bg-[#161412] px-3.5 py-3 shadow-md">
-
+      {/* Header matching exact user screenshot */}
       <div className="flex items-center justify-between pb-3 pt-0.5 px-0.5">
         <h2 className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm">
           Project Files
@@ -94,11 +95,10 @@ const ProjectFilesSection: React.FC = () => {
 
         <MotionButton
           type="button"
-          onClick={() => {
-            setSelectedFile(null);
-            setModalOpen(true);
-          }}
-          className="group flex items-center gap-1.5 rounded-[8px] bg-[#F85B01] hover:bg-[#E05000] px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
+          onClick={handleViewAllClick}
+          whileHover={{ scale: 1.04 }}
+          whileTap={{ scale: 0.96 }}
+          className="group flex items-center gap-1.5 rounded-[8px] bg-[#F85B01] hover:bg-[#E05000] px-3.5 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] cursor-pointer"
           title="View All"
         >
           <EyeIcon className="transition-transform duration-200 group-hover:scale-110" />
@@ -106,18 +106,19 @@ const ProjectFilesSection: React.FC = () => {
         </MotionButton>
       </div>
 
+      {/* 5 Equal Cards Row matching exact user screenshot */}
       <div className="grid grid-cols-5 gap-1.5 py-0.5">
         {PROJECT_FILES.map((file) => (
           <MotionButton
             key={file.id}
             type="button"
-            onClick={() => handleFileClick(file)}
-            whileHover={reducedMotion ? undefined : { y: -2 }}
-            whileTap={reducedMotion ? undefined : { scale: 0.96 }}
-            className="group flex w-full h-[82px] flex-col items-center justify-between rounded-[10px] bg-[#E5E7EB] hover:bg-white px-1 py-2 transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
+            onClick={() => handleCardClick(file)}
+            whileHover={reducedMotion ? undefined : { y: -3, scale: 1.03 }}
+            whileTap={reducedMotion ? undefined : { scale: 0.95 }}
+            className="group flex w-full h-[82px] flex-col items-center justify-between rounded-[10px] bg-[#E5E7EB] hover:bg-white px-1 py-2 transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-black/25 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
             title={file.label}
           >
-            <PdfIcon className="h-9 w-9 shrink-0 transition-transform duration-200 group-hover:scale-105" />
+            <PdfIcon className="h-9 w-9 shrink-0 transition-transform duration-200 group-hover:scale-110" />
             <div className="flex h-[26px] items-center justify-center w-full">
               <span className="w-full text-center text-[10px] xs:text-[10.5px] font-bold leading-tight text-[#1F2933] group-hover:text-[#F85B01] transition-colors duration-200 line-clamp-2">
                 {file.label}
@@ -127,75 +128,56 @@ const ProjectFilesSection: React.FC = () => {
         ))}
       </div>
 
+      {/* Activated Dialog: ONLY PDF with modern dropdown to change PDF, matching mobile viewport */}
       <AppDialog
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         label="Project Files"
+        containerClassName="p-2 sm:p-4 flex items-center justify-center"
       >
-        <div className="w-[92vw] max-w-[390px] overflow-hidden rounded-[20px] border border-white/10 bg-[#1A1816] p-4 text-white shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between border-b border-white/10 pb-3">
-            <div>
-              <h3 className="text-[16px] font-bold text-white">
-                {selectedFile ? selectedFile.label : 'Project Files'}
-              </h3>
-              <p className="text-[11px] text-white/60">
-                Vasavi Skyla · Official Documentation
-              </p>
-            </div>
-            <ActionButton
-              onClick={() => setModalOpen(false)}
-              className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/20 hover:text-white"
-              aria-label="Close"
+        <AnimatePresence>
+          {modalOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 20 }}
+              transition={{ type: 'spring', stiffness: 360, damping: 26 }}
+              className="w-[96vw] max-w-[560px] max-h-[90dvh] rounded-[18px] border border-white/20 bg-[#161412] text-white shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden"
             >
-              <CloseRounded className="!w-4 !h-4" />
-            </ActionButton>
-          </div>
+              {/* Top Header with Modern Dropdown and Close */}
+              <div className="flex items-center justify-between gap-2 px-3 py-2.5 bg-[#141210] border-b border-white/10 flex-shrink-0 z-30">
+                {/* Modern Dropdown to change the PDF */}
+                <ModernPdfDropdown
+                  files={PROJECT_FILES}
+                  selectedFile={selectedFile}
+                  onSelect={(file) => setSelectedFile(file)}
+                />
 
-          <div className="max-h-[55vh] space-y-2 overflow-y-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {PROJECT_FILES.map((file) => {
-              const isSelected = selectedFile?.id === file.id;
-
-              return (
-                <div
-                  key={file.id}
-                  onClick={() => setSelectedFile(file)}
-                  className={`flex cursor-pointer items-center justify-between gap-3 rounded-xl border p-2.5 transition-all duration-200 ${
-                    isSelected
-                      ? 'border-[#F85B01] bg-white/[0.08]'
-                      : 'border-white/5 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]'
-                  }`}
+                {/* Close Button with micro-rotation animation */}
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.15, rotate: 90 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setModalOpen(false)}
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 text-white/80 hover:bg-white/25 hover:text-white cursor-pointer transition-colors flex-shrink-0 ml-auto outline-none"
+                  aria-label="Close dialog"
                 >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <PdfIcon className="h-9 w-9 shrink-0" />
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <p className="truncate text-[13px] font-bold text-white">
-                          {file.label}
-                        </p>
-                        <span className="text-[10px] text-white/50 font-semibold">
-                          ({file.size})
-                        </span>
-                      </div>
-                      <p className="truncate text-[11px] text-white/55">
-                        {file.description}
-                      </p>
-                    </div>
-                  </div>
+                  <CloseRounded className="!w-4 !h-4" />
+                </motion.button>
+              </div>
 
-                  <span className="shrink-0 rounded-md bg-[#F85B01]/20 px-2 py-1 text-[10px] font-bold text-[#F85B01]">
-                    View
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="border-t border-white/10 pt-2.5 text-center">
-            <p className="text-[11px] text-white/50">
-              Verified by Gully Properties
-            </p>
-          </div>
-        </div>
+              {/* ONLY the PDF Viewer displayed inside the dialog with continuous vertical scroll */}
+              <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+                <SamplePdfViewer
+                  fileId={selectedFile.id}
+                  fileName={selectedFile.label}
+                  fileSize={selectedFile.size}
+                  isCompact={false}
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </AppDialog>
     </div>
   );

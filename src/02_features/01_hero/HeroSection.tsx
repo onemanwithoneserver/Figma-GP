@@ -118,11 +118,12 @@ const HeroSection: React.FC = () => {
   const { scrollYProgress } = useScroll({ target: headerRef, offset: ["start start", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 60]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, reducedMotion ? 1 : 1.12]);
-  const pop = (delay: number) => reducedMotion
-    ? {}
-    : { initial: { opacity: 0, scale: 0.85, y: 8 }, whileInView: { opacity: 1, scale: 1, y: 0 },
-        viewport: { once: false },
-        transition: { type: "spring" as const, stiffness: 320, damping: 22, delay } };
+  const pop = (delay: number) => ({
+    initial: { opacity: 0, scale: 0.85, y: 8 },
+    whileInView: { opacity: 1, scale: 1, y: 0 },
+    viewport: { once: true, amount: 0.05 },
+    transition: { type: "spring" as const, stiffness: 320, damping: 22, delay },
+  });
 
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -197,7 +198,7 @@ const HeroSection: React.FC = () => {
         </motion.div>
 
         <motion.div className="absolute top-0 left-0 right-0 p-4 pt-6"
-          variants={staggerVariants} initial={reducedMotion ? false : "hidden"} whileInView="show" viewport={{ once: false }}>
+          variants={staggerVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
           <motion.h1 variants={itemVariants} className="text-white font-extrabold text-2xl leading-tight mb-1 tracking-tight">
             Vasavi Skyla
           </motion.h1>
@@ -241,7 +242,7 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          <motion.div variants={staggerVariants} initial={reducedMotion ? false : 'hidden'} whileInView="show" viewport={{ once: false }}
+          <motion.div variants={staggerVariants} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.05 }}
             className="flex items-start justify-between gap-5 w-full overflow-visible">
             {statsData.map((stat) => (
               <PropertyStat key={stat.id} {...stat} onVote={stat.setVote} iconSize={stat.iconSize} />
@@ -260,10 +261,10 @@ const HeroSection: React.FC = () => {
               <span aria-hidden="true" className="absolute inset-0 rounded-full bg-brand pulse-ring" />
               <span aria-hidden="true" className="absolute inset-0 rounded-full bg-brand pulse-ring [animation-delay:1.1s]" />
               <div
-                className={cn("w-10 h-10 rounded-full flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-110", "bg-brand-gradient")}
+                className={cn("w-12 h-12 rounded-full flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-110 shadow-lg shadow-brand/30", "bg-brand-gradient")}
 
               >
-                <Play className="w-4 h-4 text-white ml-1" fill="currentColor" />
+                <Play className="!w-7 !h-7 text-white ml-0.5" style={{ fontSize: '28px' }} fill="currentColor" />
               </div>
             </div>
             <div className="text-center">

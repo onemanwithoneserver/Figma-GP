@@ -4,5 +4,5 @@ import { useMotionSettings } from './useMotionSettings';
 
 export function MotionProvider({ children }: { children: ReactNode }) {
   const { transition } = useMotionSettings();
-  return <MotionConfig reducedMotion="user" transition={transition}>{children}</MotionConfig>;
+  return <MotionConfig reducedMotion="never" transition={transition}>{children}</MotionConfig>;
 }

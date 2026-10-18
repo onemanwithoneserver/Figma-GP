@@ -105,8 +105,8 @@ const TimelineView: React.FC = () => {
   return (
     <section className="w-full max-w-[800px] mx-auto px-2">
       <motion.div
-        initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }}
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.05 }}
         className="flex flex-col gap-5 pt-0"
       >
 
@@ -137,9 +137,9 @@ const TimelineView: React.FC = () => {
                 </div>
 
                 <motion.div
-                  initial={reducedMotion ? false : { width: '0%' }}
+                  initial={{ width: '0%' }}
                   whileInView={{ width: `${mockBackendData.progress.percentage}%` }}
-                  viewport={{ once: false, amount: 0.3 }}
+                  viewport={{ once: true, amount: 0.05 }}
                   transition={{ type: 'spring', stiffness: 85, damping: 18, delay: 0.1 }}
                   className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#F85B01] via-[#FF7A1A] to-[#E76F26] shadow-[0_0_12px_rgba(248,91,1,0.6)] relative overflow-hidden"
                 >
@@ -156,9 +156,9 @@ const TimelineView: React.FC = () => {
               </div>
 
               <motion.div
-                initial={reducedMotion ? false : { left: '0%', opacity: 0, scale: 0.5 }}
+                initial={{ left: '0%', opacity: 0, scale: 0.5 }}
                 whileInView={{ left: `${mockBackendData.progress.percentage}%`, opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.3 }}
+                viewport={{ once: true, amount: 0.05 }}
                 transition={{ type: 'spring', stiffness: 85, damping: 18, delay: 0.1 }}
                 className="absolute top-[14px] -translate-y-1/2 -translate-x-1/2 z-20 flex flex-col items-center group cursor-pointer"
               >
@@ -177,9 +177,9 @@ const TimelineView: React.FC = () => {
                 <span className="text-[11px] font-normal text-surface-muted">Started {mockBackendData.progress.startedDate}</span>
               </div>
               <motion.div
-                initial={reducedMotion ? false : { opacity: 0, scale: 0.95 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false }}
+                viewport={{ once: true, amount: 0.05 }}
                 transition={{ delay: 0.25, duration: 0.35 }}
                 className="flex items-center gap-1.5 px-2.5 py-1 -pt-2 rounded-card bg-[#4A3F37] border border-white/10 shadow-sm"
               >
