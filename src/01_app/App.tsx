@@ -70,7 +70,7 @@ function App() {
       <AmbientBackground />
       <ScrollProgress />
 
-      <div className="overflow-x-clip max-w-[390px] mx-auto pb-24 min-h-screen flex flex-col gap-[4px] relative z-[1]">
+      <div className="overflow-x-clip max-w-[390px] mx-auto pb-[70px] min-h-screen flex flex-col gap-[4px] relative z-[1]">
 
         <Reveal id="hero" className="bg-white">
           <div className="">
