@@ -30,7 +30,7 @@ export function SectionTabs({ items, value, onChange, label, idPrefix, tabClassN
         <Tab key={item.id} value={item.id} label={item.label}
           id={`${idPrefix}-tab-${item.id}`} aria-controls={`${idPrefix}-panel-${item.id}`}
           className={cn('flex-shrink-0 px-4 py-2 text-[12px] leading-none font-semibold rounded-tab transition-colors duration-200',
-            value === item.id ? 'bg-brand-warm text-white' : 'bg-surface-tab text-ink', tabClassName, 'leading-none')} />
+            value === item.id ? 'bg-brand-warm text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]' : 'glass glass-hover text-ink', tabClassName, 'leading-none')} />
       ))}
     </Tabs>
   );

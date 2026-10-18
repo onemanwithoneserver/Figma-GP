@@ -113,7 +113,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </div>
         <ActionButton
           onClick={onClose}
-          className="p-1 rounded-card flex items-center justify-center transition-all bg-white/10 border border-white/15 hover:bg-white/20"
+          className="p-1 rounded-card flex items-center justify-center transition-all glass-dark hover:bg-white/20"
           title="Close view"
         >
           <CloseRounded opacity="0.9" className="w-[12px] h-[12px] text-white" />

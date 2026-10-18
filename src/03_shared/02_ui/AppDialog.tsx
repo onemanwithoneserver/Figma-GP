@@ -24,7 +24,7 @@ export function AppDialog({ open, onClose, label, children, paperClassName, back
       aria-describedby={undefined}
       maxWidth={false}
       slotProps={{
-        backdrop: { className: cn('bg-black/45 backdrop-blur-[1px]', backdropClassName) },
+        backdrop: { className: cn('bg-black/35 backdrop-blur-md', backdropClassName) },
         container: { className: cn('p-3', containerClassName) },
         paper: {
           'aria-label': label,

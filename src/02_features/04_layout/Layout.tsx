@@ -1,7 +1,10 @@
 import OpenInFullRounded from '@mui/icons-material/OpenInFullRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { ImageDialog } from '../../03_shared/02_ui/ImageDialog';
+import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
+import styles from './Layout.module.css';
 
 type LayoutProps = {
   onTowerSelect?: (towerId: string) => void;
@@ -40,6 +43,7 @@ const galleryImages = [
 const Layout = ({ onTowerSelect }: LayoutProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { reducedMotion, transition } = useMotionSettings();
 
   const handleNextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % galleryImages.length);
@@ -56,56 +60,61 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
         {/* Header Section - Max Round 7px */}
         <ActionButton
           aria-label="Open project gallery"
-          className="block relative w-full h-[160px] overflow-hidden group bg-ink md:rounded-b-[7px] border-b border-outline/80 cursor-pointer"
+          className={`${styles.gallery} block relative w-full h-[160px] overflow-hidden group bg-ink md:rounded-b-[7px] border-b border-outline/80 cursor-pointer`}
           onClick={() => setIsModalOpen(true)}
         >
           <img
             src={galleryImages[0]}
             alt="Project Master Plan"
-            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 opacity-85"
+            className={`${styles.galleryImage} w-full h-full object-cover opacity-85`}
           />
 
 
-          <div className="absolute bottom-4 right-4 bg-black/40 p-2 rounded-control text-white/90 backdrop-blur-sm group-hover:bg-black/60 transition-all duration-300">
+          <div className={`${styles.expandControl} absolute bottom-4 right-4 glass-dark p-2 rounded-control text-white/90`}>
             <OpenInFullRounded className="w-[16px] h-[16px]" />
           </div>
         </ActionButton>
 
         {/* List Section */}
         <div className="flex flex-col gap-2 pt-2">
-          {towerData.map((tower) => {
+          {towerData.map((tower, index) => {
             const cfg = statusConfig[tower.statusType as keyof typeof statusConfig];
             const isFuture = tower.statusType === 'neutral';
 
             return (
-              <div
+              <motion.button
                 key={tower.id}
-                className={`group flex items-center gap-3 rounded-control pl-2 pr-2 py-1.5 transition-all duration-300 bg-white border border-outline/50 hover:border-ink/15 hover:shadow-md ${isFuture ? 'opacity-70' : 'opacity-100'} cursor-pointer`}
+                type="button"
+                initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+                whileInView={{ opacity: isFuture ? 0.7 : 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ ...transition, delay: reducedMotion ? 0 : index * 0.035 }}
+                className={`${styles.tower} group w-full text-left flex items-center gap-3 rounded-control pl-2 pr-2 py-1.5 bg-white border border-outline/50 ${isFuture ? 'opacity-70' : 'opacity-100'} cursor-pointer`}
                 onClick={() => onTowerSelect?.(tower.id)}
               >
                 {/* Initial Box - Returned to Orange for active, Original dark for future */}
-                <div className={`w-10 h-10 rounded-control flex-shrink-0 flex items-center justify-center text-[14px] font-bold text-white transition-colors duration-300 ${isFuture ? 'bg-ink/80' : 'bg-[#E65100]'}`}>
+                <span className={`${styles.initial} w-10 h-10 rounded-control flex-shrink-0 flex items-center justify-center text-[14px] font-bold text-white ${isFuture ? 'bg-ink/80' : 'bg-[#E65100]'}`}>
                   {tower.initial}
-                </div>
+                </span>
 
-                <div className="flex-1 min-w-0 flex items-center justify-between gap-2">
-                  <div className="flex-1 flex flex-col justify-center">
-                    <p className="text-[16px] font-bold text-ink leading-tight ">
+                <span className="flex-1 min-w-0 flex items-center justify-between gap-2">
+                  <span className="flex-1 flex flex-col justify-center">
+                    <span className="text-[16px] font-bold text-ink leading-tight ">
                       {tower.name}
-                    </p>
-                    <p className="text-[11px] text-ink/70 font-bold  mt-[2px]">
+                    </span>
+                    <span className="text-[11px] text-ink/70 font-bold  mt-[2px]">
                       {isFuture ? `CONFIG TBD` : tower.config}
-                    </p>
-                  </div>
+                    </span>
+                  </span>
 
-                  <div className="flex-shrink-0">
+                  <span className="flex-shrink-0">
                     <span className={`flex items-center gap-1.5 px-2 py-1 rounded-chip text-[12px] font-bold   ${cfg.bg} ${cfg.label}`}>
-                      <span className={`w-1 h-1 rounded-full ${cfg.dot}`} />
+                      <span className={`${styles.statusDot} w-1 h-1 rounded-full ${cfg.dot}`} />
                       {tower.status}
                     </span>
-                  </div>
-                </div>
-              </div>
+                  </span>
+                </span>
+              </motion.button>
             );
           })}
         </div>

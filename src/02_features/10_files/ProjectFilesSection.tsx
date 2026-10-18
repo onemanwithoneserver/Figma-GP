@@ -64,7 +64,7 @@ const ProjectFilesSection: React.FC = () => {
             <ActionButton
               key={file.id}
               type="button"
-              className="group flex w-[64px] shrink-0 flex-col items-center justify-start gap-1.5 rounded-chip px-1 py-1.5 text-ink bg-white/90 transition-all duration-200 hover:bg-white hover:text-brand hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+              className="group flex w-[64px] shrink-0 flex-col items-center justify-start gap-1.5 rounded-chip px-1 py-1.5 text-ink glass glass-hover transition-all duration-200 hover:text-brand hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >
               <PdfIcon className="h-11 w-11 transition-transform duration-200 group-hover:scale-105" />
               <span className="whitespace-nowrap text-center text-[11px] font-bold leading-tight text-ink transition-colors duration-200 group-hover:text-brand">

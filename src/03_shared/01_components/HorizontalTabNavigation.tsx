@@ -157,10 +157,10 @@ const HorizontalTabNavigation: React.FC = () => {
     <Box component="nav"
       ref={navRef}
       aria-label="Property sections"
-      className={`w-full bg-surface overflow-hidden transition-all duration-300 ${
+      className={`w-full glass !rounded-none !border-x-0 !border-t-0 overflow-hidden transition-all duration-300 ${
         isBarVisible
-          ? 'max-h-20 opacity-100 translate-y-0 pointer-events-auto border-b border-outline'
-          : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none border-b border-transparent'
+          ? 'max-h-20 opacity-100 translate-y-0 pointer-events-auto'
+          : 'max-h-0 opacity-0 -translate-y-2 pointer-events-none !border-b-transparent'
       }`}
     >
       <div className="max-w-[1200px] mx-auto flex items-center">

@@ -15,9 +15,9 @@
   --surface-muted: #F4EFE6;
   --surface-tab: #F3EEE6;
   --outline: #E5DFD4;
-  --radius-control: 7px;
-  --radius-card: 6px;
-  --radius-chip: 5px;
+  --radius-control: 8px;
+  --radius-card: 8px;
+  --radius-chip: 4px;
   --radius-tab: 4px;
   --shadow-stat: 0 4px 12px rgba(0,0,0,0.02);
   --shadow-brand: 0 4px 12px rgba(248,91,1,0.25);
