@@ -87,7 +87,7 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
                 type="button"
                 initial={reducedMotion ? false : { opacity: 0, y: 10 }}
                 whileInView={{ opacity: isFuture ? 0.7 : 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                viewport={{ once: false, amount: 0.2 }}
                 transition={{ ...transition, delay: reducedMotion ? 0 : index * 0.035 }}
                 className={`${styles.tower} group w-full text-left flex items-center gap-3 rounded-control pl-2 pr-2 py-1.5 bg-white border border-outline/50 ${isFuture ? 'opacity-70' : 'opacity-100'} cursor-pointer`}
                 onClick={() => onTowerSelect?.(tower.id)}

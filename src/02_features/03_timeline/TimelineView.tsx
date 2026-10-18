@@ -106,45 +106,90 @@ const TimelineView: React.FC = () => {
     <section className="w-full max-w-[800px] mx-auto px-2">
       <motion.div
         initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+        whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }}
         className="flex flex-col gap-5 pt-0"
       >
         {/* Header Progress Card */}
         <div className="relative overflow-hidden rounded-control bg-ink text-white shadow-sm">
+          {/* Subtle warm ambient glow behind the card */}
+          <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-warm/20 blur-2xl" />
+
           <div className="relative z-10 px-5 pt-5 pb-4">
             <div className="flex justify-between items-start mb-4">
               <h3 className="font-bold text-[18px] leading-none tracking-tight">Timeline</h3>
               <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-card text-[11px] font-medium tracking-wide text-ink bg-surface-muted shadow-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-warm" />
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-warm opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-warm" />
+                </span>
                 {mockBackendData.progress.status}
               </span>
             </div>
 
-            <div className="relative mb-1.5">
-              <div className="h-[6px] w-full rounded-full relative overflow-hidden bg-[#4A3F37]">
+            {/* Enhanced Animated Slider Track */}
+            <div className="relative mb-2 pt-2.5">
+              {/* Background Track with Milestone Notch Markers */}
+              <div className="h-[8px] w-full rounded-full relative overflow-hidden bg-[#4A3F37] border border-white/5">
+                {/* Ticks for start, mid, end */}
+                <div aria-hidden="true" className="absolute inset-0 flex justify-between px-1 pointer-events-none z-0">
+                  <span className="w-1 h-full bg-white/10 rounded-full" />
+                  <span className="w-1 h-full bg-white/10 rounded-full" style={{ marginLeft: '45%' }} />
+                  <span className="w-1 h-full bg-white/10 rounded-full" />
+                </div>
+
+                {/* Animated Fill Bar with glowing gradient */}
                 <motion.div
-                  initial={reducedMotion ? false : { width: 0 }}
-                  whileInView={{ width: `${mockBackendData.progress.percentage}%` }} viewport={{ once: true }}
-                  transition={{ ...transition, duration: reducedMotion ? 0 : 0.8 }}
-                  className="absolute top-0 left-0 h-full rounded-full bg-brand-warm"
-                />
+                  initial={reducedMotion ? false : { width: '0%' }}
+                  whileInView={{ width: `${mockBackendData.progress.percentage}%` }}
+                  viewport={{ once: false, amount: 0.3 }}
+                  transition={{ type: 'spring', stiffness: 85, damping: 18, delay: 0.1 }}
+                  className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#F85B01] via-[#FF7A1A] to-[#E76F26] shadow-[0_0_12px_rgba(248,91,1,0.6)] relative overflow-hidden"
+                >
+                  {/* Moving Shimmer Beam across the filled bar */}
+                  {!reducedMotion && (
+                    <motion.div
+                      aria-hidden="true"
+                      className="absolute inset-y-0 w-20 bg-gradient-to-r from-transparent via-white/45 to-transparent -skew-x-20"
+                      animate={{ x: ['-100%', '300%'] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.8 }}
+                    />
+                  )}
+                </motion.div>
               </div>
+
+              {/* Animated Floating Handle with Dual Pulse Rings */}
               <motion.div
-                initial={reducedMotion ? false : { left: 0, opacity: 0 }}
-                whileInView={{ left: `${mockBackendData.progress.percentage}%`, opacity: 1 }} viewport={{ once: true }}
-                transition={{ ...transition, duration: reducedMotion ? 0 : 0.8 }}
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full border-[2px] border-ink bg-brand-warm"
-              />
+                initial={reducedMotion ? false : { left: '0%', opacity: 0, scale: 0.5 }}
+                whileInView={{ left: `${mockBackendData.progress.percentage}%`, opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                transition={{ type: 'spring', stiffness: 85, damping: 18, delay: 0.1 }}
+                className="absolute top-[14px] -translate-y-1/2 -translate-x-1/2 z-20 flex flex-col items-center group cursor-pointer"
+              >
+                {/* Expanding Pulse Ring Radiators */}
+                <span aria-hidden="true" className="absolute -inset-1.5 rounded-full bg-brand-warm pulse-ring pointer-events-none" />
+                <span aria-hidden="true" className="absolute -inset-3 rounded-full bg-brand-warm/60 pulse-ring [animation-delay:0.9s] pointer-events-none" />
+
+                {/* Slider Knob */}
+                <div className="relative w-4 h-4 rounded-full bg-[#E76F26] border-2 border-white shadow-[0_0_12px_rgba(248,91,1,0.9)] transition-transform duration-200 group-hover:scale-125 flex items-center justify-center">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
+                </div>
+              </motion.div>
             </div>
 
             <div className="flex justify-between items-end mt-3">
               <div className="flex items-center gap-1.5 pt-2">
-
                 <span className="text-[11px] font-normal text-surface-muted">Started {mockBackendData.progress.startedDate}</span>
               </div>
-              <div className="flex items-center gap-1.5 px-2.5 py-1 -pt-2 rounded-card bg-[#4A3F37]">
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false }}
+                transition={{ delay: 0.25, duration: 0.35 }}
+                className="flex items-center gap-1.5 px-2.5 py-1 -pt-2 rounded-card bg-[#4A3F37] border border-white/10 shadow-sm"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-warm animate-pulse" />
                 <span className="text-[11px] font-medium text-white">We are here · {mockBackendData.progress.currentDate}</span>
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

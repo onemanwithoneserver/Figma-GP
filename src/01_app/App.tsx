@@ -3,6 +3,9 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Reveal } from '../03_shared/04_motion/Reveal';
 import { TransitionPanel } from '../03_shared/04_motion/TransitionPanel';
 import { useMotionSettings } from '../03_shared/04_motion/useMotionSettings';
+import { ScrollProgress } from '../03_shared/04_motion/ScrollProgress';
+import { AmbientBackground } from '../03_shared/04_motion/AmbientBackground';
+import HighlightsMarquee from '../03_shared/01_components/HighlightsMarquee';
 import HeroSection from '../02_features/01_hero/HeroSection';
 import HorizontalTabNavigation from '../03_shared/01_components/HorizontalTabNavigation';
 import TabNavigation from '../02_features/02_overview/TabNavigation';
@@ -65,8 +68,10 @@ function App() {
   return (
     <motion.div className="min-h-screen bg-white"
       initial={reducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={transition}>
+      <AmbientBackground />
+      <ScrollProgress />
       {/* relative added to main container */}
-      <div className="overflow-x-clip max-w-[390px] mx-auto pb-15 min-h-screen flex flex-col gap-[4px] relative">
+      <div className="overflow-x-clip max-w-[390px] mx-auto pb-24 min-h-screen flex flex-col gap-[4px] relative z-[1]">
         {/* Hero */}
         <Reveal id="hero" className="bg-white">
           <div className="">
@@ -74,13 +79,18 @@ function App() {
           </div>
         </Reveal>
 
+        {/* Moving highlights ticker */}
+        <div className="bg-white py-1">
+          <HighlightsMarquee />
+        </div>
+
         {/* Sticky Tab Bar */}
         <div id="tab-nav" className="bg-white sticky top-0 z-40">
           <HorizontalTabNavigation />
         </div>
 
         {/* 1. Overview & Highlights */}
-        <Reveal id="overview-highlights" className="bg-white">
+        <Reveal id="overview-highlights" from="left" className="bg-white">
           <div className="px-4 pb-2">
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
             <TransitionPanel transitionKey={activeTab} className="pt-2">
@@ -90,12 +100,12 @@ function App() {
         </Reveal>
 
         {/* 2. Project Timeline */}
-        <Reveal id="project-timeline" className="bg-white">
+        <Reveal id="project-timeline" from="right" className="bg-white">
             <ProjectTimelineSection />
         </Reveal>
 
         {/* 3. Layout & Towers */}
-        <Reveal id="layout-towers" className="bg-white">
+        <Reveal id="layout-towers" from="left" className="bg-white">
           <ContentSection title="Layout & Towers">
             <div className="px-4 pb-2">
               <LandTNavigation activeTab={layoutTab} onTabChange={setLayoutTab} />
@@ -121,7 +131,7 @@ function App() {
         </Reveal>
 
         {/* 4. Configurations */}
-        <Reveal id="configurations" className="bg-white">
+        <Reveal id="configurations" from="right" className="bg-white">
           <ContentSection title="Configurations">
             <div className="px-4 pb-2">
               <Configuration />
@@ -130,7 +140,7 @@ function App() {
         </Reveal>
 
         {/* 5. Distance & Commute */}
-        <Reveal id="distance-commute" className="bg-white">
+        <Reveal id="distance-commute" from="left" className="bg-white">
           <ContentSection title="Distance & Commute">
             <div className="px-2 pb-2">
               <InteractiveCommuteWidget />
@@ -139,7 +149,7 @@ function App() {
         </Reveal>
 
         {/* 6. Amenities */}
-        <Reveal id="amenities" className="bg-white">
+        <Reveal id="amenities" from="right" className="bg-white">
           <ContentSection title="Amenities">
             <div className="px-4 pb-2">
               <AmenitiesSection />
@@ -148,7 +158,7 @@ function App() {
         </Reveal>
 
         {/* 7. Specifications */}
-        <Reveal id="specifications" className="bg-white">
+        <Reveal id="specifications" from="left" className="bg-white">
           <ContentSection title="Specifications">
             <div className="px-4">
               <SpecificationsSection />
@@ -157,7 +167,7 @@ function App() {
         </Reveal>
 
         {/* 8. Payment Plans */}
-        <Reveal id="payment-plans" className="bg-white">
+        <Reveal id="payment-plans" from="right" className="bg-white">
           <ContentSection title="Payment Plans & Offers">
             <div className="px-4 ">
               <PaymentPlan />
@@ -166,7 +176,7 @@ function App() {
         </Reveal>
 
         {/* 9. Project Files */}
-        <Reveal id="project-files" className="bg-white">
+        <Reveal id="project-files" from="left" className="bg-white">
           <ProjectFilesSection />
         </Reveal>
 
@@ -177,7 +187,7 @@ function App() {
         </section>
 
         {/* 11. Project Meet */}
-        <Reveal id="project-meet" className="bg-white">
+        <Reveal id="project-meet" from="right" className="bg-white">
           <ContentSection title="Project Meet">
             <div className="px-1">
               <PropertyMeetNav />
@@ -190,8 +200,12 @@ function App() {
         {/* --- Constrained Back to Top Button --- */}
         <AnimatePresence>
         {showBackToTop && (
-          <motion.div key="back-to-top" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            transition={transition} className="fixed inset-x-0 bottom-24 z-50 flex justify-center pointer-events-none">
+          <motion.div key="back-to-top"
+            initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 16 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 16 }}
+            transition={reducedMotion ? transition : { type: 'spring', stiffness: 380, damping: 24 }}
+            className="fixed inset-x-0 bottom-24 z-50 flex justify-center pointer-events-none">
             <div className="w-full max-w-[390px] relative">
               <Button
                 onClick={handleBackToTop}

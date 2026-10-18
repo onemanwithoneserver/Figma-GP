@@ -82,6 +82,58 @@
   .glass-dark { background-color: rgba(30, 23, 19, 0.75); }
 }
 
+/* --- Decorative motion (inspired by Dribbble real-estate concepts) --- */
+@keyframes ken-burns {
+  0%   { transform: scale(1) translate3d(0, 0, 0); }
+  50%  { transform: scale(1.08) translate3d(-1.5%, -1%, 0); }
+  100% { transform: scale(1) translate3d(0, 0, 0); }
+}
+@keyframes sheen {
+  0%, 60% { transform: translateX(-120%) skewX(-20deg); }
+  100%    { transform: translateX(220%) skewX(-20deg); }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+@keyframes soft-glow {
+  0%, 100% { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+  50%      { box-shadow: 0 4px 18px rgba(248, 91, 1, 0.45); }
+}
+
+/* Slow breathing zoom for hero photography. */
+@utility animate-ken-burns {
+  animation: ken-burns 18s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  will-change: transform;
+}
+/* Periodic light sweep across a surface; host must be relative + overflow-hidden. */
+@utility sheen {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    width: 45%;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    animation: sheen 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+/* Expanding ripple ring for call-to-action icons. */
+@utility pulse-ring {
+  animation: pulse-ring 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+@utility animate-soft-glow {
+  animation: soft-glow 2.8s ease-in-out infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* Content must be duplicated once so the -50% loop is seamless. */
+@utility animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
 /* Also cover CSS-only feedback and hover effects when movement is reduced. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

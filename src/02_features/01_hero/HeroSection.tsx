@@ -1,8 +1,10 @@
 import { cn } from '../../03_shared/03_utils/utils';
 import { MotionButton } from '../../03_shared/02_ui/ActionButton';
-import { motion } from 'motion/react';
-import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
-import React, { useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react';
+import { easeOut, useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
+import { CountUp } from '../../03_shared/04_motion/CountUp';
+import React, { useEffect, useRef, useState } from "react";
+import { HERO_SLIDES, HERO_SLIDE_MS } from './heroSlides';
 import MapPin from '@mui/icons-material/LocationOnOutlined';
 import CheckCircle from '@mui/icons-material/CheckCircleOutline';
 import Check from '@mui/icons-material/CheckRounded';
@@ -29,7 +31,9 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
   return (
     <>
 
-      <MotionButton onClick={() => handleVote("like")} aria-label="Like this feature" className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-colors focus:outline-none absolute -bottom-[10px] left-1 -p-2 ${
+      <MotionButton onClick={() => handleVote("like")} aria-label="Like this feature"
+        animate={{ scale: vote === "like" ? [1, 1.25, 1] : 1 }}
+        className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-colors focus:outline-none absolute -bottom-[10px] left-1 -p-2 ${
           vote === "like"
             ? "bg-[#FAF8F5] ring-[3px] ring-[#EAE4D9] shadow-sm"
             : "bg-[#FAF8F5] ring-[3px] ring-[#F2EFE9] hover:ring-[#EAE4D9]"
@@ -49,6 +53,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
       <MotionButton
         onClick={() => handleVote("dislike")}
         aria-label="Dislike this feature"
+        animate={{ scale: vote === "dislike" ? [1, 1.25, 1] : 1 }}
         className={`flex items-center justify-center w-5.5 h-5.5 rounded-full transition-colors focus:outline-none absolute -bottom-[10px] right-1 ${
           vote === "dislike"
             ? "bg-[#FAF8F5] ring-[3px] ring-[#EAE4D9] shadow-sm"
@@ -84,19 +89,20 @@ const PropertyStat: React.FC<PropertyStatProps> = ({
   onVote,
   iconSize,
 }) => {
-  const { itemVariants } = useMotionSettings();
+  const { itemVariants, reducedMotion } = useMotionSettings();
   return (
   <motion.article variants={itemVariants}
+    whileHover={reducedMotion ? undefined : { y: -3, boxShadow: "0 10px 24px rgba(50,40,34,0.10)" }}
     // Reduced margin-bottom to mb-4 for closer vote controls
     className={cn("group bg-white rounded-control flex-1 h-[90px] flex flex-col items-center justify-center relative mb-4 border border-stone-200 overflow-visible", "shadow-stat")}
 
   >
     <h3 className="font-bold text-ink text-[12px] leading-tight mb-2 text-center px-1">
-      {label}
+      <CountUp text={label} />
     </h3>
 
     <div
-      className="flex items-center justify-center text-brand"
+      className="flex items-center justify-center text-brand transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3"
       style={{ width: `${iconSize}px`, height: `${iconSize}px` }}
     >
       <Icon className="w-full h-full" />
@@ -111,7 +117,32 @@ const PropertyStat: React.FC<PropertyStatProps> = ({
 
 // --- HERO SECTION COMPONENT ---
 const HeroSection: React.FC = () => {
-  const { reducedMotion, staggerVariants } = useMotionSettings();
+  const { reducedMotion, staggerVariants, itemVariants } = useMotionSettings();
+  const headerRef = useRef<HTMLElement>(null);
+  // Parallax: photo drifts slower than the page while the header scrolls out.
+  const { scrollYProgress } = useScroll({ target: headerRef, offset: ["start start", "end start"] });
+  const imageY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 60]);
+  const imageScale = useTransform(scrollYProgress, [0, 1], [1, reducedMotion ? 1 : 1.12]);
+  const pop = (delay: number) => reducedMotion
+    ? {}
+    : { initial: { opacity: 0, scale: 0.85, y: 8 }, whileInView: { opacity: 1, scale: 1, y: 0 },
+        viewport: { once: false },
+        transition: { type: "spring" as const, stiffness: 320, damping: 22, delay } };
+
+  // --- Gallery: auto-advance, pause while the tab is hidden, swipe to change ---
+  const [slide, setSlide] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const go = (dir: number) => setSlide((s) => (s + dir + HERO_SLIDES.length) % HERO_SLIDES.length);
+  useEffect(() => {
+    if (paused) return;
+    const id = window.setTimeout(() => go(1), HERO_SLIDE_MS);
+    return () => window.clearTimeout(id);
+  }, [slide, paused]);
+  useEffect(() => {
+    const onVis = () => setPaused(document.hidden);
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
   const [acresVote, setAcresVote] = useState<"like" | "dislike" | null>(null);
   const [unitsVote, setUnitsVote] = useState<"like" | "dislike" | null>(null);
   const [floorsVote, setFloorsVote] = useState<"like" | "dislike" | null>(null);
@@ -126,34 +157,67 @@ const HeroSection: React.FC = () => {
   return (
     <section className="relative w-full max-w-md mx-auto flex flex-col overflow-x-hidden bg-surface shadow-2xl rounded-b-[7px]">
       {/* Header Image - Height reduced from 280px to 240px */}
-      <header className="relative h-[240px] flex-shrink-0 bg-[#312822]">
-        <img
-          src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop"
-          alt="Vasavi Skyla Property Exterior"
-          className="w-full h-full object-cover opacity-85"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#312822]/80 via-transparent to-transparent" />
+      <header ref={headerRef} className="relative h-[240px] flex-shrink-0 bg-[#312822]">
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div className="w-full h-full relative" style={{ y: imageY, scale: imageScale }}
+            drag={reducedMotion ? false : "x"} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.15}
+            onDragEnd={(_, info) => { if (Math.abs(info.offset.x) > 50) go(info.offset.x < 0 ? 1 : -1); }}>
+            <AnimatePresence initial={false}>
+              <motion.img
+                key={slide}
+                src={HERO_SLIDES[slide].src}
+                alt={HERO_SLIDES[slide].alt}
+                draggable={false}
+                className="absolute inset-0 w-full h-full object-cover select-none"
+                initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.14, filter: "blur(6px)" }}
+                animate={{ opacity: 0.85, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0 }}
+                transition={reducedMotion
+                  ? { duration: 0 }
+                  : { opacity: { duration: 0.9, ease: easeOut }, filter: { duration: 0.9 }, scale: { duration: HERO_SLIDE_MS / 1000 + 1, ease: "linear" } }}
+              />
+            </AnimatePresence>
+          </motion.div>
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#312822]/80 via-transparent to-transparent pointer-events-none" />
 
-        <div className="absolute top-4 right-4 z-20">
-          <span className="inline-flex items-center rounded-control bg-ink px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md">
+        {/* Story-style slide indicators */}
+        <div className="absolute bottom-[66px] right-4 z-20 flex gap-1.5" role="tablist" aria-label="Property photos">
+          {HERO_SLIDES.map((s, i) => (
+            <button key={s.src} type="button" role="tab" aria-selected={i === slide} aria-label={`Photo ${i + 1}`}
+              data-no-press onClick={() => setSlide(i)}
+              className="relative h-[3px] w-5 rounded-full bg-white/35 overflow-hidden p-0">
+              {i < slide && <span className="absolute inset-0 bg-white" />}
+              {i === slide && (
+                <motion.span key={`fill-${slide}`} className="absolute inset-y-0 left-0 bg-white rounded-full"
+                  initial={{ width: reducedMotion ? "100%" : "0%" }} animate={{ width: "100%" }}
+                  transition={{ duration: reducedMotion || paused ? 0 : HERO_SLIDE_MS / 1000, ease: "linear" }} />
+              )}
+            </button>
+          ))}
+        </div>
+
+        <motion.div className="absolute top-4 right-4 z-20" {...pop(0.35)}>
+          <span className="inline-flex items-center rounded-control bg-ink px-3 py-1 text-[11px] font-bold tracking-wide text-white shadow-md animate-soft-glow">
             {offerRibbonText}
           </span>
-        </div>
+        </motion.div>
 
-        <div className="absolute top-0 left-0 right-0 p-4 pt-6">
-          <h1 className="text-white font-extrabold text-2xl leading-tight mb-1 tracking-tight">
+        <motion.div className="absolute top-0 left-0 right-0 p-4 pt-6"
+          variants={staggerVariants} initial={reducedMotion ? false : "hidden"} whileInView="show" viewport={{ once: false }}>
+          <motion.h1 variants={itemVariants} className="text-white font-extrabold text-2xl leading-tight mb-1 tracking-tight">
             Vasavi Skyla
-          </h1>
-          <p className="text-white/90 text-xs flex items-center font-medium">
+          </motion.h1>
+          <motion.p variants={itemVariants} className="text-white/90 text-xs flex items-center font-medium">
             <MapPin className="w-3.5 h-3.5 mr-1 text-white" aria-hidden="true" />
             Hyderabad Hills, Hyderabad
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Price tag position adjusted to match new header height */}
-        <div className="absolute bottom-14 left-4">
+        <motion.div className="absolute bottom-14 left-4" {...pop(0.5)}>
           <div
-            className={cn("inline-flex items-center gap-1.5 rounded-control px-3.5 py-2 relative overflow-hidden", "bg-brand-gradient shadow-brand")}
+            className={cn("inline-flex items-center gap-1.5 rounded-control px-3.5 py-2 relative overflow-hidden sheen", "bg-brand-gradient shadow-brand")}
 
           >
             <p className="text-white font-extrabold text-[15px] relative z-10 leading-none">
@@ -163,7 +227,7 @@ const HeroSection: React.FC = () => {
               Onwards
             </span>
           </div>
-        </div>
+        </motion.div>
       </header>
 
       {/* Content Card - Padding tightened to p-4 */}
@@ -188,7 +252,7 @@ const HeroSection: React.FC = () => {
           </div>
 
           {/* Property Stats - Gap reduced to 3 for tighter grid */}
-          <motion.div variants={staggerVariants} initial={reducedMotion ? false : 'hidden'} animate="show"
+          <motion.div variants={staggerVariants} initial={reducedMotion ? false : 'hidden'} whileInView="show" viewport={{ once: false }}
             className="flex items-start justify-between gap-5 w-full overflow-visible">
             {statsData.map((stat) => (
               <PropertyStat key={stat.id} {...stat} onVote={stat.setVote} iconSize={stat.iconSize} />
@@ -200,15 +264,19 @@ const HeroSection: React.FC = () => {
       {/* Video Tour Placeholder - Tightened padding */}
       <div className="px-4 pt-2 pb-5">
         <div
-          className={cn("relative w-full rounded-control overflow-hidden border border-outline cursor-pointer", "aspect-video bg-ink-gradient")}
+          className={cn("group relative w-full rounded-control overflow-hidden border border-outline cursor-pointer", "aspect-video bg-ink-gradient")}
 
         >
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5">
-            <div
-              className={cn("w-10 h-10 rounded-full flex items-center justify-center relative z-10", "bg-brand-gradient")}
+            <div className="relative">
+              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-brand pulse-ring" />
+              <span aria-hidden="true" className="absolute inset-0 rounded-full bg-brand pulse-ring [animation-delay:1.1s]" />
+              <div
+                className={cn("w-10 h-10 rounded-full flex items-center justify-center relative z-10 transition-transform duration-300 group-hover:scale-110", "bg-brand-gradient")}
 
-            >
-              <Play className="w-4 h-4 text-white ml-1" fill="currentColor" />
+              >
+                <Play className="w-4 h-4 text-white ml-1" fill="currentColor" />
+              </div>
             </div>
             <div className="text-center">
               <p className="text-white text-[13px] font-bold tracking-wide mb-0.5">Video Tour</p>

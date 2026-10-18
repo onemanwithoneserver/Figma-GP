@@ -1,79 +1,177 @@
-import { MotionButton } from '../02_ui/ActionButton';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import BookmarkBorderRounded from '@mui/icons-material/BookmarkBorderRounded';
+import BookmarkRounded from '@mui/icons-material/BookmarkRounded';
 import VisibilityOffOutlined from '@mui/icons-material/VisibilityOffOutlined';
+import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
 import ShareOutlined from '@mui/icons-material/ShareOutlined';
 import CloseRounded from '@mui/icons-material/CloseRounded';
-import LocalPhoneOutlined from '@mui/icons-material/LocalPhoneOutlined';
-import { motion } from 'motion/react';
+import LocalPhoneRounded from '@mui/icons-material/LocalPhoneRounded';
+import CheckCircleRounded from '@mui/icons-material/CheckCircleRounded';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { useMotionSettings } from '../04_motion/useMotionSettings';
 
+type ItemId = 'save' | 'hide' | 'share' | 'close';
+const spring = { type: 'spring' as const, stiffness: 500, damping: 32 };
+
+/** Little radial confetti burst used when saving. */
+function Burst() {
+  return (
+    <span aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      {Array.from({ length: 8 }).map((_, i) => {
+        const a = (i / 8) * Math.PI * 2;
+        return (
+          <motion.span key={i} className="absolute h-1 w-1 rounded-full bg-brand"
+            initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+            animate={{ x: Math.cos(a) * 18, y: Math.sin(a) * 18, opacity: 0, scale: 0.4 }}
+            transition={{ duration: 0.55, ease: 'easeOut' }} />
+        );
+      })}
+    </span>
+  );
+}
+
 const FooterNav: React.FC = () => {
-  const { reducedMotion, transition } = useMotionSettings();
-  const navItems = [
-    { icon: BookmarkBorderRounded, label: "Save", id: "save" },
-    { icon: VisibilityOffOutlined, label: "Hide", id: "hide" },
-    { icon: LocalPhoneOutlined, label: "Contact", id: "contact", isCenter: true },
-    { icon: ShareOutlined, label: "Share", id: "share" },
-    { icon: CloseRounded, label: "Close", id: "close", isDestructive: true }
+  const { reducedMotion } = useMotionSettings();
+  const [saved, setSaved] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [focus, setFocus] = useState<ItemId | 'contact' | null>(null);
+  const [toast, setToast] = useState<string | null>(null);
+  const [visible, setVisible] = useState(true);
+  const [burstKey, setBurstKey] = useState(0);
+  const toastTimer = useRef<ReturnType<typeof setTimeout>>();
+  const focusTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  // Auto-hide while scrolling down, reveal on scroll up (keeps content unobstructed).
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, 'change', (y) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    if (y < 120) setVisible(true);
+    else if (Math.abs(y - prev) > 6) setVisible(y < prev);
+  });
+
+  useEffect(() => () => { clearTimeout(toastTimer.current); clearTimeout(focusTimer.current); }, []);
+
+  const notify = (msg: string) => {
+    setToast(msg);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(null), 1800);
+  };
+  const flash = (id: ItemId | 'contact') => {
+    setFocus(id);
+    clearTimeout(focusTimer.current);
+    focusTimer.current = setTimeout(() => setFocus(null), 900);
+  };
+
+  const handle = async (id: ItemId) => {
+    flash(id);
+    if (id === 'save') {
+      notify(saved ? 'Removed from shortlist' : 'Saved to shortlist');
+      if (!saved) setBurstKey((k) => k + 1);
+      setSaved(!saved);
+    } else if (id === 'hide') {
+      notify(hidden ? 'Property visible again' : 'Hidden from your feed');
+      setHidden(!hidden);
+    } else if (id === 'share') {
+      const data = { title: 'Vasavi Skyla', text: 'Check out Vasavi Skyla, Hyderabad', url: window.location.href };
+      try {
+        if (navigator.share) await navigator.share(data);
+        else { await navigator.clipboard.writeText(data.url); notify('Link copied'); }
+      } catch { /* user dismissed share sheet */ }
+    }
+  };
+
+  const items: { id: ItemId; label: string; Icon: React.ElementType; active?: boolean; danger?: boolean }[] = [
+    { id: 'save', label: saved ? 'Saved' : 'Save', Icon: saved ? BookmarkRounded : BookmarkBorderRounded, active: saved },
+    { id: 'hide', label: hidden ? 'Hidden' : 'Hide', Icon: hidden ? VisibilityOutlined : VisibilityOffOutlined, active: hidden },
+    { id: 'share', label: 'Share', Icon: ShareOutlined },
+    { id: 'close', label: 'Close', Icon: CloseRounded, danger: true },
   ];
+
+  const renderItem = (item: (typeof items)[number]) => (
+    <button key={item.id} type="button" data-no-press
+      onClick={() => handle(item.id)}
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setFocus(item.id)}
+      onPointerLeave={(e) => e.pointerType === 'mouse' && setFocus(null)}
+      aria-pressed={item.id === 'save' || item.id === 'hide' ? !!item.active : undefined}
+      className="relative flex h-full flex-col items-center justify-center gap-0.5 rounded-2xl outline-none">
+      {focus === item.id && (
+        <motion.span layoutId="footer-pill" transition={reducedMotion ? { duration: 0 } : spring}
+          className="absolute inset-x-1 inset-y-1 rounded-2xl bg-white/[0.09] ring-1 ring-white/10" />
+      )}
+      <motion.span className="relative flex h-6 w-6 items-center justify-center"
+        whileTap={reducedMotion ? undefined : { scale: 0.8, rotate: item.id === 'share' ? -12 : 0 }}>
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.span key={item.label} className="flex"
+            initial={reducedMotion ? false : { scale: 0.4, opacity: 0, rotate: -30 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            exit={{ scale: 0.4, opacity: 0 }} transition={spring}>
+            <item.Icon className={`!w-5 !h-5 transition-colors duration-300 ${
+              item.active ? 'text-brand' : item.danger ? 'text-[#FF8A80]' : 'text-white/75'}`} />
+          </motion.span>
+        </AnimatePresence>
+        {item.id === 'save' && burstKey > 0 && !reducedMotion && <Burst key={burstKey} />}
+      </motion.span>
+      <span className={`relative text-[10.5px] font-semibold tracking-wide transition-colors duration-300 ${
+        item.active ? 'text-brand' : item.danger ? 'text-[#FF8A80]' : 'text-white/60'}`}>
+        {item.label}
+      </span>
+    </button>
+  );
 
   return (
     <motion.div
-      initial={reducedMotion ? false : { y: 24, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={transition}
-      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-3 pb-2 pointer-events-none"
+      initial={reducedMotion ? false : { y: 120, opacity: 0 }}
+      animate={{ y: visible ? 0 : 120, opacity: visible ? 1 : 0 }}
+      transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 28 }}
+      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-3 pb-3 pointer-events-none"
     >
-      <footer className="relative w-full max-w-[366px] pointer-events-auto overflow-hidden rounded-[28px] border border-white/70 bg-white/45 px-2 py-1.5 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_32px_rgba(50,40,34,0.18),inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-1px_0_rgba(255,255,255,0.35)] supports-[not(backdrop-filter:blur(1px))]:bg-white/95">
-        <span aria-hidden="true" className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-        <Box component="nav" aria-label="Property actions" className="relative flex items-center justify-between">
-          {navItems.map((item, idx) => {
-            if (item.isCenter) {
-              return (
-                <div key={idx} className="flex flex-col items-center justify-center">
-                  <MotionButton
-                    aria-label={item.label}
-                    whileTap={{ scale: 0.92 }}
-                    className="w-10 h-10 flex items-center justify-center bg-ink-gradient text-white rounded-full shadow-[0_6px_16px_rgba(50,40,34,0.35),inset_0_1px_0_rgba(255,255,255,0.25)] ring-1 ring-white/40 mb-0.5"
-                  >
-                    <item.icon className="w-4 h-4 text-white" />
-                  </MotionButton>
-                  <span className="text-[11px] font-bold text-ink tracking-wide">
-                    {item.label}
-                  </span>
-                </div>
-              );
-            }
+      <div className="relative w-full max-w-[366px]">
+        {/* Feedback toast */}
+        <AnimatePresence>
+          {toast && (
+            <motion.div key={toast} role="status"
+              initial={{ opacity: 0, y: 10, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 6, scale: 0.95 }}
+              transition={reducedMotion ? { duration: 0 } : spring}
+              className="absolute -top-14 left-1/2 -translate-x-1/2 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-ink-deep/90 px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-lg ring-1 ring-white/10 backdrop-blur-md">
+              <CheckCircleRounded className="!w-4 !h-4 text-brand" aria-hidden="true" />
+              {toast}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-            return (
-              <MotionButton
-                key={idx}
-                whileTap={{ scale: 0.88 }}
-                className="flex flex-col items-center justify-center w-12 gap-0.5 group rounded-2xl"
-              >
-                <span
-                  className={`flex w-8 h-8 items-center justify-center rounded-full border border-white/70 bg-white/50 shadow-[0_2px_8px_rgba(50,40,34,0.10),inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-md transition-colors duration-300 ${
-                    item.isDestructive
-                      ? 'text-[#D92D20] group-hover:bg-[#D92D20]/15'
-                      : 'text-[#E65201] group-hover:bg-[#E65201]/15'
-                  }`}
-                >
-                  <item.icon className="w-4 h-4" />
-                </span>
-                <span className={`text-[12px] font-medium ${
-                  item.isDestructive
-                    ? 'text-[#D92D20] group-hover:text-[#7A0610]'
-                    : 'text-[#261E19]'
-                } transition-colors duration-300`}>
-                  {item.label}
-                </span>
-              </MotionButton>
-            );
-          })}
-        </Box>
-      </footer>
+        <footer className="pointer-events-auto relative h-[62px] rounded-[26px] bg-ink-deep/[0.88] ring-1 ring-white/10 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_14px_40px_rgba(30,23,19,0.45),inset_0_1px_0_rgba(255,255,255,0.12)] supports-[not(backdrop-filter:blur(1px))]:bg-ink-deep">
+          {/* Specular top edge + warm under-glow */}
+          <span aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+          <span aria-hidden="true" className="pointer-events-none absolute left-1/2 bottom-0 h-8 w-40 -translate-x-1/2 rounded-full bg-brand/25 blur-2xl" />
+
+          <Box component="nav" aria-label="Property actions" className="relative grid h-full grid-cols-5 px-1.5 py-1">
+            {renderItem(items[0])}
+            {renderItem(items[1])}
+
+            {/* Raised, notched Contact action */}
+            <div className="relative flex flex-col items-center justify-end pb-1">
+              <motion.button type="button" aria-label="Contact seller" data-no-press
+                onClick={() => flash('contact')}
+                whileHover={reducedMotion ? undefined : { y: -3 }}
+                whileTap={reducedMotion ? undefined : { scale: 0.9 }}
+                transition={spring}
+                className="absolute -top-6 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-brand-gradient text-white ring-[5px] ring-white shadow-[0_10px_24px_rgba(248,91,1,0.45)]">
+                <span aria-hidden="true" className="absolute inset-0 rounded-full bg-brand pulse-ring" />
+                <motion.span className="relative flex"
+                  animate={reducedMotion ? undefined : { rotate: [0, -16, 14, -10, 8, 0] }}
+                  transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 3.2 }}>
+                  <LocalPhoneRounded className="!w-6 !h-6" />
+                </motion.span>
+              </motion.button>
+              <span className="text-[10.5px] font-bold tracking-wide text-white">Contact</span>
+            </div>
+
+            {renderItem(items[2])}
+            {renderItem(items[3])}
+          </Box>
+        </footer>
+      </div>
     </motion.div>
   );
 };
