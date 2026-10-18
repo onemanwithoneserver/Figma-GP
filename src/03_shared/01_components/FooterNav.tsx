@@ -44,11 +44,38 @@ const FooterNav: React.FC = () => {
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0;
-    if (y < 120) setVisible(true);
-    else if (Math.abs(y - prev) > 6) setVisible(y < prev);
+    const scrollHeight = typeof document !== 'undefined' ? Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) : 0;
+    const clientHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
+    const isAtEnd = scrollHeight > 0 && y + clientHeight >= scrollHeight - 350;
+
+    if (y < 120 || isAtEnd) {
+      setVisible(true);
+    } else if (Math.abs(y - prev) > 6) {
+      setVisible(y < prev);
+    }
   });
 
-  useEffect(() => () => { clearTimeout(toastTimer.current); clearTimeout(focusTimer.current); }, []);
+  useEffect(() => {
+    const handleScrollOrResize = () => {
+      const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+      const clientHeight = window.innerHeight;
+      const currentY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      const isAtEnd = currentY + clientHeight >= scrollHeight - 350;
+      if (isAtEnd) {
+        setVisible(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
+    window.addEventListener('resize', handleScrollOrResize);
+    handleScrollOrResize();
+    return () => {
+      window.removeEventListener('scroll', handleScrollOrResize);
+      window.removeEventListener('resize', handleScrollOrResize);
+      clearTimeout(toastTimer.current);
+      clearTimeout(focusTimer.current);
+    };
+  }, []);
 
   const notify = (msg: string) => {
     setToast(msg);
