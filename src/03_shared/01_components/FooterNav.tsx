@@ -37,18 +37,29 @@ const FooterNav: React.FC = () => {
   const [focus, setFocus] = useState<ItemId | 'contact' | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [visible, setVisible] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
   const [burstKey, setBurstKey] = useState(0);
   const toastTimer = useRef<ReturnType<typeof setTimeout>>();
   const focusTimer = useRef<ReturnType<typeof setTimeout>>();
 
+  const checkAtEnd = () => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return false;
+    const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    const clientHeight = window.innerHeight;
+    const currentY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+    const atEnd = scrollHeight > 0 && currentY + clientHeight >= scrollHeight - 240;
+    setIsAtEnd(atEnd);
+    return atEnd;
+  };
+
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0;
-    const scrollHeight = typeof document !== 'undefined' ? Math.max(document.documentElement.scrollHeight, document.body.scrollHeight) : 0;
-    const clientHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
-    const isAtEnd = scrollHeight > 0 && y + clientHeight >= scrollHeight - 350;
+    const atEnd = checkAtEnd();
 
-    if (y < 120 || isAtEnd) {
+    if (atEnd) {
+      setVisible(true);
+    } else if (y < 120) {
       setVisible(true);
     } else if (Math.abs(y - prev) > 6) {
       setVisible(y < prev);
@@ -57,21 +68,24 @@ const FooterNav: React.FC = () => {
 
   useEffect(() => {
     const handleScrollOrResize = () => {
-      const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-      const clientHeight = window.innerHeight;
-      const currentY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-      const isAtEnd = currentY + clientHeight >= scrollHeight - 350;
-      if (isAtEnd) {
-        setVisible(true);
-      }
+      checkAtEnd();
     };
 
     window.addEventListener('scroll', handleScrollOrResize, { passive: true });
     window.addEventListener('resize', handleScrollOrResize);
     handleScrollOrResize();
+
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {
+      handleScrollOrResize();
+    }) : null;
+    if (ro && document.body) {
+      ro.observe(document.body);
+    }
+
     return () => {
       window.removeEventListener('scroll', handleScrollOrResize);
       window.removeEventListener('resize', handleScrollOrResize);
+      ro?.disconnect();
       clearTimeout(toastTimer.current);
       clearTimeout(focusTimer.current);
     };
@@ -119,10 +133,14 @@ const FooterNav: React.FC = () => {
       onPointerEnter={(e) => e.pointerType === 'mouse' && setFocus(item.id)}
       onPointerLeave={(e) => e.pointerType === 'mouse' && setFocus(null)}
       aria-pressed={item.id === 'save' || item.id === 'hide' ? !!item.active : undefined}
-      className="relative flex h-full flex-col items-center justify-center gap-0.5 rounded-2xl outline-none">
+      className={`relative flex h-full flex-col items-center justify-center gap-0.5 outline-none transition-all duration-300 ${
+        isAtEnd ? 'rounded-none' : 'rounded-2xl'
+      }`}>
       {focus === item.id && (
         <motion.span layoutId="footer-pill" transition={reducedMotion ? { duration: 0 } : spring}
-          className="absolute inset-x-1 inset-y-1 rounded-2xl bg-white/[0.09] ring-1 ring-white/10" />
+          className={`absolute inset-x-1 inset-y-1 bg-white/[0.09] ring-1 ring-white/10 ${
+            isAtEnd ? 'rounded-lg' : 'rounded-2xl'
+          }`} />
       )}
       <motion.span className="relative flex h-6 w-6 items-center justify-center"
         whileTap={reducedMotion ? undefined : { scale: 0.8, rotate: item.id === 'share' ? -12 : 0 }}>
@@ -145,14 +163,19 @@ const FooterNav: React.FC = () => {
   );
 
   return (
-    <motion.div
-      initial={reducedMotion ? false : { y: 120, opacity: 0 }}
-      animate={{ y: visible ? 0 : 120, opacity: visible ? 1 : 0 }}
-      transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 28 }}
-      className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-3 pb-3 pointer-events-none"
+    <div
+      className={`fixed bottom-0 left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-300 ${
+        isAtEnd ? 'px-0 pb-0' : 'px-3 pb-3'
+      }`}
     >
-      <div className="relative w-full max-w-[366px]">
-
+      <motion.div
+        initial={reducedMotion ? false : { y: 120, opacity: 0 }}
+        animate={{ y: (visible || isAtEnd) ? 0 : 120, opacity: (visible || isAtEnd) ? 1 : 0 }}
+        transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 260, damping: 28 }}
+        className={`relative w-full transition-all duration-300 ${
+          isAtEnd ? 'max-w-[390px]' : 'max-w-[366px]'
+        }`}
+      >
         <AnimatePresence>
           {toast && (
             <motion.div key={toast} role="status"
@@ -165,22 +188,33 @@ const FooterNav: React.FC = () => {
           )}
         </AnimatePresence>
 
-        <footer className="pointer-events-auto relative h-[62px] rounded-[26px] bg-ink-deep/[0.88] ring-1 ring-white/10 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_14px_40px_rgba(30,23,19,0.45),inset_0_1px_0_rgba(255,255,255,0.12)] supports-[not(backdrop-filter:blur(1px))]:bg-ink-deep">
+        <footer
+          className={`pointer-events-auto relative backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 supports-[not(backdrop-filter:blur(1px))]:bg-ink-deep ${
+            isAtEnd
+              ? 'h-[64px] rounded-none bg-ink-deep/[0.94] border-t border-white/15 shadow-[0_-8px_32px_rgba(20,15,12,0.35)] pb-[env(safe-area-inset-bottom,0px)]'
+              : 'h-[62px] rounded-[26px] bg-ink-deep/[0.88] ring-1 ring-white/10 shadow-[0_14px_40px_rgba(30,23,19,0.45),inset_0_1px_0_rgba(255,255,255,0.12)]'
+          }`}
+        >
+          <span aria-hidden="true" className={`pointer-events-none absolute top-0 h-px bg-gradient-to-r from-transparent via-white/35 to-transparent transition-all duration-300 ${
+            isAtEnd ? 'inset-x-0' : 'inset-x-8'
+          }`} />
+          <span aria-hidden="true" className="pointer-events-none absolute left-1/2 bottom-0 h-8 w-44 -translate-x-1/2 rounded-full bg-brand/20 blur-2xl" />
 
-          <span aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-          <span aria-hidden="true" className="pointer-events-none absolute left-1/2 bottom-0 h-8 w-40 -translate-x-1/2 rounded-full bg-brand/25 blur-2xl" />
-
-          <Box component="nav" aria-label="Property actions" className="relative grid h-full grid-cols-5 px-1.5 py-1">
+          <Box component="nav" aria-label="Property actions" className={`relative grid h-full grid-cols-5 py-1 transition-all duration-300 ${
+            isAtEnd ? 'px-1' : 'px-1.5'
+          }`}>
             {renderItem(items[0])}
             {renderItem(items[1])}
 
-            <div className="relative flex flex-col items-center justify-end pb-1">
+            <div className={`relative flex flex-col items-center justify-end transition-all duration-300 ${
+              isAtEnd ? 'pb-1.5' : 'pb-1'
+            }`}>
               <motion.button type="button" aria-label="Contact seller" data-no-press
                 onClick={() => flash('contact')}
                 whileHover={reducedMotion ? undefined : { y: -3 }}
                 whileTap={reducedMotion ? undefined : { scale: 0.9 }}
                 transition={spring}
-                className="absolute -top-6 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-brand-gradient text-white ring-[5px] ring-white shadow-[0_10px_24px_rgba(248,91,1,0.45)]">
+                className="absolute -top-6 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-brand-gradient text-white ring-4 ring-white shadow-[0_8px_20px_rgba(248,91,1,0.45)]">
                 <span aria-hidden="true" className="absolute inset-0 rounded-full bg-brand pulse-ring" />
                 <motion.span className="relative flex"
                   animate={reducedMotion ? undefined : { rotate: [0, -16, 14, -10, 8, 0] }}
@@ -195,8 +229,8 @@ const FooterNav: React.FC = () => {
             {renderItem(items[3])}
           </Box>
         </footer>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 };
 
