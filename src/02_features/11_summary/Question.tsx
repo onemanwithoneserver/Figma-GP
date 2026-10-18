@@ -1,6 +1,9 @@
 import AddRounded from '@mui/icons-material/AddRounded';
 import CheckRounded from '@mui/icons-material/CheckRounded';
 import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded';
+import LocalPhoneRounded from '@mui/icons-material/LocalPhoneRounded';
+import AccessTimeRounded from '@mui/icons-material/AccessTimeRounded';
+import ThumbDownOutlined from '@mui/icons-material/ThumbDownOutlined';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useState, useRef, useEffect } from 'react';
 
@@ -143,32 +146,38 @@ const Question = () => {
         )}
       </div>
 
-      <div className="flex w-full items-center gap-2">
+      <div className="flex w-full items-center gap-1.5 sm:gap-2 flex-nowrap">
         <ActionButton
           type="button"
           onClick={handleFinalSubmit}
-          className="flex-1 rounded-chip bg-brand-booking px-3 py-2 text-[13px] font-extrabold text-white shadow-sm transition-all hover:bg-[#C85D20] active:scale-[0.98]"
+          title="Contact Seller"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 rounded-chip bg-brand-booking px-2 py-1.5 text-[11.5px] sm:text-[12px] font-bold text-white shadow-xs transition-all hover:bg-[#C85D20] active:scale-[0.98]"
         >
-          Contact Seller
+          <LocalPhoneRounded className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white flex-shrink-0" style={{ fontSize: 14 }} />
+          <span className="truncate">Contact Seller</span>
         </ActionButton>
 
         <ActionButton
           type="button"
-          className="flex-1 rounded-chip bg-[#F5F2F0] px-3 py-2 text-[13px] font-bold text-[#5A514B] transition-colors hover:bg-[#EBE7E4] active:scale-[0.98]"
+          title="I'll do it later"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 rounded-chip bg-[#F5F2F0] px-2 py-1.5 text-[11.5px] sm:text-[12px] font-bold text-[#5A514B] transition-colors hover:bg-[#EBE7E4] active:scale-[0.98]"
         >
-          I'll do it later
+          <AccessTimeRounded className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#5A514B] flex-shrink-0" style={{ fontSize: 14 }} />
+          <span className="truncate">I'll do it later</span>
         </ActionButton>
 
         <ActionButton
           type="button"
-          className={`flex-1 rounded-chip border px-3 py-2 text-[13px] font-bold transition-all active:scale-[0.98] ${
+          title="Not Suitable"
+          className={`flex-1 min-w-0 flex items-center justify-center gap-1 sm:gap-1.5 rounded-chip border px-2 py-1.5 text-[11.5px] sm:text-[12px] font-bold transition-all active:scale-[0.98] ${
             showNotSuitablePanel
               ? 'border-brand-booking bg-[#FFF8F4] text-brand-booking'
               : 'border-[#D5CFC9] bg-white text-[#5A514B] hover:border-[#A39A94]'
           }`}
           onClick={() => setShowNotSuitablePanel(!showNotSuitablePanel)}
         >
-          Not Suitable
+          <ThumbDownOutlined className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0 text-current" style={{ fontSize: 14 }} />
+          <span className="truncate">Not Suitable</span>
         </ActionButton>
       </div>
 

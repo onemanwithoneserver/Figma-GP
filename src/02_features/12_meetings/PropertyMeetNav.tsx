@@ -6,8 +6,8 @@ import VideocamOutlined from '@mui/icons-material/VideocamOutlined';
 import { motion, AnimatePresence } from 'motion/react';
 
 const MEET_TABS = [
-  { id: 'direct-site-visit', label: 'Direct Site Visit' },
-  { id: 'online-visit', label: 'Online Visit' },
+  { id: 'direct-site-visit', label: 'Direct Site Visit', icon: DirectionsCarOutlined },
+  { id: 'online-visit', label: 'Online Visit', icon: VideocamOutlined },
 ] as const;
 
 export default function PropertyMeetNav() {
@@ -33,7 +33,6 @@ export default function PropertyMeetNav() {
               onChange={(val) => setActiveTab(val || 'direct-site-visit')}
               label="Project Meet section navigation"
               idPrefix="meeting"
-              tabClassName="text-[13px] font-bold rounded-chip h-9 min-w-[130px] m-[1px]"
             />
 
             <div className="px-2 pt-2">
