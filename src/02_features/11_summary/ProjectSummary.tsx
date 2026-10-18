@@ -66,28 +66,19 @@ const ProjectSummary: React.FC = () => {
       <div id="panel-summary" role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300 p-1">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-[20px] font-extrabold text-[#3A312B]">Project Summary</h2>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 shadow-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span className="text-[11px] font-extrabold text-emerald-800 font-mono">85% Match</span>
-            </div>
-            <span className="text-[20px]">
-              <svg
-                className="w-[22px] h-[22px] text-[#7A5C3A]"
-                focusable="false"
-                aria-hidden="true"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7zm12-4h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04-.39.08-.74.28-1.01.55-.18.18-.33.4-.43.64-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
-                />
-              </svg>
-            </span>
-          </div>
+          <span className="text-[20px]">
+            <svg
+              className="w-[22px] h-[22px] text-[#7A5C3A]"
+              focusable="false"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+            >
+              <path
+                fill="currentColor"
+                d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7zm12-4h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04-.39.08-.74.28-1.01.55-.18.18-.33.4-.43.64-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
+              />
+            </svg>
+          </span>
         </div>
 
         <div className="mb-2">
@@ -119,7 +110,7 @@ const ProjectSummary: React.FC = () => {
 
         <div className="flex justify-start sm:justify-center">
           <div className="relative w-full max-w-xl">
-            <div className="flex overflow-x-auto scrollbar-hide gap-2 px-1 pt-2 pb-1.5 bg-white" role="tablist" aria-label="Project Summary section navigation">
+            <div className="flex overflow-x-auto scrollbar-hide gap-2 px-1 pt-1 pb-1 bg-white" role="tablist" aria-label="Project Summary section navigation">
               {TABS.map((tab) => {
                 const isActive = activeTab === tab.key;
                 return (
