@@ -27,8 +27,8 @@ const getVariantStyles = (variant?: string) => {
   switch (variant) {
     case 'status':
       return {
-        card: 'border-emerald-200/80 bg-emerald-50/20 hover:border-emerald-300',
-        badge: 'bg-emerald-100/80 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white',
+        card: 'border-emerald-200 bg-emerald-50/30 hover:border-emerald-400 hover:bg-emerald-50/50',
+        badge: 'bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white',
         value: 'text-emerald-700',
       };
     case 'handover':
@@ -39,9 +39,9 @@ const getVariantStyles = (variant?: string) => {
       };
     default:
       return {
-        card: 'border-outline bg-surface hover:border-brand-warm/40 hover:bg-white',
-        badge: 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-brand-warm group-hover:text-white',
-        value: 'text-[#9A3F00]',
+        card: 'border-outline bg-surface hover:border-[#D5CFC9] hover:bg-white',
+        badge: 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-[#322822] group-hover:text-white',
+        value: 'text-[#2C2420]',
       };
   }
 };

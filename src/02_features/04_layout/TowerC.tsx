@@ -28,21 +28,21 @@ const getVariantStyles = (variant?: string) => {
   switch (variant) {
     case 'status-prelaunch':
       return {
-        card: 'border-blue-200/80 bg-blue-50/20 hover:border-blue-300',
-        badge: 'bg-blue-100/80 text-blue-700 group-hover:bg-blue-600 group-hover:text-white',
-        value: 'text-blue-700',
+        card: 'border-indigo-200 bg-indigo-50/30 hover:border-indigo-400 hover:bg-indigo-50/50',
+        badge: 'bg-indigo-100 text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white',
+        value: 'text-indigo-700',
       };
     case 'muted':
       return {
         card: 'border-outline bg-surface',
-        badge: 'bg-[#EDE8E1] text-[#8C827A] group-hover:bg-brand-warm group-hover:text-white',
+        badge: 'bg-[#EDE8E1] text-[#8C827A] group-hover:bg-[#322822] group-hover:text-white',
         value: 'text-[#8C827A]',
       };
     default:
       return {
-        card: 'border-outline bg-surface hover:border-brand-warm/40 hover:bg-white',
-        badge: 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-brand-warm group-hover:text-white',
-        value: 'text-[#9A3F00]',
+        card: 'border-outline bg-surface hover:border-[#D5CFC9] hover:bg-white',
+        badge: 'bg-[#EDE8E1] text-[#6B5E57] group-hover:bg-[#322822] group-hover:text-white',
+        value: 'text-[#2C2420]',
       };
   }
 };

@@ -10,11 +10,21 @@ type LayoutProps = {
   onTowerSelect?: (towerId: string) => void;
 };
 
-const statusConfig = {
-  primary: {
-    bg: 'bg-brand/10 border border-brand/20',
-    dot: 'bg-brand',
-    label: 'text-[#D04C00]'
+const statusConfig: Record<string, { bg: string; dot: string; label: string }> = {
+  ready: {
+    bg: 'bg-emerald-50 border border-emerald-200',
+    dot: 'bg-emerald-500',
+    label: 'text-emerald-700'
+  },
+  construction: {
+    bg: 'bg-blue-50 border border-blue-200',
+    dot: 'bg-blue-500',
+    label: 'text-blue-700'
+  },
+  launching: {
+    bg: 'bg-indigo-50 border border-indigo-200',
+    dot: 'bg-indigo-500',
+    label: 'text-indigo-700'
   },
   neutral: {
     bg: 'bg-outline/30 border border-outline/60',
@@ -24,9 +34,9 @@ const statusConfig = {
 };
 
 const towerData = [
-  { id: 'shlok', name: 'Shlok', config: '2, 3 & 4 BHK', status: 'Ready to Move', statusType: 'primary', initial: 'S' },
-  { id: 'ayush', name: 'Ayush', config: '2 & 3 BHK', status: 'Under Construction', statusType: 'primary', initial: 'A' },
-  { id: 'ananta', name: 'Ananta', config: '3 BHK', status: 'Launching Soon', statusType: 'primary', initial: 'A' },
+  { id: 'shlok', name: 'Shlok', config: '2, 3 & 4 BHK', status: 'Ready to Move', statusType: 'ready', initial: 'S' },
+  { id: 'ayush', name: 'Ayush', config: '2 & 3 BHK', status: 'Under Construction', statusType: 'construction', initial: 'A' },
+  { id: 'ananta', name: 'Ananta', config: '3 BHK', status: 'Launching Soon', statusType: 'launching', initial: 'A' },
   { id: 'advait', name: 'Advait', config: 'TBD', status: 'Future Phase', statusType: 'neutral', initial: 'A' },
   { id: 'vihaan', name: 'Vihaan', config: 'TBD', status: 'Future Phase', statusType: 'neutral', initial: 'V' },
   { id: 'ishan', name: 'Ishan', config: 'TBD', status: 'Future Phase', statusType: 'neutral', initial: 'I' },
