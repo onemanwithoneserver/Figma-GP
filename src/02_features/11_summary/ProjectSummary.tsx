@@ -53,9 +53,9 @@ const SAVED_PLANS: SavedPlan[] = [
 ];
 
 const TABS = [
-  { key: 'likes' as const, label: 'Likes', emoji: '👍', count: 3 },
-  { key: 'neutral' as const, label: 'Neutral', emoji: '😐', count: 3 },
-  { key: 'apprehensions' as const, label: 'Apprehensions', emoji: '❓', count: 3 },
+  { key: 'likes' as const, label: 'Likes', emoji: '👍' },
+  { key: 'neutral' as const, label: 'Neutral', emoji: '😐' },
+  { key: 'apprehensions' as const, label: 'Apprehensions', emoji: '❓' },
 ];
 
 const ProjectSummary: React.FC = () => {
@@ -65,8 +65,6 @@ const ProjectSummary: React.FC = () => {
   const toggleSavePlan = (id: string) => {
     setSavedPlans((prev) => ({ ...prev, [id]: !prev[id] }));
   };
-
-  const selectedCount = Object.values(savedPlans).filter(Boolean).length;
 
   return (
     <div className="bg-white">
@@ -136,13 +134,6 @@ const ProjectSummary: React.FC = () => {
                   >
                     <span>{tab.emoji}</span>
                     <span>{tab.label}</span>
-                    <span
-                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold ${
-                        isActive ? 'bg-white/20 text-white' : 'bg-black/5 text-[#7A716A]'
-                      }`}
-                    >
-                      {tab.count}
-                    </span>
                   </button>
                 );
               })}
@@ -193,7 +184,7 @@ const ProjectSummary: React.FC = () => {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-2">
+            <div className="mb-2">
               <h3 className="flex items-center text-[16px] font-extrabold">
                 <span className="mr-1.5 flex items-center">
                   <svg
@@ -210,10 +201,6 @@ const ProjectSummary: React.FC = () => {
                 </span>
                 <span className="text-brand-booking">Saved Floor Plans</span>
               </h3>
-
-              <span className="text-[11px] font-mono font-semibold text-brand-booking bg-orange-50 border border-orange-200/60 px-2 py-0.5 rounded-chip">
-                {selectedCount} Selected
-              </span>
             </div>
 
             <div className="flex flex-col gap-y-2">
