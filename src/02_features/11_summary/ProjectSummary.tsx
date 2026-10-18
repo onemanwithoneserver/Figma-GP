@@ -66,23 +66,55 @@ const ProjectSummary: React.FC = () => {
       <div id="panel-summary" role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300 p-1">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-[20px] font-extrabold text-[#3A312B]">Project Summary</h2>
-          <span className="text-[20px]">
-            <svg
-              className="w-[22px] h-[22px] text-[#7A5C3A]"
-              focusable="false"
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7zm12-4h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04-.39.08-.74.28-1.01.55-.18.18-.33.4-.43.64-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
-              />
-            </svg>
-          </span>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 shadow-xs">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span className="text-[11px] font-extrabold text-emerald-800 font-mono">85% Match</span>
+            </div>
+            <span className="text-[20px]">
+              <svg
+                className="w-[22px] h-[22px] text-[#7A5C3A]"
+                focusable="false"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M7 15h7v2H7zm0-4h10v2H7zm0-4h10v2H7zm12-4h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-.14 0-.27.01-.4.04-.39.08-.74.28-1.01.55-.18.18-.33.4-.43.64-.1.23-.16.49-.16.77v14c0 .27.06.54.16.78s.25.45.43.64c.27.27.62.47 1.01.55.13.02.26.03.4.03h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m-7-.25c.41 0 .75.34.75.75s-.34.75-.75.75-.75-.34-.75-.75.34-.75.75-.75M19 19H5V5h14z"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
 
-        <div className="mb-1">
+        <div className="mb-2">
           <p className="text-[12px] text-[#6B6B7B]">Review the factors below based on your select preferences.</p>
+        </div>
+
+        <div className="my-2 px-3 py-2 rounded-control bg-gradient-to-r from-emerald-50/80 via-surface-soft to-emerald-50/50 border border-emerald-200/80 flex items-center justify-between gap-3 shadow-xs">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between text-[11.5px] font-bold text-[#3A312B] mb-1">
+              <span className="flex items-center gap-1.5">
+                <span className="text-emerald-700 font-extrabold">✓</span>
+                <span>Preference Compatibility</span>
+              </span>
+              <span className="text-emerald-700 font-extrabold font-mono">85% Match</span>
+            </div>
+            <div className="w-full h-2 rounded-full bg-emerald-100/70 overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{ width: '85%' }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-[#10B981]"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col items-center justify-center px-2 py-0.5 rounded-chip bg-emerald-100/70 border border-emerald-300/70 text-emerald-900 font-mono font-black text-[13px] flex-shrink-0">
+            85%
+          </div>
         </div>
 
         <div className="flex justify-start sm:justify-center">
