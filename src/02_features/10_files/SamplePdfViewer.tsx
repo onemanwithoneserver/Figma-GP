@@ -3,7 +3,9 @@ import ZoomInRounded from '@mui/icons-material/ZoomInRounded';
 import ZoomOutRounded from '@mui/icons-material/ZoomOutRounded';
 import VerifiedUserRounded from '@mui/icons-material/VerifiedUserRounded';
 import PictureAsPdfRounded from '@mui/icons-material/PictureAsPdfRounded';
-import { motion } from 'motion/react';
+import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
+import CheckRounded from '@mui/icons-material/CheckRounded';
+import { motion, AnimatePresence } from 'motion/react';
 
 export interface SamplePdfProps {
   fileId: number;
@@ -18,27 +20,38 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
   fileSize,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pageDropdownRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(100);
   const [pageInput, setPageInput] = useState('1');
+  const [isPageDropdownOpen, setIsPageDropdownOpen] = useState(false);
 
   const totalPages = fileId === 1 ? 3 : fileId === 4 ? 2 : 1;
 
   // Reset scroll and page input on fileId change
   useEffect(() => {
     setPageInput('1');
+    setIsPageDropdownOpen(false);
     if (containerRef.current) {
       containerRef.current.scrollTop = 0;
     }
   }, [fileId]);
 
-  const handlePageInputChange = (val: string) => {
-    setPageInput(val);
-    const num = parseInt(val, 10);
-    if (!isNaN(num) && num >= 1 && num <= totalPages) {
-      const pageEl = document.getElementById(`pdf-page-${fileId}-${num}`);
-      if (pageEl) {
-        pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (pageDropdownRef.current && !pageDropdownRef.current.contains(e.target as Node)) {
+        setIsPageDropdownOpen(false);
       }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handlePageSelect = (page: number) => {
+    setPageInput(String(page));
+    setIsPageDropdownOpen(false);
+    const pageEl = document.getElementById(`pdf-page-${fileId}-${page}`);
+    if (pageEl) {
+      pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -73,11 +86,9 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
             <h4 className="text-[12px] font-bold text-white truncate leading-tight">
               {fileName}.pdf
             </h4>
-            <div className="flex items-center gap-1.5 text-[10px] text-white/50">
-              <span>{fileSize}</span>
-              <span>•</span>
+            <div className="flex items-center gap-1 text-[10px]">
               <span className="text-emerald-400 font-semibold flex items-center gap-0.5">
-                <VerifiedUserRounded style={{ fontSize: 10 }} /> Verified
+                <VerifiedUserRounded style={{ fontSize: 10 }} /> Verified Official Document
               </span>
             </div>
           </div>
@@ -85,21 +96,64 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
 
         {/* Right Controls: Enter Page Number + Zoom */}
         <div className="flex items-center gap-2 ml-auto">
-          {/* Enter page number to jump */}
+          {/* Modern Dropdown for Page Number Control (e.g. 1 / 2) */}
           {totalPages > 1 && (
-            <div className="flex items-center bg-black/40 border border-white/10 rounded-chip px-2 py-0.5 text-[11px] font-mono text-white/90">
-              <span className="text-[10px] text-white/60 mr-1">Page</span>
-              <input
-                type="number"
-                min={1}
-                max={totalPages}
-                value={pageInput}
-                onChange={(e) => handlePageInputChange(e.target.value)}
-                className="w-7 h-5 text-center bg-white/10 hover:bg-white/20 focus:bg-white/25 rounded text-white font-bold text-[11px] outline-none border border-white/20 focus:border-[#F85B01] transition-colors"
-                title="Enter page number to jump"
-              />
-              <span className="text-white/50 mx-1">/</span>
-              <span>{totalPages}</span>
+            <div ref={pageDropdownRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setIsPageDropdownOpen((prev) => !prev)}
+                className="flex items-center gap-1.5 bg-black/40 hover:bg-black/60 border border-white/15 hover:border-[#F85B01]/70 rounded-[6px] px-2 py-1 text-[11px] font-mono text-white/90 transition-all duration-150 cursor-pointer shadow-sm outline-none"
+                title="Select Page"
+              >
+                <span className="font-bold text-white">{pageInput}</span>
+                <span className="text-white/40">/</span>
+                <span className="text-white/70">{totalPages}</span>
+                <motion.span
+                  animate={{ rotate: isPageDropdownOpen ? 180 : 0 }}
+                  transition={{ duration: 0.15 }}
+                  className="text-white/60 ml-0.5"
+                >
+                  <KeyboardArrowDownRounded style={{ fontSize: 15 }} />
+                </motion.span>
+              </button>
+
+              <AnimatePresence>
+                {isPageDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                    animate={{ opacity: 1, scale: 1, y: 4 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                    transition={{ duration: 0.15, ease: 'easeOut' }}
+                    className="absolute right-0 top-full mt-1 w-max min-w-[105px] rounded-[8px] bg-[#1C1815]/95 backdrop-blur-xl border border-white/20 shadow-xl p-1 z-50 overflow-hidden"
+                  >
+                    <div className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-white/40 border-b border-white/10 mb-1">
+                      Jump to Page
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                        const isCurrent = Number(pageInput) === p;
+                        return (
+                          <button
+                            key={p}
+                            type="button"
+                            onClick={() => handlePageSelect(p)}
+                            className={`flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-[5px] text-[11px] font-mono text-left transition-all duration-150 cursor-pointer ${
+                              isCurrent
+                                ? 'bg-[#F85B01] text-white font-bold shadow-sm'
+                                : 'text-white/80 hover:text-white hover:bg-white/10 font-medium'
+                            }`}
+                          >
+                            <span>Page {p}</span>
+                            {isCurrent && (
+                              <CheckRounded style={{ fontSize: 13 }} className="text-white flex-shrink-0" />
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
 

@@ -36,22 +36,19 @@ export const ModernPdfDropdown: React.FC<ModernPdfDropdownProps> = ({
   }, []);
 
   return (
-    <div ref={dropdownRef} className="relative z-30 flex-1 max-w-[270px] xs:max-w-[320px]">
-      {/* Modern Trigger Button */}
+    <div ref={dropdownRef} className="relative z-30 inline-block">
+      {/* Modern Trigger Button sized as per the name */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="w-full flex items-center justify-between gap-2 px-3 py-1.5 rounded-[10px] bg-[#25201C] hover:bg-[#2C2723] border border-white/20 hover:border-[#F85B01]/70 transition-all duration-200 text-left shadow-sm cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
+        className="inline-flex items-center gap-2 px-2.5 py-1.5 rounded-[8px] bg-[#25201C] hover:bg-[#2C2723] border border-white/20 hover:border-[#F85B01]/70 transition-all duration-200 text-left shadow-sm cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
       >
-        <div className="flex items-center gap-2 min-w-0">
+        <div className="flex items-center gap-1.5">
           <div className="flex items-center justify-center w-5 h-5 rounded bg-red-600/90 text-white flex-shrink-0">
             <PictureAsPdfRounded style={{ fontSize: 13 }} />
           </div>
-          <span className="text-[12px] font-bold text-white truncate">
+          <span className="text-[12px] font-bold text-white whitespace-nowrap">
             {selectedFile.label}
-          </span>
-          <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-white/10 text-white/70 flex-shrink-0 hidden xs:inline">
-            {selectedFile.size}
           </span>
         </div>
 
@@ -60,11 +57,11 @@ export const ModernPdfDropdown: React.FC<ModernPdfDropdownProps> = ({
           transition={{ duration: 0.2 }}
           className="text-white/70 flex-shrink-0"
         >
-          <KeyboardArrowDownRounded style={{ fontSize: 18 }} />
+          <KeyboardArrowDownRounded style={{ fontSize: 16 }} />
         </motion.span>
       </button>
 
-      {/* Modern Floating Menu */}
+      {/* Modern Floating Menu sized to fit names */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -72,13 +69,13 @@ export const ModernPdfDropdown: React.FC<ModernPdfDropdownProps> = ({
             animate={{ opacity: 1, scale: 1, y: 4 }}
             exit={{ opacity: 0, scale: 0.95, y: -6 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute left-0 top-full w-full min-w-[260px] xs:min-w-[290px] rounded-[12px] bg-[#1C1815]/95 backdrop-blur-2xl border border-white/20 shadow-[0_16px_36px_rgba(0,0,0,0.6)] p-1.5 overflow-hidden"
+            className="absolute left-0 top-full w-max min-w-[160px] rounded-[10px] bg-[#1C1815]/95 backdrop-blur-2xl border border-white/20 shadow-[0_16px_36px_rgba(0,0,0,0.6)] p-1 overflow-hidden z-50"
           >
-            <div className="px-2 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white/40 border-b border-white/10 mb-1">
-              Select Official PDF File
+            <div className="px-2 py-1 text-[9.5px] font-extrabold uppercase tracking-wider text-white/40 border-b border-white/10 mb-1">
+              Select PDF
             </div>
 
-            <div className="flex flex-col gap-1 max-h-[240px] overflow-y-auto scrollbar-hide">
+            <div className="flex flex-col gap-0.5 max-h-[240px] overflow-y-auto scrollbar-hide">
               {files.map((file) => {
                 const isSelected = file.id === selectedFile.id;
 
@@ -90,35 +87,25 @@ export const ModernPdfDropdown: React.FC<ModernPdfDropdownProps> = ({
                       onSelect(file);
                       setIsOpen(false);
                     }}
-                    className={`flex items-center justify-between gap-2 px-2.5 py-2 rounded-[8px] text-left transition-all duration-150 cursor-pointer ${
+                    className={`flex items-center justify-between gap-3 px-2.5 py-1.5 rounded-[6px] text-left transition-all duration-150 cursor-pointer whitespace-nowrap ${
                       isSelected
                         ? 'bg-[#F85B01] text-white shadow-sm font-bold'
-                        : 'text-white/85 hover:text-white hover:bg-white/10 font-medium'
+                        : 'text-white/90 hover:text-white hover:bg-white/10 font-semibold'
                     }`}
                   >
-                    <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex items-center gap-2">
                       <PictureAsPdfRounded
-                        style={{ fontSize: 16 }}
+                        style={{ fontSize: 15 }}
                         className={isSelected ? 'text-white' : 'text-red-500'}
                       />
-                      <div className="min-w-0">
-                        <span className="block text-[12px] truncate leading-tight">
-                          {file.label}
-                        </span>
-                        <span className={`block text-[10px] truncate ${isSelected ? 'text-white/80' : 'text-white/50'}`}>
-                          {file.description}
-                        </span>
-                      </div>
+                      <span className="text-[12px] leading-none">
+                        {file.label}
+                      </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <span className={`text-[10px] font-mono px-1 py-0.5 rounded ${isSelected ? 'bg-white/20 text-white' : 'bg-white/5 text-white/60'}`}>
-                        {file.size}
-                      </span>
-                      {isSelected && (
-                        <CheckRounded style={{ fontSize: 15 }} className="text-white" />
-                      )}
-                    </div>
+                    {isSelected && (
+                      <CheckRounded style={{ fontSize: 14 }} className="text-white flex-shrink-0" />
+                    )}
                   </button>
                 );
               })}
