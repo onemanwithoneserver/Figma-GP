@@ -11,6 +11,8 @@ import EventAvailableRounded from '@mui/icons-material/EventAvailableRounded';
 
 interface SlotBookingProps {
   meetType?: string;
+  isBooked?: boolean;
+  onBookChange?: (booked: boolean) => void;
 }
 
 interface DateItem {
@@ -57,12 +59,18 @@ const TIME_SLOTS: Record<SessionKey, string[]> = {
 
 const FAST_FILLING = new Set(['10:00 AM', '11:00 AM', '04:30 PM', '07:00 PM']);
 
-const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit' }) => {
+const SlotBooking: React.FC<SlotBookingProps> = ({
+  meetType = 'direct-site-visit',
+  isBooked: isBookedProp,
+  onBookChange,
+}) => {
   const [selectedDay, setSelectedDay] = useState('12');
   const [selectedSession, setSelectedSession] = useState<SessionKey>('morning');
   const [selectedSlot, setSelectedSlot] = useState('10:00 AM');
-  const [isBooked, setIsBooked] = useState(false);
+  const [internalBooked, setInternalBooked] = useState(false);
   const [calendarAdded, setCalendarAdded] = useState(false);
+
+  const isBooked = isBookedProp !== undefined ? isBookedProp : internalBooked;
 
   const isOnline = meetType === 'online-visit';
   const currentDateObj = DATES.find(d => d.day === selectedDay) || DATES[1];
@@ -70,12 +78,20 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
 
   const handleConfirm = () => {
     if (!selectedSlot) return;
-    setIsBooked(true);
+    if (onBookChange) {
+      onBookChange(true);
+    } else {
+      setInternalBooked(true);
+    }
     setCalendarAdded(false);
   };
 
   const handleReset = () => {
-    setIsBooked(false);
+    if (onBookChange) {
+      onBookChange(false);
+    } else {
+      setInternalBooked(false);
+    }
     setCalendarAdded(false);
   };
 
