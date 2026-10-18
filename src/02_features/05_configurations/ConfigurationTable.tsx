@@ -83,10 +83,10 @@ const FilterPill = ({
 
 const getAvailabilityStyles = (status: string): string => {
   switch (status) {
-    case 'Available': return 'bg-emerald-50 text-emerald-700 border-emerald-200 shadow-xs';
-    case 'Limited':   return 'bg-blue-50 text-blue-700 border-blue-200 shadow-xs';
-    case 'Sold Out':  return 'bg-surface-muted text-ink-subtle border-outline';
-    default:          return 'bg-surface text-ink-subtle border-outline';
+    case 'Available': return 'bg-[#EAF3EC] text-[#1B522F] border-[#CFE5D3] shadow-xs';
+    case 'Limited':   return 'bg-[#ECF2F7] text-[#234568] border-[#CEE0EE] shadow-xs';
+    case 'Sold Out':  return 'bg-[#F3EFE9] text-[#6B5E57] border-[#DFD7CB]';
+    default:          return 'bg-[#F3EFE9] text-[#6B5E57] border-[#DFD7CB]';
   }
 };
 

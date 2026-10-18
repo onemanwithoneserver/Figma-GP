@@ -28,9 +28,9 @@ const getVariantStyles = (variant?: string) => {
   switch (variant) {
     case 'status-ongoing':
       return {
-        card: 'border-blue-200 bg-blue-50/30 hover:border-blue-400 hover:bg-blue-50/50',
-        badge: 'bg-blue-100 text-blue-700 group-hover:bg-blue-600 group-hover:text-white',
-        value: 'text-blue-700',
+        card: 'border-[#CEE0EE] bg-[#ECF2F7]/60 hover:border-[#234568]/40 hover:bg-[#ECF2F7]',
+        badge: 'bg-[#DFEAF3] text-[#234568] group-hover:bg-[#234568] group-hover:text-white',
+        value: 'text-[#234568]',
       };
     case 'handover':
       return {

@@ -28,9 +28,9 @@ const getVariantStyles = (variant?: string) => {
   switch (variant) {
     case 'status-prelaunch':
       return {
-        card: 'border-indigo-200 bg-indigo-50/30 hover:border-indigo-400 hover:bg-indigo-50/50',
-        badge: 'bg-indigo-100 text-indigo-700 group-hover:bg-indigo-600 group-hover:text-white',
-        value: 'text-indigo-700',
+        card: 'border-[#DFD0E4] bg-[#F4EFF6]/60 hover:border-[#4F2856]/40 hover:bg-[#F4EFF6]',
+        badge: 'bg-[#EBDDEE] text-[#4F2856] group-hover:bg-[#4F2856] group-hover:text-white',
+        value: 'text-[#4F2856]',
       };
     case 'muted':
       return {

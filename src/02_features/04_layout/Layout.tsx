@@ -10,26 +10,22 @@ type LayoutProps = {
   onTowerSelect?: (towerId: string) => void;
 };
 
-const statusConfig: Record<string, { bg: string; dot: string; label: string }> = {
+const statusConfig: Record<string, { bg: string; label: string }> = {
   ready: {
-    bg: 'bg-emerald-50 border border-emerald-200',
-    dot: 'bg-emerald-500',
-    label: 'text-emerald-700'
+    bg: 'bg-[#EAF3EC] border border-[#CFE5D3]',
+    label: 'text-[#1B522F]'
   },
   construction: {
-    bg: 'bg-blue-50 border border-blue-200',
-    dot: 'bg-blue-500',
-    label: 'text-blue-700'
+    bg: 'bg-[#ECF2F7] border border-[#CEE0EE]',
+    label: 'text-[#234568]'
   },
   launching: {
-    bg: 'bg-indigo-50 border border-indigo-200',
-    dot: 'bg-indigo-500',
-    label: 'text-indigo-700'
+    bg: 'bg-[#F4EFF6] border border-[#DFD0E4]',
+    label: 'text-[#4F2856]'
   },
   neutral: {
-    bg: 'bg-outline/30 border border-outline/60',
-    dot: 'bg-[#8A7D74]',
-    label: 'text-ink-muted'
+    bg: 'bg-[#F3EFE9] border border-[#DFD7CB]',
+    label: 'text-[#6B5E57]'
   },
 };
 
@@ -115,8 +111,7 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
                   </span>
 
                   <span className="flex-shrink-0">
-                    <span className={`flex items-center gap-1.5 px-2 py-1 rounded-chip text-[12px] font-bold   ${cfg.bg} ${cfg.label}`}>
-                      <span className={`${styles.statusDot} w-1 h-1 rounded-full ${cfg.dot}`} />
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-chip text-[12px] font-bold ${cfg.bg} ${cfg.label}`}>
                       {tower.status}
                     </span>
                   </span>

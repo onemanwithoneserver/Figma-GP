@@ -27,9 +27,9 @@ const getVariantStyles = (variant?: string) => {
   switch (variant) {
     case 'status':
       return {
-        card: 'border-emerald-200 bg-emerald-50/30 hover:border-emerald-400 hover:bg-emerald-50/50',
-        badge: 'bg-emerald-100 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white',
-        value: 'text-emerald-700',
+        card: 'border-[#CFE5D3] bg-[#EAF3EC]/60 hover:border-[#1B522F]/40 hover:bg-[#EAF3EC]',
+        badge: 'bg-[#DDEFE0] text-[#1B522F] group-hover:bg-[#1B522F] group-hover:text-white',
+        value: 'text-[#1B522F]',
       };
     case 'handover':
       return {
