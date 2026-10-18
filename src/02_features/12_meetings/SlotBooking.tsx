@@ -34,7 +34,6 @@ const timeSlots = {
   ],
 };
 
-
 const SlotBooking: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('12');
   const [selectedSession, setSelectedSession] = useState('morning');
@@ -45,9 +44,9 @@ const SlotBooking: React.FC = () => {
       className="max-w-md bg-white rounded-chip text-[#3A312B]"
 
     >
-      {/* Date Row */}
+
       <div className="flex items-stretch gap-2 mb-2 pb-1">
-        {/* Month Sidebar */}
+
         <div className="flex items-center justify-center px-3 py-2 bg-gray-50 border border-gray-200 rounded-chip">
           <span className="text-[11px] font-bold rotate-180 [writing-mode:vertical-lr] text-gray-500 uppercase tracking-tighter">MAR</span>
         </div>
@@ -69,7 +68,6 @@ const SlotBooking: React.FC = () => {
         ))}
       </div>
 
-      {/* Session Filter Pills */}
       <div className="flex bg-gray-100 p-1 rounded-chip gap-1 mb-1">
         {sessions.map((session) => (
           <ActionButton
@@ -86,7 +84,6 @@ const SlotBooking: React.FC = () => {
         ))}
       </div>
 
-      {/* Time Slot Grid */}
       <div className="grid grid-cols-4 gap-2 mb-1">
         {timeSlots[selectedSession as keyof typeof timeSlots].map((slot) => (
           <ActionButton
@@ -102,7 +99,6 @@ const SlotBooking: React.FC = () => {
         ))}
       </div>
 
-      {/* Confirm Button */}
       <ActionButton
         className={`bg-brand-booking text-white w-full py-2 mt-2 rounded-chip font-bold text-[13px] shadow-md transition-all active:scale-[0.98]
           ${selectedSlot ? 'opacity-100 cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}

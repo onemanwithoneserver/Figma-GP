@@ -11,13 +11,11 @@ import Check from '@mui/icons-material/CheckRounded';
 import X from '@mui/icons-material/CloseRounded';
 import Play from '@mui/icons-material/PlayArrowRounded';
 
-// Assuming these are standard SVG components
 import AcresIcon from "../../05_assets/Clip path group.svg?react";
 import UnitsIcon from "../../05_assets/units.svg?react";
 import FloorsIcon from "../../05_assets/floors.svg?react";
 import accountNewLogo from "../../05_assets/account_new.png";
 
-// --- VOTE BUTTON COMPONENT ---
 interface VoteButtonProps {
   vote: "like" | "dislike" | null;
   onVote: (vote: "like" | "dislike" | null) => void;
@@ -49,7 +47,6 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
         />
       </MotionButton>
 
-      {/* Thumbs-Down Button */}
       <MotionButton
         onClick={() => handleVote("dislike")}
         aria-label="Dislike this feature"
@@ -73,7 +70,6 @@ const VoteButton: React.FC<VoteButtonProps> = ({ vote, onVote }) => {
   );
 };
 
-// --- PROPERTY STAT COMPONENT ---
 interface PropertyStatProps {
   label: string;
   Icon: React.FC<React.SVGProps<SVGSVGElement>>;
@@ -93,7 +89,7 @@ const PropertyStat: React.FC<PropertyStatProps> = ({
   return (
   <motion.article variants={itemVariants}
     whileHover={reducedMotion ? undefined : { y: -3, boxShadow: "0 10px 24px rgba(50,40,34,0.10)" }}
-    // Reduced margin-bottom to mb-4 for closer vote controls
+
     className={cn("group bg-white rounded-control flex-1 h-[90px] flex flex-col items-center justify-center relative mb-4 border border-stone-200 overflow-visible", "shadow-stat")}
 
   >
@@ -115,11 +111,10 @@ const PropertyStat: React.FC<PropertyStatProps> = ({
 );
 };
 
-// --- HERO SECTION COMPONENT ---
 const HeroSection: React.FC = () => {
   const { reducedMotion, staggerVariants, itemVariants } = useMotionSettings();
   const headerRef = useRef<HTMLElement>(null);
-  // Parallax: photo drifts slower than the page while the header scrolls out.
+
   const { scrollYProgress } = useScroll({ target: headerRef, offset: ["start start", "end start"] });
   const imageY = useTransform(scrollYProgress, [0, 1], [0, reducedMotion ? 0 : 60]);
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, reducedMotion ? 1 : 1.12]);
@@ -129,7 +124,6 @@ const HeroSection: React.FC = () => {
         viewport: { once: false },
         transition: { type: "spring" as const, stiffness: 320, damping: 22, delay } };
 
-  // --- Gallery: auto-advance, pause while the tab is hidden, swipe to change ---
   const [slide, setSlide] = useState(0);
   const [paused, setPaused] = useState(false);
   const go = (dir: number) => setSlide((s) => (s + dir + HERO_SLIDES.length) % HERO_SLIDES.length);
@@ -156,7 +150,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="relative w-full max-w-md mx-auto flex flex-col overflow-x-hidden bg-surface shadow-2xl rounded-b-[7px]">
-      {/* Header Image - Height reduced from 280px to 240px */}
+
       <header ref={headerRef} className="relative h-[240px] flex-shrink-0 bg-[#312822]">
         <div className="absolute inset-0 overflow-hidden">
           <motion.div className="w-full h-full relative" style={{ y: imageY, scale: imageScale }}
@@ -181,7 +175,6 @@ const HeroSection: React.FC = () => {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#312822]/80 via-transparent to-transparent pointer-events-none" />
 
-        {/* Story-style slide indicators */}
         <div className="absolute bottom-[66px] right-4 z-20 flex gap-1.5" role="tablist" aria-label="Property photos">
           {HERO_SLIDES.map((s, i) => (
             <button key={s.src} type="button" role="tab" aria-selected={i === slide} aria-label={`Photo ${i + 1}`}
@@ -214,7 +207,6 @@ const HeroSection: React.FC = () => {
           </motion.p>
         </motion.div>
 
-        {/* Price tag position adjusted to match new header height */}
         <motion.div className="absolute bottom-14 left-4" {...pop(0.5)}>
           <div
             className={cn("inline-flex items-center gap-1.5 rounded-control px-3.5 py-2 relative overflow-hidden sheen", "bg-brand-gradient shadow-brand")}
@@ -230,11 +222,9 @@ const HeroSection: React.FC = () => {
         </motion.div>
       </header>
 
-      {/* Content Card - Padding tightened to p-4 */}
       <div className="px-4 -mt-8 relative z-20 pb-1">
         <div className="bg-surface-soft rounded-control p-4 shadow-lg border border-white">
 
-          {/* Developer row - Tightened mb-5/pb-4 to mb-4/pb-3 */}
           <div className="flex items-center gap-3 pb-3 border-b border-stone-200/80 mb-4">
             <div className="w-11 h-11 flex items-center justify-center bg-white shadow-sm border border-stone-100 rounded-control overflow-hidden flex-shrink-0 p-1">
               <img
@@ -251,7 +241,6 @@ const HeroSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Property Stats - Gap reduced to 3 for tighter grid */}
           <motion.div variants={staggerVariants} initial={reducedMotion ? false : 'hidden'} whileInView="show" viewport={{ once: false }}
             className="flex items-start justify-between gap-5 w-full overflow-visible">
             {statsData.map((stat) => (
@@ -261,7 +250,6 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Video Tour Placeholder - Tightened padding */}
       <div className="px-4 pt-2 pb-5">
         <div
           className={cn("group relative w-full rounded-control overflow-hidden border border-outline cursor-pointer", "aspect-video bg-ink-gradient")}

@@ -2,10 +2,6 @@ import { useEffect, useRef } from 'react';
 import { animate, useInView } from 'motion/react';
 import { easeOut, useMotionSettings } from './useMotionSettings';
 
-/**
- * Counts every number inside `text` up from 0 once it scrolls into view,
- * e.g. "G+14 Floors" -> "G+0 Floors" ... "G+14 Floors". Final text is always rendered for SSR/a11y.
- */
 export function CountUp({ text, duration = 0.9, delay = 0 }: { text: string; duration?: number; delay?: number }) {
   const { reducedMotion } = useMotionSettings();
   const ref = useRef<HTMLSpanElement>(null);

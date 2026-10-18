@@ -21,7 +21,6 @@ function Panel({ children, ...props }: HTMLMotionProps<'div'>) {
   );
 }
 
-/** Use for views that already mount/unmount on selection, not persistent form state. */
 export function TransitionPanel({ transitionKey, ...props }: HTMLMotionProps<'div'> & { transitionKey: string }) {
   return (
     <AnimatePresence mode="wait" initial={false}>

@@ -17,7 +17,7 @@ export default function AddNewPlace({ title, onSave, onCancel }: AddNewPlaceProp
     <div className="flex flex-col bg-surface-soft rounded-b-[7px]">
 
       <div className="p-4 space-y-4">
-        {/* Search Input - Removed Numbering & Uppercase */}
+
         <div className="space-y-1">
           <label className="text-[12px] font-semibold text-[#312822] ml-0.5">Search location</label>
           <div className="flex items-center bg-white rounded-control px-3 py-2.5 border border-outline focus-within:border-brand-warm transition-all shadow-sm">
@@ -33,7 +33,6 @@ export default function AddNewPlace({ title, onSave, onCancel }: AddNewPlaceProp
           </div>
         </div>
 
-        {/* Map Visualizer - Reduced Height */}
         <div className="h-[150px] bg-[#EBE4D8] rounded-control relative overflow-hidden flex items-center justify-center border border-outline">
           <div className={cn("absolute inset-0 opacity-5", "[background-image:radial-gradient(#312822_1px,_transparent_1px)] [background-size:16px_16px]")}  />
           <div className="bg-[#312822] text-white px-3 py-1.5 rounded-control text-[11px] font-bold shadow-lg z-10 flex items-center gap-2 max-w-[80%]">
@@ -42,7 +41,6 @@ export default function AddNewPlace({ title, onSave, onCancel }: AddNewPlaceProp
           </div>
         </div>
 
-        {/* Name Input - Removed Numbering & Uppercase */}
         <div className="space-y-1">
           <label className="text-[12px] font-semibold text-[#312822] ml-0.5">Name of the Place</label>
           <div className="flex items-center bg-white rounded-control px-3 py-2.5 border border-outline focus-within:border-brand-warm transition-all shadow-sm">
@@ -57,7 +55,6 @@ export default function AddNewPlace({ title, onSave, onCancel }: AddNewPlaceProp
           </div>
         </div>
 
-        {/* Action Buttons - Optimized Padding */}
         <div className="flex gap-2.5 pt-1">
           <ActionButton
             onClick={onCancel}

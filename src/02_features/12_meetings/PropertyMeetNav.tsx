@@ -8,7 +8,7 @@ const MEET_TABS = [
 ];
 
 export default function PropertyMeetNav() {
-  // Preserve the existing unselected visit state until the user chooses a type.
+
   const [activeTab, setActiveTab] = useState('');
 
   return (

@@ -49,15 +49,11 @@ const SUMMARY_DATA: ExitSummaryData = {
   ]
 };
 
-
-
-
 const TAB_CONFIG = [
   { key: 'likes', label: 'Likes', emoji: '👍' },
   { key: 'neutral', label: 'Neutral', emoji: '😐' },
   { key: 'apprehensions', label: 'Apprehensions', emoji: '❓' },
 ];
-
 
 const ProjectSummary: React.FC = () => {
   const [activeTab, setActiveTab] = useState('likes');
@@ -105,7 +101,7 @@ const ProjectSummary: React.FC = () => {
   return (
     <div className="bg-white">
       <div id="panel-summary" role="tabpanel" className="bg-white overflow-hidden min-h-[320px] transition-all duration-300 p-1">
-        {/* Header with emoji on right */}
+
         <div className="mb-2 flex items-center justify-between">
           <h2 className="text-[20px] font-extrabold text-[#3A312B]">
             Project Summary
@@ -115,12 +111,10 @@ const ProjectSummary: React.FC = () => {
           </span>
         </div>
 
-        {/* Heading and Subtext */}
         <div className="mb-1">
           <p className="text-[12px] text-[#6B6B7B]">Review the factors below based on your select preferences.</p>
         </div>
 
-        {/* Centered Tab Navigation */}
         <div className="flex justify-center">
           <div className="relative w-full max-w-xl">
             {canScrollLeft && (
@@ -172,7 +166,6 @@ const ProjectSummary: React.FC = () => {
           </div>
         </div>
 
-        {/* Tab Content */}
         <div className="space-y-5 mt-1">
           <div>
             <div className="flex flex-col gap-y-2">
@@ -193,11 +186,10 @@ const ProjectSummary: React.FC = () => {
             </div>
           </div>
 
-          {/* SAVED FLOOR PLANS */}
           <div>
             <h3 className="mb-1 flex items-center text-[16px] font-extrabold">
               <span className="mr-1">
-                {/* Saved floor-plan icon */}
+
                 <SpaceDashboardRounded className="w-[18px] h-[18px] text-brand-booking" />
               </span>
               <span className={"text-brand-booking"} >Saved Floor Plans</span>
@@ -205,7 +197,7 @@ const ProjectSummary: React.FC = () => {
             <div className="flex flex-col gap-y-3">
               {SUMMARY_DATA.savedPlans.map((plan) => (
                 <div key={plan.id} className="ml-3 flex items-start gap-x-1">
-                  {/* Saved plan indicator */}
+
                   <CheckBoxRounded className="mt-0.5 shrink-0 w-[16px] h-[16px] text-[#3A312B]" />
                   <div className="flex flex-col ml-1">
                     <span className="text-[14px] font-bold text-[#3A312B] leading-tight">{plan.title}</span>

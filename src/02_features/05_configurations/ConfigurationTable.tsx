@@ -179,7 +179,7 @@ export default function ConfigurationTable({
                   <td className="border border-outline px-1 py-2.5 align-middle text-center">
                     <ActionButton
                       title="View floor plan"
-                      /* Updated color to #332823 */
+
                       className="p-1.5 text-[#332823] hover:bg-surface-muted rounded-control transition-all hover:shadow-sm disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:shadow-none"
                       disabled={item.availability === 'Sold Out'}
                       onClick={() => onViewUnit(item)}

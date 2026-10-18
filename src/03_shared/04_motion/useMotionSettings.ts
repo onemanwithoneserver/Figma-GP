@@ -6,7 +6,6 @@ export function getScrollBehavior(): ScrollBehavior {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
 }
 
-/** Shared timings and variants; reduced motion skips movement, delays, and entrances. */
 export function useMotionSettings() {
   const reducedMotion = Boolean(useReducedMotion());
   const transition: Transition = { duration: reducedMotion ? 0 : 0.28, ease: easeOut };

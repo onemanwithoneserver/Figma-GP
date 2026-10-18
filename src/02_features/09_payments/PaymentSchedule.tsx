@@ -14,7 +14,7 @@ export default function PaymentSchedule() {
   return (
     <div className="w-full bg-white p-2">
       <div className="pb-1.5">
-       {/*  <h3 className="text-[16px] font-bold text-ink">Payment Schedule</h3> */}
+
         <p className="text-[14px] text-ink-muted font-medium">Standard construction linked plan</p>
       </div>
 

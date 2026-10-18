@@ -38,7 +38,6 @@ export default function InteractiveCommute() {
   return (
     <div className="w-full ">
 
-        {/* Tab Navigation */}
         <TabNavigation
           tabs={INITIAL_TABS}
           activeTab={activeTab}
@@ -46,14 +45,13 @@ export default function InteractiveCommute() {
         />
 
         <div className="py-1 px-1 bg-white flex-1 rounded-b-[7px]">
-          {/* Success Notification */}
+
           {successToast && (
             <div className="flex items-center gap-2 bg-surface-muted text-ink px-4 py-3 rounded-control mb-4 text-[13px] font-bold border border-outline shadow-sm animate-pulse">
               <Icons.Check /> {successToast}
             </div>
           )}
 
-          {/* Places List */}
           <MyFrequentPlaces
             activeTabId={activeTab}
             currentData={tabData[activeTab]}

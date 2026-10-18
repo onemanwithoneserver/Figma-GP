@@ -109,9 +109,9 @@ const TimelineView: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }} viewport={{ once: false }}
         className="flex flex-col gap-5 pt-0"
       >
-        {/* Header Progress Card */}
+
         <div className="relative overflow-hidden rounded-control bg-ink text-white shadow-sm">
-          {/* Subtle warm ambient glow behind the card */}
+
           <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-brand-warm/20 blur-2xl" />
 
           <div className="relative z-10 px-5 pt-5 pb-4">
@@ -126,18 +126,16 @@ const TimelineView: React.FC = () => {
               </span>
             </div>
 
-            {/* Enhanced Animated Slider Track */}
             <div className="relative mb-2 pt-2.5">
-              {/* Background Track with Milestone Notch Markers */}
+
               <div className="h-[8px] w-full rounded-full relative overflow-hidden bg-[#4A3F37] border border-white/5">
-                {/* Ticks for start, mid, end */}
+
                 <div aria-hidden="true" className="absolute inset-0 flex justify-between px-1 pointer-events-none z-0">
                   <span className="w-1 h-full bg-white/10 rounded-full" />
                   <span className="w-1 h-full bg-white/10 rounded-full" style={{ marginLeft: '45%' }} />
                   <span className="w-1 h-full bg-white/10 rounded-full" />
                 </div>
 
-                {/* Animated Fill Bar with glowing gradient */}
                 <motion.div
                   initial={reducedMotion ? false : { width: '0%' }}
                   whileInView={{ width: `${mockBackendData.progress.percentage}%` }}
@@ -145,7 +143,7 @@ const TimelineView: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 85, damping: 18, delay: 0.1 }}
                   className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-[#F85B01] via-[#FF7A1A] to-[#E76F26] shadow-[0_0_12px_rgba(248,91,1,0.6)] relative overflow-hidden"
                 >
-                  {/* Moving Shimmer Beam across the filled bar */}
+
                   {!reducedMotion && (
                     <motion.div
                       aria-hidden="true"
@@ -157,7 +155,6 @@ const TimelineView: React.FC = () => {
                 </motion.div>
               </div>
 
-              {/* Animated Floating Handle with Dual Pulse Rings */}
               <motion.div
                 initial={reducedMotion ? false : { left: '0%', opacity: 0, scale: 0.5 }}
                 whileInView={{ left: `${mockBackendData.progress.percentage}%`, opacity: 1, scale: 1 }}
@@ -165,11 +162,10 @@ const TimelineView: React.FC = () => {
                 transition={{ type: 'spring', stiffness: 85, damping: 18, delay: 0.1 }}
                 className="absolute top-[14px] -translate-y-1/2 -translate-x-1/2 z-20 flex flex-col items-center group cursor-pointer"
               >
-                {/* Expanding Pulse Ring Radiators */}
+
                 <span aria-hidden="true" className="absolute -inset-1.5 rounded-full bg-brand-warm pulse-ring pointer-events-none" />
                 <span aria-hidden="true" className="absolute -inset-3 rounded-full bg-brand-warm/60 pulse-ring [animation-delay:0.9s] pointer-events-none" />
 
-                {/* Slider Knob */}
                 <div className="relative w-4 h-4 rounded-full bg-[#E76F26] border-2 border-white shadow-[0_0_12px_rgba(248,91,1,0.9)] transition-transform duration-200 group-hover:scale-125 flex items-center justify-center">
                   <span className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
                 </div>
@@ -194,12 +190,10 @@ const TimelineView: React.FC = () => {
           </div>
         </div>
 
-        {/* Vertical Milestones */}
         <div>
           <h3 className="text-[16px] font-bold text-ink mb-5">Milestones</h3>
           <div className="relative ml-3 pl-6 border-l-[2px] border-outline space-y-8 pb-2">
 
-            {/* Approvals */}
             <div className="relative group">
               <div className="absolute -left-[33px] top-0.5 w-[18px] h-[18px] bg-ink rounded-full flex items-center justify-center border-[2px] border-surface z-10">
                 <div className="w-1 h-1 bg-white rounded-full" />
@@ -229,7 +223,6 @@ const TimelineView: React.FC = () => {
               </div>
             </div>
 
-            {/* Construction Phase */}
             <div className="relative">
               <div className="absolute -left-[33px] top-0.5 w-[18px] h-[18px] bg-brand-warm rounded-full flex items-center justify-center border-[2px] border-surface">
                 <div className="w-1 h-1 bg-white rounded-full" />
@@ -298,7 +291,7 @@ const TimelineView: React.FC = () => {
                                   <div className={`absolute right-0 w-1/2 h-[2px] transition-colors duration-300 ${isPast ? 'bg-brand-warm' : 'bg-outline'}`} />
                                 )}
                                 <div className="relative flex items-center justify-center w-5 h-5 z-10">
-                                  {/* Thinner, more refined nodes */}
+
                                   <div className={`rounded-full transition-all duration-300 border-[2px] ${isPast || isActive ? 'w-[10px] h-[10px] bg-brand-warm border-brand-warm' : hasImages ? 'w-[8px] h-[8px] bg-surface-soft border-[#D1D5DB] group-hover:border-[#595959]' : 'w-[8px] h-[8px] bg-[#F3EFE9] border-[#D9D1C6]'} ${isActive ? 'scale-[1.3] shadow-[0_0_8px_rgba(231,111,38,0.4)]' : ''}`} />
                                 </div>
                               </div>
@@ -336,7 +329,6 @@ const TimelineView: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* Handover */}
             <div className="relative">
               <div className="absolute -left-[33px] top-0.5 w-[18px] h-[18px] bg-surface-soft rounded-full flex items-center justify-center border-[2px] border-outline">
                 <div className="w-1 h-1 bg-outline rounded-full" />
@@ -375,7 +367,6 @@ const TimelineView: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* RERA */}
             <div className="relative">
               <div className="absolute -left-[33px] top-0.5 w-[18px] h-[18px] bg-surface-soft rounded-full flex items-center justify-center border-[2px] border-outline">
                 <div className="w-1 h-1 bg-outline rounded-full" />

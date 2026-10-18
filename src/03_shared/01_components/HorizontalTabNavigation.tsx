@@ -164,18 +164,15 @@ const HorizontalTabNavigation: React.FC = () => {
       }`}
     >
       <div className="max-w-[1200px] mx-auto flex items-center">
-        <div className="w-8 flex-shrink-0 flex justify-center">
+        <div className="w-9 flex-shrink-0 flex justify-center pl-1">
           {showLeftArrow && (
             <ActionButton
               onClick={() => manualScroll('left')}
               aria-label="Scroll tabs left"
               title="Scroll tabs left"
-              className="flex items-center justify-center outline-none"
+              className="w-7 h-7 rounded-full bg-white text-[#241E1A] shadow-md hover:shadow-lg border border-[#EAE3D9] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 hover:text-[#F85B01] outline-none"
             >
-              <ChevronLeft
-                className="w-6 h-6 text-ink-muted hover:text-brand hover:scale-105 transition-all duration-300"
-                strokeWidth={2.5}
-              />
+              <ChevronLeft className="w-4 h-4" strokeWidth={2.5} />
             </ActionButton>
           )}
         </div>
@@ -188,7 +185,6 @@ const HorizontalTabNavigation: React.FC = () => {
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
 
-            // Hide the active tab from the scrollable list
             if (isActive) return null;
 
             return (
@@ -207,18 +203,15 @@ const HorizontalTabNavigation: React.FC = () => {
           })}
         </div>
 
-        <div className="w-8 flex-shrink-0 flex justify-center">
+        <div className="w-9 flex-shrink-0 flex justify-center pr-1">
           {showRightArrow && (
             <ActionButton
               onClick={() => manualScroll('right')}
               aria-label="Scroll tabs right"
               title="Scroll tabs right"
-              className="flex items-center justify-center outline-none"
+              className="w-7 h-7 rounded-full bg-white text-[#241E1A] shadow-md hover:shadow-lg border border-[#EAE3D9] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 hover:text-[#F85B01] outline-none"
             >
-              <ChevronRight
-                className="w-6 h-6 text-ink-muted hover:text-brand hover:scale-105 transition-all duration-300"
-                strokeWidth={2.5}
-              />
+              <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
             </ActionButton>
           )}
         </div>

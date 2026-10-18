@@ -1,7 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 
-/** CSS owns the design tokens; MUI reads the same values after CSS has loaded. */
 export default function AppThemeProvider({ children }: { children: ReactNode }) {
   const [theme] = useState(() => {
     const css = getComputedStyle(document.documentElement);
@@ -24,7 +23,7 @@ export default function AppThemeProvider({ children }: { children: ReactNode }) 
           defaultProps: { disableElevation: true, color: 'inherit' },
           styleOverrides: {
             root: {
-              // Match a native button's baseline; Tailwind supplies every visual variant.
+
               display: 'inline-block', minWidth: 0, padding: 0, border: 0,
               borderRadius: 0, fontFamily: 'inherit', fontSize: 'var(--font-size)',
               fontWeight: 500, lineHeight: 'inherit', letterSpacing: 'inherit',

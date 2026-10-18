@@ -20,7 +20,6 @@ import TowerB from '../02_features/04_layout/TowerB';
 import TowerC from '../02_features/04_layout/TowerC';
 import ShowcaseTower from '../02_features/04_layout/ShowcaseTower';
 
-// --- Integrated Components ---
 import Configuration from '../02_features/05_configurations/configuration';
 import InteractiveCommuteWidget from '../02_features/06_commute/InteractiveCommute';
 import AmenitiesSection from '../02_features/07_amenities/AmenitiesSection';
@@ -38,7 +37,7 @@ import { Button } from '../03_shared/02_ui/button';
 
 function App() {
   const { reducedMotion, transition } = useMotionSettings();
-  const [activeTab, setActiveTab] = useState<'overview' | 'highlights'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'self-use' | 'investment'>('overview');
   const [layoutTab, setLayoutTab] = useState('layout');
 
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -70,41 +69,38 @@ function App() {
       initial={reducedMotion ? false : { opacity: 0 }} animate={{ opacity: 1 }} transition={transition}>
       <AmbientBackground />
       <ScrollProgress />
-      {/* relative added to main container */}
+
       <div className="overflow-x-clip max-w-[390px] mx-auto pb-24 min-h-screen flex flex-col gap-[4px] relative z-[1]">
-        {/* Hero */}
+
         <Reveal id="hero" className="bg-white">
           <div className="">
             <HeroSection />
           </div>
         </Reveal>
 
-        {/* Moving highlights ticker */}
         <div className="bg-white py-1">
           <HighlightsMarquee />
         </div>
 
-        {/* Sticky Tab Bar */}
         <div id="tab-nav" className="bg-white sticky top-0 z-40">
           <HorizontalTabNavigation />
         </div>
 
-        {/* 1. Overview & Highlights */}
         <Reveal id="overview-highlights" from="left" className="bg-white">
           <div className="px-4 pb-2">
             <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
             <TransitionPanel transitionKey={activeTab} className="pt-2">
-              {activeTab === 'overview' ? <Overview /> : <Highlights />}
+              {activeTab === 'overview' && <Overview />}
+              {activeTab === 'self-use' && <Highlights mode="self-use" />}
+              {activeTab === 'investment' && <Highlights mode="investment" />}
             </TransitionPanel>
           </div>
         </Reveal>
 
-        {/* 2. Project Timeline */}
         <Reveal id="project-timeline" from="right" className="bg-white">
             <ProjectTimelineSection />
         </Reveal>
 
-        {/* 3. Layout & Towers */}
         <Reveal id="layout-towers" from="left" className="bg-white">
           <ContentSection title="Layout & Towers">
             <div className="px-4 pb-2">
@@ -130,7 +126,6 @@ function App() {
           </ContentSection>
         </Reveal>
 
-        {/* 4. Configurations */}
         <Reveal id="configurations" from="right" className="bg-white">
           <ContentSection title="Configurations">
             <div className="px-4 pb-2">
@@ -139,7 +134,6 @@ function App() {
           </ContentSection>
         </Reveal>
 
-        {/* 5. Distance & Commute */}
         <Reveal id="distance-commute" from="left" className="bg-white">
           <ContentSection title="Distance & Commute">
             <div className="px-2 pb-2">
@@ -148,7 +142,6 @@ function App() {
           </ContentSection>
         </Reveal>
 
-        {/* 6. Amenities */}
         <Reveal id="amenities" from="right" className="bg-white">
           <ContentSection title="Amenities">
             <div className="px-4 pb-2">
@@ -157,7 +150,6 @@ function App() {
           </ContentSection>
         </Reveal>
 
-        {/* 7. Specifications */}
         <Reveal id="specifications" from="left" className="bg-white">
           <ContentSection title="Specifications">
             <div className="px-4">
@@ -166,27 +158,23 @@ function App() {
           </ContentSection>
         </Reveal>
 
-        {/* 8. Payment Plans */}
         <Reveal id="payment-plans" from="right" className="bg-white">
           <ContentSection title="Payment Plans & Offers">
-            <div className="px-4 ">
+            <div className="px-2 pb-2">
               <PaymentPlan />
             </div>
           </ContentSection>
         </Reveal>
 
-        {/* 9. Project Files */}
         <Reveal id="project-files" from="left" className="bg-white">
           <ProjectFilesSection />
         </Reveal>
 
-        {/* 10. Project Summary & Questions */}
         <section id="exit-summary" className="bg-white">
           <ProjectSummary />
           <Question />
         </section>
 
-        {/* 11. Project Meet */}
         <Reveal id="project-meet" from="right" className="bg-white">
           <ContentSection title="Project Meet">
             <div className="px-1">
@@ -197,7 +185,6 @@ function App() {
 
         <FooterNav />
 
-        {/* --- Constrained Back to Top Button --- */}
         <AnimatePresence>
         {showBackToTop && (
           <motion.div key="back-to-top"

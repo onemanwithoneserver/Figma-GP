@@ -7,7 +7,6 @@ import SellerQueries from './SellerQueries';
 
 import AmenityTabNav from './AmenityTabNav';
 
-
 interface FeedbackOption {
   emoji: string;
   text: string;
@@ -112,7 +111,7 @@ const AmenitiesSection: React.FC = () => {
 
   return (
     <div className="pb-2 max-w-md mx-auto bg-[#FDFCF9]">
-      {/* ── Tab Navigation ── */}
+
       <AmenityTabNav
         activeTab={activeTab}
         setActiveTab={handleTabChange}
@@ -121,7 +120,7 @@ const AmenitiesSection: React.FC = () => {
 
       <div>
         <TransitionPanel transitionKey={activeTab}>
-            {/* ── Feature Image & List Card ── */}
+
             <div className="bg-white px-4 py-1 ">
               {activeData.imageUrl && (
                 <div className="mb-4 rounded-control py-1 overflow-hidden aspect-video border border-[#F4F1EA]">
@@ -146,7 +145,6 @@ const AmenitiesSection: React.FC = () => {
                 ))}
               </motion.div>
 
-              {/* ── Seller Queries ── */}
               <div className="mt-2 -ml-4">
                 <SellerQueries />
 

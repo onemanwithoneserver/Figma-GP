@@ -1,7 +1,6 @@
 import { motion, useScroll, useSpring } from 'motion/react';
 import { useMotionSettings } from './useMotionSettings';
 
-/** Thin brand-gradient reading-progress line pinned to the top of the 390px column. */
 export function ScrollProgress() {
   const { reducedMotion } = useMotionSettings();
   const { scrollYProgress } = useScroll();

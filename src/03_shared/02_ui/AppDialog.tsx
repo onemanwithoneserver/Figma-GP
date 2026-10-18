@@ -13,7 +13,6 @@ type AppDialogProps = {
   containerClassName?: string;
 };
 
-/** Shared portal, focus trap, Escape/backdrop dismissal, and focus restoration. */
 export function AppDialog({ open, onClose, label, children, paperClassName, backdropClassName, containerClassName }: AppDialogProps) {
   const { reducedMotion } = useMotionSettings();
   return (

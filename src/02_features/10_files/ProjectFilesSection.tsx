@@ -19,7 +19,6 @@ const PROJECT_FILES: ProjectFileItem[] = [
   { id: 5, label: 'Price Card', size: '850 KB', description: 'Unit cost breakdown & payment schedule' },
 ];
 
-/** The exact PDF document glyph with folded corner and red PDF badge */
 const PdfIcon = ({ className = 'h-10 w-10' }: { className?: string }) => (
   <svg
     className={className}
@@ -87,7 +86,7 @@ const ProjectFilesSection: React.FC = () => {
 
   return (
     <div className="w-full rounded-[10px] bg-[#161412] px-3.5 py-3 shadow-md">
-      {/* Header */}
+
       <div className="flex items-center justify-between pb-3 pt-0.5 px-0.5">
         <h2 className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm">
           Project Files
@@ -107,29 +106,27 @@ const ProjectFilesSection: React.FC = () => {
         </MotionButton>
       </div>
 
-      {/* Files Row - Match exact user layout (no download buttons) */}
-      <div className="overflow-x-auto scrollbar-hide py-0.5">
-        <div className="flex min-w-max items-start justify-between gap-2">
-          {PROJECT_FILES.map((file) => (
-            <MotionButton
-              key={file.id}
-              type="button"
-              onClick={() => handleFileClick(file)}
-              whileHover={reducedMotion ? undefined : { y: -2 }}
-              whileTap={reducedMotion ? undefined : { scale: 0.96 }}
-              className="group flex w-[64px] shrink-0 flex-col items-center justify-start gap-1 rounded-[10px] bg-[#E5E7EB] hover:bg-white px-1.5 py-2 transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
-              title={file.label}
-            >
-              <PdfIcon className="h-10 w-10 transition-transform duration-200 group-hover:scale-105" />
-              <span className="w-full text-center text-[10.5px] font-bold leading-tight text-[#1F2933] group-hover:text-[#F85B01] transition-colors duration-200">
+      <div className="grid grid-cols-5 gap-1.5 py-0.5">
+        {PROJECT_FILES.map((file) => (
+          <MotionButton
+            key={file.id}
+            type="button"
+            onClick={() => handleFileClick(file)}
+            whileHover={reducedMotion ? undefined : { y: -2 }}
+            whileTap={reducedMotion ? undefined : { scale: 0.96 }}
+            className="group flex w-full h-[82px] flex-col items-center justify-between rounded-[10px] bg-[#E5E7EB] hover:bg-white px-1 py-2 transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
+            title={file.label}
+          >
+            <PdfIcon className="h-9 w-9 shrink-0 transition-transform duration-200 group-hover:scale-105" />
+            <div className="flex h-[26px] items-center justify-center w-full">
+              <span className="w-full text-center text-[10px] xs:text-[10.5px] font-bold leading-tight text-[#1F2933] group-hover:text-[#F85B01] transition-colors duration-200 line-clamp-2">
                 {file.label}
               </span>
-            </MotionButton>
-          ))}
-        </div>
+            </div>
+          </MotionButton>
+        ))}
       </div>
 
-      {/* View All / File Preview Dialog */}
       <AppDialog
         open={modalOpen}
         onClose={() => setModalOpen(false)}

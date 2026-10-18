@@ -11,7 +11,6 @@ type SectionTabsProps = {
   tabClassName?: string;
 };
 
-/** MUI handles roving focus, arrow keys, and scrolling; Tailwind defines the pills. */
 export function SectionTabs({ items, value, onChange, label, idPrefix, tabClassName }: SectionTabsProps) {
   return (
     <Tabs value={items.some(item => item.id === value) ? value : false}

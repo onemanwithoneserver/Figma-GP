@@ -55,13 +55,8 @@ export default function Configuration() {
       </div>
 
       {selectedUnit && (
-        <AppDialog open onClose={() => setSelectedUnit(null)} label="Floor plan details">
-          <div
-            className="w-[92vw] max-w-[340px] max-h-[78vh] overflow-y-auto rounded-control [scrollbar-width:thin] [scrollbar-color:#B8AEA2_transparent] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-[#B8AEA2] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:border-[2px] [&::-webkit-scrollbar-thumb]:border-transparent [&::-webkit-scrollbar-thumb]:bg-clip-content hover:[&::-webkit-scrollbar-thumb]:bg-[#9B8F82]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Tower unitData={selectedUnit} onClose={() => setSelectedUnit(null)} />
-          </div>
+        <AppDialog open onClose={() => setSelectedUnit(null)} label="Floor plan details" containerClassName="!p-1">
+          <Tower unitData={selectedUnit} onClose={() => setSelectedUnit(null)} />
         </AppDialog>
       )}
     </div>

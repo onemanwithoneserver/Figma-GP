@@ -8,7 +8,6 @@ import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
 import TabNavigation from './SpecificationsTabNav';
 import SellerQueries from './SellerQueries';
 
-// --- Icons ---
 const CheckIcon = () => (
   <CheckRounded className="w-[12px] h-[12px]" />
 );
@@ -18,7 +17,6 @@ const ChevronIcon = ({ isOpen }: { isOpen: boolean }) => (
     <ExpandMoreRounded className="h-4 w-4 text-brand-warm" />
   </motion.span>
 );
-
 
 const SPECIFICATIONS_DATA = [
   {
@@ -426,7 +424,6 @@ const SPECIFICATIONS_DATA = [
   }
 ];
 
-
 const AccordionItem = ({
   feature,
   isOpen,
@@ -493,14 +490,12 @@ const SpecificationsSection: React.FC = () => {
   return (
     <div className="">
 
-      {/* ── Using your TabNavigation Reference ── */}
       <TabNavigation
         tabs={SPECIFICATIONS_DATA.map(tab => ({ id: tab.id, label: tab.label }))}
         activeTab={activeTab}
         onTabClick={setActiveTab}
       />
 
-      {/* ── Accordion Content Card ── */}
       <div className=" bg-white ">
         <div className="max-w-md mx-auto">
           <TransitionPanel transitionKey={activeTab}>

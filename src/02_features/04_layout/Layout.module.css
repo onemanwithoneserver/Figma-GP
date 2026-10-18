@@ -1,4 +1,4 @@
-/* Motion-only enhancements: the resting palette, spacing, and geometry stay intact. */
+
 .tower {
   transition: border-color 220ms ease, box-shadow 220ms ease;
 }

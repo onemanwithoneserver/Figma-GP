@@ -1,4 +1,4 @@
-/** Hero gallery slides; also preloaded by the loading screen so the first paint is instant. */
+
 export const HERO_SLIDES = [
   { src: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop', alt: 'Vasavi Skyla property exterior' },
   { src: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?w=800&h=600&fit=crop', alt: 'Residential tower facade' },

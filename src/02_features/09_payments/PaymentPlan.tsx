@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { SectionTabs } from '../../03_shared/02_ui/SectionTabs';
+import PaymentTabNav from './PaymentTabNav';
 import { TransitionPanel } from '../../03_shared/04_motion/TransitionPanel';
 import BankingPartners from './BankingPartners';
 import Cost from './Cost';
@@ -28,9 +28,8 @@ export default function PaymentPlan() {
   };
 
   return (
-    <div className="bg-white">
-      <SectionTabs items={TABS} value={activeTab} onChange={setActiveTab}
-        label="Payment section navigation" idPrefix="payment" />
+    <div className="w-full bg-white">
+      <PaymentTabNav tabs={TABS} activeTab={activeTab} onTabClick={setActiveTab} />
       <TransitionPanel transitionKey={activeTab} id={`payment-panel-${activeTab}`} role="tabpanel" aria-labelledby={`payment-tab-${activeTab}`}
         className={`bg-white overflow-hidden${['cost', 'schedule'].includes(activeTab) ? ' min-h-[320px]' : ''}`}>
         {renderContent()}

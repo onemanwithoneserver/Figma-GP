@@ -14,7 +14,6 @@ import { useMotionSettings } from '../04_motion/useMotionSettings';
 type ItemId = 'save' | 'hide' | 'share' | 'close';
 const spring = { type: 'spring' as const, stiffness: 500, damping: 32 };
 
-/** Little radial confetti burst used when saving. */
 function Burst() {
   return (
     <span aria-hidden="true" className="pointer-events-none absolute inset-0 flex items-center justify-center">
@@ -42,7 +41,6 @@ const FooterNav: React.FC = () => {
   const toastTimer = useRef<ReturnType<typeof setTimeout>>();
   const focusTimer = useRef<ReturnType<typeof setTimeout>>();
 
-  // Auto-hide while scrolling down, reveal on scroll up (keeps content unobstructed).
   const { scrollY } = useScroll();
   useMotionValueEvent(scrollY, 'change', (y) => {
     const prev = scrollY.getPrevious() ?? 0;
@@ -77,7 +75,7 @@ const FooterNav: React.FC = () => {
       try {
         if (navigator.share) await navigator.share(data);
         else { await navigator.clipboard.writeText(data.url); notify('Link copied'); }
-      } catch { /* user dismissed share sheet */ }
+      } catch {  }
     }
   };
 
@@ -127,7 +125,7 @@ const FooterNav: React.FC = () => {
       className="fixed bottom-0 left-0 right-0 z-50 flex justify-center px-3 pb-3 pointer-events-none"
     >
       <div className="relative w-full max-w-[366px]">
-        {/* Feedback toast */}
+
         <AnimatePresence>
           {toast && (
             <motion.div key={toast} role="status"
@@ -141,7 +139,7 @@ const FooterNav: React.FC = () => {
         </AnimatePresence>
 
         <footer className="pointer-events-auto relative h-[62px] rounded-[26px] bg-ink-deep/[0.88] ring-1 ring-white/10 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_14px_40px_rgba(30,23,19,0.45),inset_0_1px_0_rgba(255,255,255,0.12)] supports-[not(backdrop-filter:blur(1px))]:bg-ink-deep">
-          {/* Specular top edge + warm under-glow */}
+
           <span aria-hidden="true" className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
           <span aria-hidden="true" className="pointer-events-none absolute left-1/2 bottom-0 h-8 w-40 -translate-x-1/2 rounded-full bg-brand/25 blur-2xl" />
 
@@ -149,7 +147,6 @@ const FooterNav: React.FC = () => {
             {renderItem(items[0])}
             {renderItem(items[1])}
 
-            {/* Raised, notched Contact action */}
             <div className="relative flex flex-col items-center justify-end pb-1">
               <motion.button type="button" aria-label="Contact seller" data-no-press
                 onClick={() => flash('contact')}

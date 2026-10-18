@@ -7,7 +7,6 @@ const BLOBS = [
   { cls: 'left-[20%] bottom-[-10%] h-[34vh] w-[34vh] bg-[#F4C9A8]/25', x: [0, 60, -60, 0], y: [0, -50, -10, 0], d: 28 },
 ];
 
-/** Slow-drifting warm light blobs behind the page column. Purely decorative. */
 export function AmbientBackground() {
   const { reducedMotion } = useMotionSettings();
   return (

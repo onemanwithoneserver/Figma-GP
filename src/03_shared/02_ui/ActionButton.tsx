@@ -3,7 +3,6 @@ import MuiButton, { type ButtonProps } from '@mui/material/Button';
 import { motion } from 'motion/react';
 import { useMotionSettings } from '../04_motion/useMotionSettings';
 
-/** Material UI interaction and refs, with appearance supplied by Tailwind. */
 export const ActionButton = forwardRef<HTMLButtonElement, ButtonProps>(
   function ActionButton({ type = 'button', ...props }, ref) {
     return <MuiButton ref={ref} type={type} {...props} />;

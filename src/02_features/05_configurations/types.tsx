@@ -1,4 +1,3 @@
-// Shared TypeScript interfaces for the Configurations & Unit Variants section
 
 export interface UnitSpec {
   name: string;

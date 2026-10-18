@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { motion, Variants, AnimatePresence } from 'motion/react';
 import { useMotionSettings } from '../../03_shared/04_motion/useMotionSettings';
 
-// Import popup images
 import skyscrapperIcon from '../../05_assets/01_popup_images/skyscrapper.png';
 import propertyIcon from '../../05_assets/01_popup_images/property.png';
 import approvalsIcon from '../../05_assets/01_popup_images/Approvals.png';
@@ -32,7 +31,6 @@ interface OverviewItem {
   value: string;
 }
 
-// --- OVERVIEW TILE COMPONENT (Compact Luxury) ---
 const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variants: Variants }>(
   ({ item, variants }, ref) => {
   const { reducedMotion } = useMotionSettings();
@@ -43,10 +41,10 @@ const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variant
       layout={reducedMotion ? false : 'position'}
       exit="exit"
       whileHover={reducedMotion ? undefined : { y: -2 }}
-      // Reduced padding from py-5 to py-3 and px-3 to px-2
+
       className="relative flex flex-col items-center text-center pt-3 pb-3 px-2 rounded-card bg-white shadow-sm border border-outline/60 transition-shadow duration-200 hover:shadow-md"
     >
-      {/* Property Icon - Slightly smaller (w-6 h-6) */}
+
       <img
         src={item.icon}
         alt={item.label}
@@ -54,7 +52,6 @@ const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variant
 
       />
 
-      {/* Label & Value - Tightened typography */}
       <h3 className="text-[13px] font-medium tracking-wider text-[#7A6F68] mb-0.5 leading-tight">
         {item.label}
       </h3>
@@ -65,7 +62,6 @@ const OverviewTile = React.forwardRef<HTMLElement, { item: OverviewItem; variant
   );
 });
 
-// --- MAIN OVERVIEW SECTION ---
 const Overview: React.FC = () => {
   const { reducedMotion, itemVariants, staggerVariants } = useMotionSettings();
   const [showAllDetails, setShowAllDetails] = useState(false);
@@ -107,7 +103,6 @@ const Overview: React.FC = () => {
         </defs>
       </svg>
 
-      {/* Reduced gap-x-3 to gap-x-2 and gap-y-4 to gap-y-2.5 */}
       <motion.div
         variants={staggerVariants}
         initial={reducedMotion ? false : 'hidden'}
@@ -121,7 +116,6 @@ const Overview: React.FC = () => {
         </AnimatePresence>
       </motion.div>
 
-      {/* Toggle Button - Reduced margin-top (mt-4) */}
       <div className="flex justify-center mt-4">
         <MotionButton
           whileHover={{ scale: 1.02 }}

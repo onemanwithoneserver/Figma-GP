@@ -12,7 +12,6 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // Array of tabs
   const tabs = [
     { id: 'layout', label: 'Layout' },
     { id: 'shlok', label: 'Shlok' },
@@ -25,7 +24,6 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
     { id: 'kavya', label: 'Kavya' },
   ];
 
-  // Check scroll position to show/hide arrows with a 2px threshold for exact hiding
   const checkScroll = () => {
     const container = scrollContainerRef.current;
     if (container) {
@@ -47,7 +45,6 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
     return () => cancelAnimationFrame(raf);
   }, [activeTab]);
 
-  // Keep active tab near the middle when possible
   useEffect(() => {
     const activeBtn = buttonRefs.current.get(activeTab);
     const container = scrollContainerRef.current;
@@ -76,32 +73,30 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
   return (
     <div className="w-full relative group">
 
-      {/* LEFT FADE OVERLAY & ARROW */}
       {canScrollLeft && (
         <div
           className="absolute left-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-l-[7px] flex items-center justify-start pl-1"
         >
           <ActionButton
             onClick={() => scroll('left')}
-            className="pointer-events-auto p-1.5 rounded-full text-ink bg-transparent hover:bg-transparent transition-colors"
+            className="pointer-events-auto w-6 h-6 rounded-full bg-white text-[#241E1A] shadow-md hover:shadow-lg border border-[#EAE3D9] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 hover:text-[#F85B01]"
             aria-label="Scroll left"
           >
-            <ChevronLeftRounded className="w-[18px] h-[18px]" />
+            <ChevronLeftRounded className="w-4 h-4" />
           </ActionButton>
         </div>
       )}
 
-      {/* RIGHT FADE OVERLAY & ARROW */}
       {canScrollRight && (
         <div
           className="absolute right-2 top-0.5 bottom-0.5 w-12 z-20 pointer-events-none rounded-r-[7px] flex items-center justify-end pr-1"
         >
           <ActionButton
             onClick={() => scroll('right')}
-            className="pointer-events-auto p-1.5 rounded-full text-ink bg-transparent hover:bg-transparent transition-colors"
+            className="pointer-events-auto w-6 h-6 rounded-full bg-white text-[#241E1A] shadow-md hover:shadow-lg border border-[#EAE3D9] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 hover:text-[#F85B01]"
             aria-label="Scroll right"
           >
-            <ChevronRightRounded className={["", "w-[18px] h-[18px]"].join(' ')}  />
+            <ChevronRightRounded className={["", "w-4 h-4"].join(' ')}  />
           </ActionButton>
         </div>
       )}
@@ -109,7 +104,7 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
       <div
         ref={scrollContainerRef}
         onScroll={checkScroll}
-        /* Container radius capped at 7px */
+
         className="relative flex items-center p-1 rounded-[2px] overflow-x-auto touch-pan-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] scroll-smooth"
 
       >
@@ -125,7 +120,7 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
                   else buttonRefs.current.delete(tab.id);
                 }}
                 onClick={() => onTabChange(tab.id)}
-                /* Button radius capped at 7px */
+
                 className={`relative flex-none py-1.5 px-3 sm:px-3.5 md:px-4 transition-all duration-200 z-10 outline-none flex items-center justify-center rounded-tab border
                    ${ isActive
                     ? 'border-transparent bg-transparent text-white'
@@ -142,7 +137,6 @@ const LandTNavigation = ({ activeTab, onTabChange }) => {
                   />
                 )}
 
-                {/* Text is kept small (11px) as requested */}
                 <span className="relative z-20 text-[11px] tracking-widest font-bold whitespace-nowrap">
                   {tab.label}
                 </span>

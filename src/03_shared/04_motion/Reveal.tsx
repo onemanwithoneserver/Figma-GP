@@ -8,7 +8,6 @@ const OFFSET: Record<From, { x: number; y: number }> = {
   right: { x: 40, y: 12 },
 };
 
-/** A once-per-mount section entrance that slides in from `from`. Transforms settle to none after entry. */
 export function Reveal({ children, from = 'up', ...props }: HTMLMotionProps<'div'> & { from?: From }) {
   const { reducedMotion } = useMotionSettings();
   const o = OFFSET[from];

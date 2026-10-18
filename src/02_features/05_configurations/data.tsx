@@ -1,5 +1,6 @@
 
 import type { UnitItem, FeedbackOption } from './types';
+import floorPlanImage from '../../05_assets/floor_plan_2bhk.jpg';
 
 export const mockData: UnitItem[] = [
   { id: '1',  bua: '1,110', facing: 'East',       availability: 'Available', tower: 'Tower A', type: '2 BHK' },
@@ -16,7 +17,6 @@ export const mockData: UnitItem[] = [
   { id: '20', bua: '1,420', facing: 'South-East', availability: 'Limited',   tower: 'Tower B', type: '3 BHK' },
   { id: '21', bua: '1,380', facing: 'North-West', availability: 'Available', tower: 'Tower B', type: '3 BHK' },
   { id: '22', bua: '1,460', facing: 'East',       availability: 'Available', tower: 'Tower B', type: '3 BHK' },
-
 
   { id: '7',  bua: '1,350', facing: 'East',       availability: 'Sold Out',  tower: 'Tower C', type: '3 BHK' },
   { id: '10', bua: '1,500', facing: 'West',       availability: 'Available', tower: 'Tower C', type: '3 BHK' },
@@ -39,7 +39,7 @@ export const defaultUnitData: Required<UnitItem> = {
   type: '2 BHK',
   price: '₹ 1.2 Crore',
   towers: ['Tower B'],
-  imageUrl: 'https://tse2.mm.bing.net/th/id/OIP.zfjO_Bc4Zd12w29SSI7sagAAAA?rs=1&pid=ImgDetMain&o=7&rm=3',
+  imageUrl: floorPlanImage,
   specs: [
     { name: 'Living',              dimensions: "16' x 12'" },
     { name: 'Dining',              dimensions: "10' x 9'"  },

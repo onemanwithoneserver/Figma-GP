@@ -3,7 +3,7 @@ import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useState } from 'react';
 import { Icons, TabData } from './commuteData';
 import AddNewPlace from './AddNewPlace';
-import SellerQueries from './SellerQueries'; // 1. Import the component
+import SellerQueries from './SellerQueries';
 
 interface MyFrequentPlacesProps {
   activeTabId: string;
@@ -54,7 +54,7 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
 
   return (
     <>
-      {/* Main Section */}
+
       <div className="flex flex-col bg-white py-2 px-1">
         {activeTabId === 'frequent' && (
           <h3 className="text-[12px] text-center py-1.5 font-medium text-[#312822] leading-tight">
@@ -99,7 +99,6 @@ export default function MyFrequentPlaces({ activeTabId, currentData, onSavePlace
         )}
       </div>
 
-      {/* Seller Question Section */}
       <div className="w-full">
         <SellerQueries />
       </div>

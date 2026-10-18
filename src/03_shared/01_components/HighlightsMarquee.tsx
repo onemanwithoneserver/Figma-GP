@@ -11,7 +11,6 @@ const ITEMS = [
   'Hyderabad Hills',
 ];
 
-/** Infinite, edge-faded ticker of project highlights. Pauses on hover/focus. */
 const HighlightsMarquee: React.FC = () => {
   const row = (hidden: boolean) => (
     <ul className="flex shrink-0 items-center gap-6 pr-6" aria-hidden={hidden || undefined}>

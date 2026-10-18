@@ -57,7 +57,6 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
     <div className="w-full bg-surface outfit pb-2">
       <div className="w-full max-w-2xl mx-auto">
 
-        {/* Header Section - Max Round 7px */}
         <ActionButton
           aria-label="Open project gallery"
           className={`${styles.gallery} block relative w-full h-[160px] overflow-hidden group bg-ink md:rounded-b-[7px] border-b border-outline/80 cursor-pointer`}
@@ -69,13 +68,11 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
             className={`${styles.galleryImage} w-full h-full object-cover opacity-85`}
           />
 
-
           <div className={`${styles.expandControl} absolute bottom-4 right-4 glass-dark p-2 rounded-control text-white/90`}>
             <OpenInFullRounded className="w-[16px] h-[16px]" />
           </div>
         </ActionButton>
 
-        {/* List Section */}
         <div className="flex flex-col gap-2 pt-2">
           {towerData.map((tower, index) => {
             const cfg = statusConfig[tower.statusType as keyof typeof statusConfig];
@@ -92,7 +89,7 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
                 className={`${styles.tower} group w-full text-left flex items-center gap-3 rounded-control pl-2 pr-2 py-1.5 bg-white border border-outline/50 ${isFuture ? 'opacity-70' : 'opacity-100'} cursor-pointer`}
                 onClick={() => onTowerSelect?.(tower.id)}
               >
-                {/* Initial Box - Returned to Orange for active, Original dark for future */}
+
                 <span className={`${styles.initial} w-10 h-10 rounded-control flex-shrink-0 flex items-center justify-center text-[14px] font-bold text-white ${isFuture ? 'bg-ink/80' : 'bg-[#E65100]'}`}>
                   {tower.initial}
                 </span>
@@ -120,7 +117,6 @@ const Layout = ({ onTowerSelect }: LayoutProps) => {
         </div>
       </div>
 
-      {/* Fullscreen Modal */}
       <ImageDialog open={isModalOpen} src={galleryImages[currentImageIndex]}
         alt={`Property view ${currentImageIndex + 1}`}
         onClose={() => setIsModalOpen(false)} onPrevious={handlePrevImage} onNext={handleNextImage}
