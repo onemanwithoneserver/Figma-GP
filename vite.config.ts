@@ -7,15 +7,12 @@ import svgr from 'vite-plugin-svgr'
 export default defineConfig({
   base: '/Figma-GP/',
   plugins: [
-    // The React and Tailwind plugins are both required for Make, even if
-    // Tailwind is not being actively used – do not remove them
     react(),
     tailwindcss(),
     svgr(),
   ],
   resolve: {
     alias: {
-      // Alias @ to the src directory
       '@': path.resolve(__dirname, './src'),
     },
   },
@@ -32,6 +29,5 @@ export default defineConfig({
     strictPort: false,
     open: false,
   },
-  // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.csv'],
 })

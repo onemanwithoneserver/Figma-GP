@@ -37,7 +37,6 @@ export const ModernPdfDropdown: React.FC<ModernPdfDropdownProps> = ({
 
   return (
     <div ref={dropdownRef} className="relative z-30 inline-block">
-      {/* Modern Trigger Button sized as per the name */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
@@ -61,7 +60,6 @@ export const ModernPdfDropdown: React.FC<ModernPdfDropdownProps> = ({
         </motion.span>
       </button>
 
-      {/* Modern Floating Menu sized to fit names */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

@@ -27,7 +27,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
 
   const totalPages = fileId === 1 ? 3 : fileId === 4 ? 2 : 1;
 
-  // Reset scroll and page input on fileId change
   useEffect(() => {
     setPageInput('1');
     setIsPageDropdownOpen(false);
@@ -76,7 +75,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
 
   return (
     <div className="flex flex-col w-full h-full bg-[#201D1A] text-white overflow-hidden">
-      {/* Top PDF Toolbar: Page Jump + Zoom Controls (No download, no print) */}
       <div className="flex items-center justify-between gap-2 px-3 py-2 bg-[#1B1815] border-b border-white/10 text-white/90 flex-shrink-0">
         <div className="flex items-center gap-2 min-w-0">
           <div className="flex items-center justify-center w-6 h-6 rounded bg-red-600 text-white flex-shrink-0 shadow-sm">
@@ -94,9 +92,7 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
           </div>
         </div>
 
-        {/* Right Controls: Enter Page Number + Zoom */}
         <div className="flex items-center gap-2 ml-auto">
-          {/* Modern Dropdown for Page Number Control (e.g. 1 / 2) */}
           {totalPages > 1 && (
             <div ref={pageDropdownRef} className="relative">
               <button
@@ -157,7 +153,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
             </div>
           )}
 
-          {/* Zoom controls */}
           <div className="flex items-center bg-black/40 border border-white/10 rounded-chip px-1.5 py-0.5 text-[11px] font-mono text-white/80">
             <button
               type="button"
@@ -180,19 +175,16 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
         </div>
       </div>
 
-      {/* PDF Viewport: Continuous Vertical Scroll (Top to Bottom) */}
       <div
         ref={containerRef}
         onScroll={handleScroll}
         className="relative w-full overflow-y-auto p-2 sm:p-4 flex flex-col items-center gap-4 bg-[#181512] flex-1 min-h-0 max-h-[66vh] sm:max-h-[72vh] scroll-smooth"
       >
-        {/* ===================== FILE 1: BROCHURE (3 PAGES CONTINUOUS) ===================== */}
         {fileId === 1 && (
           <div
             style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
             className="w-full flex flex-col items-center gap-4 transition-transform duration-150"
           >
-            {/* Page 1 */}
             <div
               id="pdf-page-1-1"
               className="w-full max-w-[560px] bg-white text-gray-900 rounded-sm shadow-xl border border-gray-300 p-4 sm:p-6 font-sans relative overflow-hidden"
@@ -235,7 +227,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
               </div>
             </div>
 
-            {/* Page 2 */}
             <div
               id="pdf-page-1-2"
               className="w-full max-w-[560px] bg-white text-gray-900 rounded-sm shadow-xl border border-gray-300 p-4 sm:p-6 font-sans relative overflow-hidden"
@@ -282,7 +273,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
               </div>
             </div>
 
-            {/* Page 3 */}
             <div
               id="pdf-page-1-3"
               className="w-full max-w-[560px] bg-white text-gray-900 rounded-sm shadow-xl border border-gray-300 p-4 sm:p-6 font-sans relative overflow-hidden"
@@ -311,7 +301,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
           </div>
         )}
 
-        {/* ===================== FILE 2: HMDA (APPROVAL ORDER) ===================== */}
         {fileId === 2 && (
           <div
             id="pdf-page-2-1"
@@ -357,21 +346,18 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
           </div>
         )}
 
-        {/* ===================== FILE 3: RERA CERTIFICATE (MATCHES USER SCREENSHOT EXACTLY) ===================== */}
         {fileId === 3 && (
           <div
             id="pdf-page-3-1"
             style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
             className="w-full max-w-[560px] bg-white text-gray-900 rounded-sm shadow-xl border border-gray-300 p-4 sm:p-6 font-sans relative overflow-hidden transition-transform duration-150"
           >
-            {/* Watermark exactly matching screenshot */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.045] select-none rotate-[-30deg]">
               <span className="text-5xl font-black uppercase text-gray-900 tracking-widest text-center leading-tight">
                 OFFICIAL<br />VERIFIED<br />COPY
               </span>
             </div>
 
-            {/* Inner Border Box exactly matching screenshot */}
             <div className="border-2 border-amber-600/30 rounded p-3.5 sm:p-5 relative z-10">
               <div className="text-center border-b border-gray-200 pb-2 mb-3">
                 <span className="text-[9px] font-bold text-gray-600 uppercase tracking-widest block">
@@ -385,7 +371,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
                 </p>
               </div>
 
-              {/* RERA Number Card matching screenshot */}
               <div className="bg-amber-50/80 border border-amber-200 rounded p-2 text-center mb-3">
                 <span className="text-[9.5px] font-bold text-amber-900 uppercase block tracking-wider">
                   RERA REGISTRATION NUMBER
@@ -395,7 +380,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
                 </span>
               </div>
 
-              {/* Fields Table matching screenshot */}
               <div className="space-y-2 text-[11px] text-gray-700 divide-y divide-gray-100">
                 <div className="grid grid-cols-3 gap-1 pt-1.5">
                   <span className="font-semibold text-gray-500">Project Name:</span>
@@ -415,7 +399,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
                 </div>
               </div>
 
-              {/* Footer row matching screenshot */}
               <div className="flex items-center justify-between pt-3 mt-3 border-t border-gray-200 text-[10px]">
                 <span className="text-gray-500">Verify online: rera.telangana.gov.in</span>
                 <span className="font-bold text-amber-900">TSRERA Official Stamp</span>
@@ -429,13 +412,11 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
           </div>
         )}
 
-        {/* ===================== FILE 4: FLOOR PLANS (2 PAGES CONTINUOUS) ===================== */}
         {fileId === 4 && (
           <div
             style={{ transform: `scale(${zoom / 100})`, transformOrigin: 'top center' }}
             className="w-full flex flex-col items-center gap-4 transition-transform duration-150"
           >
-            {/* Page 1 */}
             <div
               id="pdf-page-4-1"
               className="w-full max-w-[560px] bg-white text-gray-900 rounded-sm shadow-xl border border-gray-300 p-4 sm:p-6 font-sans relative overflow-hidden"
@@ -474,7 +455,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
               </div>
             </div>
 
-            {/* Page 2 */}
             <div
               id="pdf-page-4-2"
               className="w-full max-w-[560px] bg-white text-gray-900 rounded-sm shadow-xl border border-gray-300 p-4 sm:p-6 font-sans relative overflow-hidden"
@@ -511,7 +491,6 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
           </div>
         )}
 
-        {/* ===================== FILE 5: PRICE CARD ===================== */}
         {fileId === 5 && (
           <div
             id="pdf-page-5-1"

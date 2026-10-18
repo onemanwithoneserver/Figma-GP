@@ -139,7 +139,6 @@ const ProjectSummary: React.FC = () => {
 
   return (
     <div className="w-full bg-white rounded-control shadow-xl shadow-black/5 border border-gray-100 p-3.5 sm:p-5 mb-4">
-      {/* Executive Header with Match Score */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-3.5 mb-3.5">
         <div>
           <div className="flex items-center gap-2">
@@ -155,7 +154,6 @@ const ProjectSummary: React.FC = () => {
           </p>
         </div>
 
-        {/* Compatibility Match Badge */}
         <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 shadow-sm">
           <span className="relative flex h-2.5 w-2.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -167,7 +165,6 @@ const ProjectSummary: React.FC = () => {
         </div>
       </div>
 
-      {/* Quick Metrics Ribbon */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
         <div className="bg-surface-soft border border-outline/70 rounded-control p-2.5 text-center">
           <span className="text-[10px] font-semibold text-ink-subtle uppercase block">Vastu Compliance</span>
@@ -187,7 +184,6 @@ const ProjectSummary: React.FC = () => {
         </div>
       </div>
 
-      {/* Segmented Decision Tabs (Likes, Neutral, Apprehensions) */}
       <div className="grid grid-cols-3 gap-1.5 bg-surface-muted/60 p-1 rounded-control border border-outline/60 mb-3.5">
         {TAB_BUTTONS.map((tab) => {
           const isActive = activeTab === tab.key;
@@ -224,7 +220,6 @@ const ProjectSummary: React.FC = () => {
         })}
       </div>
 
-      {/* Factor Cards List */}
       <div className="mb-5">
         <AnimatePresence mode="wait">
           <motion.div
@@ -270,7 +265,6 @@ const ProjectSummary: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* Shortlisted Floor Plans Section */}
       <div className="pt-3 border-t border-gray-100">
         <div className="flex items-center justify-between mb-2.5">
           <div className="flex items-center gap-1.5">

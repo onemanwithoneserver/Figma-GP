@@ -87,7 +87,6 @@ const ProjectFilesSection: React.FC = () => {
 
   return (
     <div className="w-full rounded-[10px] bg-[#161412] px-3.5 py-3 shadow-md">
-      {/* Header matching exact user screenshot */}
       <div className="flex items-center justify-between pb-3 pt-0.5 px-0.5">
         <h2 className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm">
           Project Files
@@ -106,7 +105,6 @@ const ProjectFilesSection: React.FC = () => {
         </MotionButton>
       </div>
 
-      {/* 5 Equal Cards Row matching exact user screenshot */}
       <div className="grid grid-cols-5 gap-1.5 py-0.5">
         {PROJECT_FILES.map((file) => (
           <MotionButton
@@ -128,7 +126,6 @@ const ProjectFilesSection: React.FC = () => {
         ))}
       </div>
 
-      {/* Activated Dialog: ONLY PDF with modern dropdown to change PDF, matching mobile viewport */}
       <AppDialog
         open={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -144,16 +141,13 @@ const ProjectFilesSection: React.FC = () => {
               transition={{ type: 'spring', stiffness: 360, damping: 26 }}
               className="w-[96vw] max-w-[560px] max-h-[90dvh] rounded-[18px] border border-white/20 bg-[#161412] text-white shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden"
             >
-              {/* Top Header with Modern Dropdown and Close */}
               <div className="flex items-center justify-between gap-2 px-3 py-2.5 bg-[#141210] border-b border-white/10 flex-shrink-0 z-30">
-                {/* Modern Dropdown to change the PDF */}
                 <ModernPdfDropdown
                   files={PROJECT_FILES}
                   selectedFile={selectedFile}
                   onSelect={(file) => setSelectedFile(file)}
                 />
 
-                {/* Close Button with micro-rotation animation */}
                 <motion.button
                   type="button"
                   whileHover={{ scale: 1.15, rotate: 90 }}
@@ -166,7 +160,6 @@ const ProjectFilesSection: React.FC = () => {
                 </motion.button>
               </div>
 
-              {/* ONLY the PDF Viewer displayed inside the dialog with continuous vertical scroll */}
               <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
                 <SamplePdfViewer
                   fileId={selectedFile.id}

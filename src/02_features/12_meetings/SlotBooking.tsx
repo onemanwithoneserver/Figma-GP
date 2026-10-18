@@ -91,7 +91,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-3"
           >
-            {/* Month & Date Selector */}
             <div className="bg-surface-soft/80 border border-outline/70 rounded-control p-2.5">
               <div className="flex items-center justify-between mb-2 px-1">
                 <span className="flex items-center gap-1.5 text-[12px] font-bold text-ink uppercase tracking-wider">
@@ -139,7 +138,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               </div>
             </div>
 
-            {/* Session Tabs (Morning / Afternoon / Evening) */}
             <div>
               <div className="flex items-center justify-between mb-1.5 px-1">
                 <span className="text-[12px] font-bold text-ink flex items-center gap-1">
@@ -185,7 +183,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               </div>
             </div>
 
-            {/* Time Slot Grid */}
             <div>
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
                 {TIME_SLOTS[selectedSession].map((slot) => {
@@ -217,7 +214,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               </div>
             </div>
 
-            {/* Selection Summary Strip */}
             <div className="flex items-center justify-between px-3 py-1.5 rounded-control bg-amber-50/50 border border-amber-100/70 text-[11px] text-amber-950 font-medium">
               <span className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-brand animate-pulse" />
@@ -231,7 +227,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               </span>
             </div>
 
-            {/* Reduced-width Confirm Booking Button placed in Center */}
             <div className="flex justify-center items-center pt-1 pb-1">
               <motion.button
                 type="button"
@@ -251,7 +246,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
             </div>
           </motion.div>
         ) : (
-          /* Animated Confirmation State */
           <motion.div
             key="booking-success"
             initial={{ opacity: 0, scale: 0.92, y: 12 }}
@@ -260,7 +254,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
             transition={{ type: 'spring', stiffness: 320, damping: 24 }}
             className="flex flex-col items-center p-3 sm:p-4 rounded-control bg-gradient-to-b from-white via-orange-50/30 to-white border border-brand-warm/30 shadow-lg shadow-black/5"
           >
-            {/* Animated Checkmark Pop */}
             <div className="relative mb-3 flex items-center justify-center">
               <span className="absolute -inset-2 rounded-full bg-emerald-500/20 pulse-ring pointer-events-none" />
               <motion.div
@@ -273,7 +266,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               </motion.div>
             </div>
 
-            {/* Header */}
             <motion.h4
               initial={{ opacity: 0, y: 4 }}
               animate={{ opacity: 1, y: 0 }}
@@ -291,7 +283,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               Instant confirmation has been sent to your WhatsApp and registered email.
             </motion.p>
 
-            {/* Booking Pass Card */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -352,7 +343,6 @@ const SlotBooking: React.FC<SlotBookingProps> = ({ meetType = 'direct-site-visit
               </div>
             </motion.div>
 
-            {/* Actions */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
