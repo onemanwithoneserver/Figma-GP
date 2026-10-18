@@ -1,7 +1,7 @@
 import FilterAltOutlined from '@mui/icons-material/FilterAltOutlined';
-import StarBorderRounded from '@mui/icons-material/StarBorderRounded';
+import FavoriteBorderRounded from '@mui/icons-material/FavoriteBorderRounded';
 import VisibilityOutlined from '@mui/icons-material/VisibilityOutlined';
-import StarRounded from '@mui/icons-material/StarRounded';
+import FavoriteRounded from '@mui/icons-material/FavoriteRounded';
 import { ActionButton } from '../../03_shared/02_ui/ActionButton';
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import type { UnitItem } from './types';
@@ -145,10 +145,10 @@ export default function ConfigurationTable({
           <table className="w-full text-left border-collapse table-auto">
             <thead>
               <tr className="bg-brand-warm">
+                <th className="border border-brand-dark px-1 py-1.5 text-[11px] font-extrabold text-white text-center tracking-wide w-12">Save</th>
                 <th className="border border-brand-dark px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Type</th>
                 <th className="border border-brand-dark px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Facing</th>
                 <th className="border border-brand-dark px-1 py-1.5 text-[11px] font-extrabold text-white tracking-wide ">Status</th>
-                <th className="border border-brand-dark px-1 py-1.5 text-[11px] font-extrabold text-white text-center tracking-wide ">Save</th>
                 <th className="border border-brand-dark px-1 py-1.5 text-[11px] font-extrabold text-white text-center whitespace-nowrap tracking-wide ">View Plan</th>
               </tr>
             </thead>
@@ -156,6 +156,20 @@ export default function ConfigurationTable({
             <tbody className="bg-white">
               {filteredData.map((item, idx) => (
                 <tr key={item.id} className={`transition-colors hover:bg-surface-muted/50 ${idx % 2 === 0 ? 'bg-white' : 'bg-surface/50'}`}>
+                  <td className="border border-outline px-1 py-2.5 align-middle text-center w-12">
+                    <ActionButton
+                      onClick={() => onToggleSave(item.id)}
+                      title={savedItems.has(item.id) ? 'Remove from saved' : 'Save unit'}
+                      className="inline-block align-middle hover:scale-110 active:scale-95 transition-transform p-0.5 rounded-full hover:bg-red-50/60"
+                    >
+                      {savedItems.has(item.id) ? (
+                        <FavoriteRounded className="h-4 w-4 text-red-500 fill-red-500" />
+                      ) : (
+                        <FavoriteBorderRounded className="h-4 w-4 text-ink-subtle hover:text-red-400 transition-colors" />
+                      )}
+                    </ActionButton>
+                  </td>
+
                   <td className="border border-outline px-2 py-2.5 align-middle">
                     <span className="font-extrabold text-[12px] text-ink">{item.type}</span>
                   </td>
@@ -168,12 +182,6 @@ export default function ConfigurationTable({
                     <span className={`inline-block px-2 py-0.5 rounded-chip text-[10px] font-extrabold border  tracking-wider ${getAvailabilityStyles(item.availability)}`}>
                       {item.availability}
                     </span>
-                  </td>
-
-                  <td className="border border-outline px-1 py-2.5 align-middle text-center">
-                    <ActionButton onClick={() => onToggleSave(item.id)} title={savedItems.has(item.id) ? 'Remove from saved' : 'Save unit'} className="inline-block align-middle hover:scale-110 transition-transform">
-                      {savedItems.has(item.id) ? <StarRounded className="h-4 w-4 text-brand-warm" /> : <StarBorderRounded className="h-4 w-4 text-ink-subtle" />}
-                    </ActionButton>
                   </td>
 
                   <td className="border border-outline px-1 py-2.5 align-middle text-center">
