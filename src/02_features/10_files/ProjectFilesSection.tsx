@@ -86,7 +86,7 @@ const ProjectFilesSection: React.FC = () => {
   };
 
   return (
-    <div className="w-full rounded-[10px] bg-[#161412] px-3.5 py-3 shadow-md">
+    <div className="w-full rounded-[2px] bg-[#161412] px-3.5 py-3 shadow-md">
       <div className="flex items-center justify-between pb-3 pt-0.5 px-0.5">
         <h2 className="text-[18px] font-bold tracking-tight text-white drop-shadow-sm">
           Project Files
@@ -97,7 +97,7 @@ const ProjectFilesSection: React.FC = () => {
           onClick={handleViewAllClick}
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.96 }}
-          className="group flex items-center gap-1.5 rounded-[8px] bg-[#F85B01] hover:bg-[#E05000] px-3.5 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] cursor-pointer"
+          className="group flex items-center gap-1.5 rounded-[2px] bg-[#F85B01] hover:bg-[#E05000] px-3.5 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01] cursor-pointer"
           title="View All"
         >
           <EyeIcon className="transition-transform duration-200 group-hover:scale-110" />
@@ -113,8 +113,7 @@ const ProjectFilesSection: React.FC = () => {
             onClick={() => handleCardClick(file)}
             whileHover={reducedMotion ? undefined : { y: -3, scale: 1.03 }}
             whileTap={reducedMotion ? undefined : { scale: 0.95 }}
-            className="group flex w-full h-[82px] flex-col items-center justify-between rounded-[10px] bg-[#E5E7EB] hover:bg-white px-1 py-2 transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-black/25 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
-            title={file.label}
+            className="group flex w-full h-[82px] flex-col items-center justify-between rounded-[2px] bg-[#E5E7EB] hover:bg-white px-1 py-2 transition-all duration-200 shadow-sm hover:shadow-lg hover:shadow-black/25 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F85B01]"
           >
             <PdfIcon className="h-9 w-9 shrink-0 transition-transform duration-200 group-hover:scale-110" />
             <div className="flex h-[26px] items-center justify-center w-full">

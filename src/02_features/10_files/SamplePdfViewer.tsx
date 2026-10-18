@@ -21,6 +21,7 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pageDropdownRef = useRef<HTMLDivElement>(null);
+  const isInputFocusedRef = useRef(false);
   const [zoom, setZoom] = useState(100);
   const [pageInput, setPageInput] = useState('1');
   const [isPageDropdownOpen, setIsPageDropdownOpen] = useState(false);
@@ -46,16 +47,23 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
   }, []);
 
   const handlePageSelect = (page: number) => {
-    setPageInput(String(page));
+    const validPage = Math.max(1, Math.min(page, totalPages));
+    setPageInput(String(validPage));
     setIsPageDropdownOpen(false);
-    const pageEl = document.getElementById(`pdf-page-${fileId}-${page}`);
+    const pageEl = document.getElementById(`pdf-page-${fileId}-${validPage}`);
     if (pageEl) {
       pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
+  const commitPageInput = () => {
+    const parsed = parseInt(pageInput, 10);
+    const validPage = isNaN(parsed) ? 1 : Math.max(1, Math.min(parsed, totalPages));
+    handlePageSelect(validPage);
+  };
+
   const handleScroll = () => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isInputFocusedRef.current) return;
     const container = containerRef.current;
     const containerTop = container.getBoundingClientRect().top;
     for (let p = 1; p <= totalPages; p++) {
@@ -93,25 +101,59 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
         </div>
 
         <div className="flex items-center gap-2 ml-auto">
-          {totalPages > 1 && (
+          {totalPages > 1 ? (
             <div ref={pageDropdownRef} className="relative">
-              <button
-                type="button"
-                onClick={() => setIsPageDropdownOpen((prev) => !prev)}
-                className="flex items-center gap-1.5 bg-black/40 hover:bg-black/60 border border-white/15 hover:border-[#F85B01]/70 rounded-[6px] px-2 py-1 text-[11px] font-mono text-white/90 transition-all duration-150 cursor-pointer shadow-sm outline-none"
-                title="Select Page"
+              <div
+                className={`flex items-center bg-black/50 hover:bg-black/70 border ${
+                  isPageDropdownOpen ? 'border-[#F85B01] ring-1 ring-[#F85B01]/50' : 'border-white/20 hover:border-[#F85B01]/70'
+                } rounded-[6px] px-1.5 py-0.5 text-[11px] font-mono text-white/90 transition-all duration-150 shadow-sm`}
               >
-                <span className="font-bold text-white">{pageInput}</span>
-                <span className="text-white/40">/</span>
-                <span className="text-white/70">{totalPages}</span>
-                <motion.span
-                  animate={{ rotate: isPageDropdownOpen ? 180 : 0 }}
-                  transition={{ duration: 0.15 }}
-                  className="text-white/60 ml-0.5"
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={pageInput}
+                  onChange={(e) => {
+                    const clean = e.target.value.replace(/[^0-9]/g, '');
+                    setPageInput(clean);
+                  }}
+                  onFocus={(e) => {
+                    isInputFocusedRef.current = true;
+                    e.target.select();
+                  }}
+                  onBlur={() => {
+                    isInputFocusedRef.current = false;
+                    commitPageInput();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      isInputFocusedRef.current = false;
+                      commitPageInput();
+                      (e.target as HTMLInputElement).blur();
+                    }
+                  }}
+                  className="w-5 text-center font-bold text-white bg-transparent focus:outline-none focus:bg-white/10 rounded selection:bg-[#F85B01] selection:text-white"
+                  title="Type page number and press Enter"
+                  aria-label="Current page number"
+                />
+                <span className="text-white/40 select-none">/</span>
+                <span className="text-white/70 font-semibold select-none pr-1 pl-0.5">{totalPages}</span>
+                <button
+                  type="button"
+                  onClick={() => setIsPageDropdownOpen((prev) => !prev)}
+                  className="p-0.5 rounded text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer outline-none flex items-center justify-center"
+                  title="Open page list"
+                  aria-label="Toggle page list dropdown"
                 >
-                  <KeyboardArrowDownRounded style={{ fontSize: 15 }} />
-                </motion.span>
-              </button>
+                  <motion.span
+                    animate={{ rotate: isPageDropdownOpen ? 180 : 0 }}
+                    transition={{ duration: 0.15 }}
+                    className="inline-flex"
+                  >
+                    <KeyboardArrowDownRounded style={{ fontSize: 15 }} />
+                  </motion.span>
+                </button>
+              </div>
 
               <AnimatePresence>
                 {isPageDropdownOpen && (
@@ -120,10 +162,10 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
                     animate={{ opacity: 1, scale: 1, y: 4 }}
                     exit={{ opacity: 0, scale: 0.95, y: -4 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute right-0 top-full mt-1 w-max min-w-[105px] rounded-[8px] bg-[#1C1815]/95 backdrop-blur-xl border border-white/20 shadow-xl p-1 z-50 overflow-hidden"
+                    className="absolute right-0 top-full mt-1 w-max min-w-[120px] rounded-[8px] bg-[#1C1815]/95 backdrop-blur-xl border border-white/20 shadow-xl p-1 z-50 overflow-hidden"
                   >
-                    <div className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-white/40 border-b border-white/10 mb-1">
-                      Jump to Page
+                    <div className="px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-wider text-white/40 border-b border-white/10 mb-1 flex items-center justify-between">
+                      <span>Jump to Page</span>
                     </div>
                     <div className="flex flex-col gap-0.5">
                       {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
@@ -150,6 +192,12 @@ export const SamplePdfViewer: React.FC<SamplePdfProps> = ({
                   </motion.div>
                 )}
               </AnimatePresence>
+            </div>
+          ) : (
+            <div className="flex items-center bg-black/40 border border-white/10 rounded-[6px] px-2 py-0.5 text-[11px] font-mono text-white/70">
+              <span className="font-bold text-white">1</span>
+              <span className="text-white/40 mx-0.5">/</span>
+              <span>1</span>
             </div>
           )}
 
