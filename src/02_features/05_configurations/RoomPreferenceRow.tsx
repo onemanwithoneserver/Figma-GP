@@ -1,5 +1,7 @@
 ﻿import React, { useState } from 'react';
 
+import { motion, useReducedMotion } from 'motion/react';
+
 const MOODS = [
   { emoji: '😞', label: 'Sad' },
   { emoji: '😕', label: 'Unsure' },
@@ -37,6 +39,8 @@ export function RoomPreferenceHeader() {
 
 export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPreferenceRowProps) {
   const [rating, setRating] = useState<number | null>(null);
+  const selectionId = React.useId();
+  const reducedMotion = useReducedMotion();
 
   return (
     <div role="row" className={`${ROW_LAYOUT} min-h-10 rounded-[5px] border-[#EFE9DF] bg-[#FCFAF7] py-1.5`}>
@@ -55,18 +59,39 @@ export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPrefer
               title={option.label}
               aria-pressed={isSelected}
               onClick={() => setRating(index)}
-              className="group flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#A68A56]"
+              className="relative isolate flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#A68A56]"
             >
-              <span
+              {isSelected && (
+                <motion.span
+                  aria-hidden="true"
+                  layoutId={reducedMotion ? undefined : `emoji-selection-${selectionId}`}
+                  initial={false}
+                  transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 30 }}
+                  className="pointer-events-none absolute inset-0 rounded-full border border-[#E7C98C] bg-[#F8E8C4]/45"
+                />
+              )}
+              <motion.span
                 aria-hidden="true"
-                className={`flex h-5 w-5 items-center justify-center rounded-full leading-none transition-all duration-150 motion-reduce:transition-none ${
+                initial={false}
+                animate={{
+                  scale: isSelected ? 1.1 : 0.75,
+                  opacity: isSelected ? 1 : 0.35,
+                  filter: isSelected ? 'grayscale(0)' : 'grayscale(1)',
+                }}
+                whileHover={reducedMotion ? undefined : { scale: isSelected ? 1.15 : 0.9, opacity: 1 }}
+                transition={reducedMotion ? { duration: 0 } : {
+                  scale: { type: 'spring', stiffness: 500, damping: 20 },
+                  opacity: { duration: 0.18 },
+                  filter: { duration: 0.18 },
+                }}
+                className={`relative flex h-5 w-5 items-center justify-center rounded-full text-[16px] leading-none ${
                   isSelected
-                    ? 'scale-110 text-[16px] opacity-100'
-                    : 'text-[12px] opacity-35 grayscale shadow-[inset_0_1px_3px_rgba(60,42,20,0.2)] group-hover:opacity-65'
+                    ? ''
+                    : 'shadow-[inset_0_1px_3px_rgba(60,42,20,0.2)]'
                 }`}
               >
                 {option.emoji}
-              </span>
+              </motion.span>
             </button>
           </div>
         );
