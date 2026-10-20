@@ -1,6 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import CloseRounded from '@mui/icons-material/CloseRounded';
+import FullscreenRounded from '@mui/icons-material/FullscreenRounded';
+import FullscreenExitRounded from '@mui/icons-material/FullscreenExitRounded';
 import ArrowBackRounded from '@mui/icons-material/ArrowBackRounded';
 import BookmarkBorderRounded from '@mui/icons-material/BookmarkBorderRounded';
 import BookmarkRounded from '@mui/icons-material/BookmarkRounded';
@@ -53,12 +55,26 @@ const getSpecIcon = (specName: string) => {
 export default function Tower({ onClose, unitData = defaultUnitData }: TowerProps) {
   const { reducedMotion } = useMotionSettings();
   const [isSaved, setIsSaved] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [selectedSuitability, setSelectedSuitability] = useState<string | null>(null);
   const [notForMeFeedback, setNotForMeFeedback] = useState('');
   const [isFeedbackSubmitted, setIsFeedbackSubmitted] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const imageIndexBeforeResize = useRef(0);
+
+  const toggleExpanded = () => {
+    imageIndexBeforeResize.current = activeImageIndex;
+    setIsExpanded((previous) => !previous);
+  };
+
+  useLayoutEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.scrollLeft = container.clientWidth * imageIndexBeforeResize.current;
+    }
+  }, [isExpanded]);
 
   const rawTowerName = (unitData as any)?.towerName || (unitData?.towers && unitData.towers[0]) || 'Tower A';
   const actualTowerName = towerNameMap[rawTowerName] || rawTowerName;
@@ -140,7 +156,13 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             }
       }
       onClick={(e) => e.stopPropagation()}
-      className="relative w-[92vw] max-w-[348px] max-h-[92dvh] overflow-hidden rounded-[4px] bg-white border border-[#E8E1D5] shadow-[0_20px_50px_-10px_rgba(26,22,19,0.35),0_0_25px_rgba(248,91,1,0.1)] flex flex-col select-none"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && isExpanded) {
+          event.stopPropagation();
+          toggleExpanded();
+        }
+      }}
+      className={`relative w-[92vw] ${isExpanded ? 'max-w-[860px]' : 'max-w-[348px]'} max-h-[90dvh] overflow-hidden rounded-[4px] bg-white border border-[#E8E1D5] shadow-[0_20px_50px_-10px_rgba(26,22,19,0.35),0_0_25px_rgba(248,91,1,0.1)] flex flex-col select-none`}
     >
 
       <div className="flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-[#211B17] via-[#2F2620] to-[#211B17] border-b border-[#A68A56]/30 shrink-0 rounded-t-[4px]">
@@ -188,6 +210,17 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             <span>2D Layout</span>
           </div>
 
+          <button
+            type="button"
+            onClick={toggleExpanded}
+            aria-label={isExpanded ? 'Restore compact floor plan dialog' : 'Expand floor plan and dialog'}
+            aria-pressed={isExpanded}
+            title={isExpanded ? 'Restore compact view' : 'Expand floor plan'}
+            className="absolute top-2.5 right-3 z-10 flex h-7 w-7 cursor-pointer items-center justify-center rounded-[4px] border border-[#E5DDD2] bg-white/80 text-[#7A5C3A] shadow-xs backdrop-blur-md transition-colors hover:border-[#F85B01]/40 hover:bg-white hover:text-[#F85B01] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#F85B01]"
+          >
+            {isExpanded ? <FullscreenExitRounded className="!h-4 !w-4" /> : <FullscreenRounded className="!h-4 !w-4" />}
+          </button>
+
           <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
@@ -201,7 +234,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
                   onError={(e) => {
                     e.currentTarget.src = floorPlanImage;
                   }}
-                  className="w-full h-[152px] object-contain rounded-[2px] transition-transform duration-300 group-hover:scale-[1.01]"
+                  className={`w-full ${isExpanded ? 'h-[min(56dvh,560px)]' : 'h-[152px]'} object-contain rounded-[2px] transition-transform duration-300 group-hover:scale-[1.01]`}
                   loading="eager"
                   draggable={false}
                 />
@@ -346,7 +379,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
       </div>
 
       <div className="w-full bg-[#FAF7F2] border-t border-[#EAE3D9] px-4 py-3 shrink-0 rounded-b-[4px]">
-        <div className="flex items-center justify-center gap-5">
+        <div className="flex items-center justify-between gap-3">
           <MotionButton
             type="button"
             onClick={onClose}
