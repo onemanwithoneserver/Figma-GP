@@ -3,10 +3,10 @@
 import { motion, useReducedMotion } from 'motion/react';
 
 const MOODS = [
-  { emoji: '😞', label: 'Sad' },
-  { emoji: '😕', label: 'Unsure' },
-  { emoji: '🙂', label: 'Pleased' },
-  { emoji: '😄', label: 'Happy' },
+  { emoji: '👎', label: 'Not for me' },
+  { emoji: '👍', label: 'Like' },
+  { emoji: '❤️', label: 'Love' },
+  { emoji: '🤩', label: 'Love it most' },
 ] as const;
 
 const ROW_LAYOUT = 'grid grid-cols-[minmax(0,1fr)_52px_repeat(4,24px)] items-center gap-x-1 border px-2';
@@ -17,12 +17,33 @@ interface RoomPreferenceRowProps {
   icon: React.ReactNode;
 }
 
+function RatingEmoji({ index, active = true }: { index: number; active?: boolean }) {
+  const reducedMotion = useReducedMotion();
+  const animate = active && !reducedMotion;
+
+  return (
+    <motion.span
+      aria-hidden="true"
+      className="inline-block leading-none"
+      initial={false}
+      animate={animate
+        ? index === 2
+          ? { scale: [1, 1.15, 1, 1.08, 1], y: 0, rotate: 0 }
+          : { y: [0, -2, 0], rotate: [0, index === 0 ? 7 : -7, 0], scale: [1, 1.06, 1] }
+        : { scale: 1, y: 0, rotate: 0 }}
+      transition={{ duration: animate ? 0.9 : 0, repeat: animate ? Infinity : 0, repeatDelay: index === 2 ? 1.6 : 2.4, ease: 'easeInOut' }}
+    >
+      {MOODS[index].emoji}
+    </motion.span>
+  );
+}
+
 export function RoomPreferenceHeader() {
   return (
     <div role="row" className={`${ROW_LAYOUT} border-transparent py-0.5`}>
       <span role="columnheader" className="text-[9px] font-medium text-[#8B8174]">Room</span>
       <span role="columnheader" className="text-[9px] font-medium text-[#8B8174]">Dimensions</span>
-      {MOODS.map((option) => (
+      {MOODS.map((option, index) => (
         <span
           key={option.label}
           role="columnheader"
@@ -30,7 +51,7 @@ export function RoomPreferenceHeader() {
           title={option.label}
           className="flex h-6 items-center justify-center text-[16px] leading-none"
         >
-          <span aria-hidden="true">{option.emoji}</span>
+          <RatingEmoji index={index} />
         </span>
       ))}
     </div>
@@ -40,8 +61,7 @@ export function RoomPreferenceHeader() {
 export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPreferenceRowProps) {
   const [rating, setRating] = useState<number | null>(null);
   const [isSliding, setIsSliding] = useState(false);
-  const selectionId = React.useId();
-  const reducedMotion = useReducedMotion();
+  const sliderProgress = (rating ?? 0) / (MOODS.length - 1);
 
   return (
     <div role="row" className={`${ROW_LAYOUT} min-h-10 rounded-[5px] border-[#EFE9DF] bg-[#FCFAF7] py-1.5`}>
@@ -53,59 +73,23 @@ export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPrefer
       <div
         role="cell"
         aria-colspan={4}
-        className="relative col-span-4 h-6 rounded-full has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#A68A56]"
+        className="group/rating relative col-span-4 h-6 rounded-full has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#A68A56]"
       >
-        <motion.div
+        <span
           aria-hidden="true"
-          initial={false}
-          animate={{ opacity: isSliding ? 1 : 0 }}
-          transition={{ duration: reducedMotion ? 0 : 0.15 }}
-          className="pointer-events-none absolute inset-0 rounded-full border border-[#E7C98C]/60 bg-gradient-to-r from-[#F8D5D0]/70 via-[#F8E8C4]/80 to-[#D7E8CC]/70"
+          style={{ left: `calc(${sliderProgress * 100}% + ${12 - sliderProgress * 24}px)` }}
+          className={`pointer-events-none absolute top-1/2 z-20 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center text-[18px] leading-none transition-opacity duration-150 motion-reduce:transition-none ${
+            isSliding ? 'opacity-100' : 'opacity-75 group-hover/rating:opacity-100 group-has-[:focus-visible]/rating:opacity-100'
+          }`}
+        >
+          <RatingEmoji key={rating ?? 0} index={rating ?? 0} active={rating !== null || isSliding} />
+        </span>
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute left-3 right-3 top-1/2 h-1 -translate-y-1/2 rounded-full bg-gradient-to-r from-[#EF4444] via-[#F5C451] to-[#22A66A] transition-opacity duration-150 motion-reduce:transition-none ${
+            isSliding ? 'opacity-100' : 'opacity-45 group-hover/rating:opacity-100 group-has-[:focus-visible]/rating:opacity-100'
+          }`}
         />
-        <div aria-hidden="true" className="pointer-events-none grid grid-cols-4 gap-1">
-          {MOODS.map((option, index) => {
-            const isSelected = rating === index;
-            return (
-            <div
-              key={option.label}
-              className="relative isolate flex h-6 w-6 items-center justify-center rounded-full"
-            >
-              {isSelected && (
-                <motion.span
-                  aria-hidden="true"
-                  layoutId={reducedMotion ? undefined : `emoji-selection-${selectionId}`}
-                  initial={false}
-                  transition={reducedMotion || isSliding ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 30 }}
-                  className={`pointer-events-none absolute inset-0 rounded-full border ${
-                    isSliding ? 'border-[#D9AE64] bg-white/70' : 'border-[#E7C98C]/50 bg-transparent'
-                  }`}
-                />
-              )}
-              <motion.span
-                aria-hidden="true"
-                initial={false}
-                animate={{
-                  scale: isSelected ? 1.1 : 0.75,
-                  opacity: isSelected ? 1 : 0.35,
-                  filter: isSelected ? 'grayscale(0)' : 'grayscale(1)',
-                }}
-                transition={reducedMotion || isSliding ? { duration: 0 } : {
-                  scale: { type: 'spring', stiffness: 500, damping: 20 },
-                  opacity: { duration: 0.18 },
-                  filter: { duration: 0.18 },
-                }}
-                className={`relative flex h-5 w-5 items-center justify-center rounded-full text-[16px] leading-none ${
-                  isSelected
-                    ? ''
-                    : 'shadow-[inset_0_1px_3px_rgba(60,42,20,0.2)]'
-                }`}
-              >
-                {option.emoji}
-              </motion.span>
-            </div>
-            );
-          })}
-        </div>
         <input
           type="range"
           min={0}
