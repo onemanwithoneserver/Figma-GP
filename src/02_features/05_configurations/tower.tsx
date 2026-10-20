@@ -162,7 +162,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
           toggleExpanded();
         }
       }}
-      className={`relative w-[92vw] ${isExpanded ? 'max-w-[860px]' : 'max-w-[348px]'} max-h-[90dvh] overflow-hidden rounded-[4px] bg-white border border-[#E8E1D5] shadow-[0_20px_50px_-10px_rgba(26,22,19,0.35),0_0_25px_rgba(248,91,1,0.1)] flex flex-col select-none`}
+      className={`relative w-[92vw] ${isExpanded ? 'max-w-[860px]' : 'max-w-[348px]'} max-h-[96dvh] overflow-hidden rounded-[4px] bg-white border border-[#E8E1D5] shadow-[0_20px_50px_-10px_rgba(26,22,19,0.35),0_0_25px_rgba(248,91,1,0.1)] flex flex-col select-none`}
     >
 
       <div className="flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-[#211B17] via-[#2F2620] to-[#211B17] border-b border-[#A68A56]/30 shrink-0 rounded-t-[4px]">
@@ -203,7 +203,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
 
       <div className="flex min-h-0 flex-col overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 
-        <div className="relative w-full group bg-gradient-to-b from-[#FBF9F6] to-white border-b border-[#EAE3D9] px-3 pt-2.5 pb-2">
+        <div className="relative w-full shrink-0 bg-gradient-to-b from-[#FBF9F6] to-white border-b border-[#EAE3D9] px-3 pt-2.5 pb-2">
 
           <div className="absolute top-2.5 left-3 z-10 flex items-center gap-1 px-2 py-0.5 rounded-[2px] bg-white/90 backdrop-blur-md border border-[#E5DDD2] text-[9.5px] font-bold text-[#43352F] shadow-2xs">
             <SquareFootRounded className="!w-2.5 !h-2.5 text-[#F85B01]" />
@@ -227,14 +227,25 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             className="flex w-full overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           >
             {images.map((imgSrc, idx) => (
-              <div key={idx} className="w-full flex-shrink-0 flex items-center justify-center snap-center">
+              <div
+                key={idx}
+                onPointerMove={(event) => {
+                  if (event.pointerType !== 'mouse') return;
+                  const bounds = event.currentTarget.getBoundingClientRect();
+                  const x = Math.max(0, Math.min(100, ((event.clientX - bounds.left) / bounds.width) * 100));
+                  const y = Math.max(0, Math.min(100, ((event.clientY - bounds.top) / bounds.height) * 100));
+                  event.currentTarget.style.setProperty('--floor-plan-origin', `${x}% ${y}%`);
+                }}
+                className="group/plan w-full flex-shrink-0 flex items-center justify-center overflow-hidden snap-center"
+              >
                 <img
                   src={imgSrc}
                   alt={`Layout floor plan view ${idx + 1}`}
                   onError={(e) => {
                     e.currentTarget.src = floorPlanImage;
                   }}
-                  className={`w-full ${isExpanded ? 'h-[min(56dvh,560px)]' : 'h-[152px]'} object-contain rounded-[2px] transition-transform duration-300 group-hover:scale-[1.01]`}
+                  style={{ transformOrigin: 'var(--floor-plan-origin, center)' }}
+                  className={`w-full ${isExpanded ? 'h-[min(68dvh,680px)]' : 'h-[min(38dvh,280px)]'} object-contain rounded-[2px] transition-transform duration-200 group-hover/plan:scale-200 motion-reduce:transition-none`}
                   loading="eager"
                   draggable={false}
                 />
