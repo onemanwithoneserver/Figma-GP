@@ -90,29 +90,6 @@ const ProjectSummary: React.FC = () => {
           <p className="text-[12px] text-[#6B6B7B]">Review the factors below based on your select preferences.</p>
         </div>
 
-        <div className="my-2.5 px-3 py-2 rounded-control bg-gradient-to-r from-emerald-50/80 via-surface-soft to-emerald-50/50 border border-emerald-200/80 flex items-center justify-between gap-3 shadow-xs">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between text-[11.5px] font-bold text-[#3A312B] mb-1">
-              <span className="flex items-center gap-1.5">
-                <span className="text-emerald-700 font-extrabold">✓</span>
-                <span>Preference Compatibility</span>
-              </span>
-              <span className="text-emerald-700 font-extrabold font-mono text-[12px]">85% Match</span>
-            </div>
-            <div className="w-full h-1.5 rounded-full bg-emerald-100/70 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: '85%' }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-[#10B981]"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col items-center justify-center px-2 py-0.5 rounded-chip bg-emerald-100/70 border border-emerald-300/70 text-emerald-900 font-mono font-black text-[13px] flex-shrink-0">
-            85%
-          </div>
-        </div>
-
         <div className="flex justify-start sm:justify-center">
           <div className="relative w-full max-w-xl">
             <div className="flex overflow-x-auto scrollbar-hide gap-2 px-1 pt-1 pb-1 bg-white" role="tablist" aria-label="Project Summary section navigation">
