@@ -241,7 +241,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </div>
 
         <div className="px-3.5 pt-2 pb-1.5 bg-white">
-          <div className="grid grid-cols-2 gap-1.5">
+          <div className="grid grid-cols-1 gap-1.5">
             {displayData.specs.map((spec, index) => {
               const SpecIcon = getSpecIcon(spec.name);
 
