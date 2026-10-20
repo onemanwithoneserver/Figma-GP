@@ -20,7 +20,7 @@ import { MotionButton } from '../../03_shared/02_ui/ActionButton';
 import { useMotionSettings, getScrollBehavior } from '../../03_shared/04_motion/useMotionSettings';
 import type { UnitItem } from './types';
 import { defaultUnitData } from './data';
-import RoomPreferenceRow from './RoomPreferenceRow';
+import RoomPreferenceRow, { RoomPreferenceHeader } from './RoomPreferenceRow';
 import floorPlanImage from '../../05_assets/floor_plan_2bhk.jpg';
 
 interface TowerProps {
@@ -275,7 +275,8 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </div>
 
         <div className="px-3.5 pt-2 pb-1.5 bg-white">
-          <div className="grid grid-cols-1 gap-1.5">
+          <div role="table" aria-label="Room preferences" className="grid grid-cols-1 gap-1">
+            <RoomPreferenceHeader />
             {displayData.specs.map((spec) => {
               const SpecIcon = getSpecIcon(spec.name);
 
