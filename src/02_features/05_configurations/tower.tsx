@@ -18,6 +18,7 @@ import { MotionButton } from '../../03_shared/02_ui/ActionButton';
 import { useMotionSettings, getScrollBehavior } from '../../03_shared/04_motion/useMotionSettings';
 import type { UnitItem } from './types';
 import { defaultUnitData } from './data';
+import RoomPreferenceRow from './RoomPreferenceRow';
 import floorPlanImage from '../../05_assets/floor_plan_2bhk.jpg';
 
 interface TowerProps {
@@ -139,7 +140,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
             }
       }
       onClick={(e) => e.stopPropagation()}
-      className="relative w-[92vw] max-w-[348px] overflow-hidden rounded-[4px] bg-white border border-[#E8E1D5] shadow-[0_20px_50px_-10px_rgba(26,22,19,0.35),0_0_25px_rgba(248,91,1,0.1)] flex flex-col select-none"
+      className="relative w-[92vw] max-w-[348px] max-h-[92dvh] overflow-hidden rounded-[4px] bg-white border border-[#E8E1D5] shadow-[0_20px_50px_-10px_rgba(26,22,19,0.35),0_0_25px_rgba(248,91,1,0.1)] flex flex-col select-none"
     >
 
       <div className="flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-[#211B17] via-[#2F2620] to-[#211B17] border-b border-[#A68A56]/30 shrink-0 rounded-t-[4px]">
@@ -178,7 +179,7 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
         </MotionButton>
       </div>
 
-      <div className="flex flex-col overflow-hidden">
+      <div className="flex min-h-0 flex-col overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
 
         <div className="relative w-full group bg-gradient-to-b from-[#FBF9F6] to-white border-b border-[#EAE3D9] px-3 pt-2.5 pb-2">
 
@@ -242,24 +243,16 @@ export default function Tower({ onClose, unitData = defaultUnitData }: TowerProp
 
         <div className="px-3.5 pt-2 pb-1.5 bg-white">
           <div className="grid grid-cols-1 gap-1.5">
-            {displayData.specs.map((spec, index) => {
+            {displayData.specs.map((spec) => {
               const SpecIcon = getSpecIcon(spec.name);
 
               return (
-                <div
-                  key={index}
-                  className="flex items-center justify-between px-2 py-1.5 rounded-[3px] bg-[#FCFAF7] border border-[#EFE9DF]/90 hover:bg-[#F8F5EE] transition-colors"
-                >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <SpecIcon className="!w-3 !h-3 text-[#A68A56] shrink-0" />
-                    <span className="text-[10px] text-[#554E48] font-medium truncate">
-                      {spec.name}
-                    </span>
-                  </div>
-                  <span className="font-bold text-[#241E1A] text-[10px] shrink-0 ml-1">
-                    {spec.dimensions}
-                  </span>
-                </div>
+                <RoomPreferenceRow
+                  key={`${unitData.id}-${spec.name}`}
+                  name={spec.name}
+                  dimensions={spec.dimensions}
+                  icon={<SpecIcon className="!w-3 !h-3 text-[#A68A56] shrink-0" />}
+                />
               );
             })}
           </div>
