@@ -39,6 +39,7 @@ export function RoomPreferenceHeader() {
 
 export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPreferenceRowProps) {
   const [rating, setRating] = useState<number | null>(null);
+  const [isSliding, setIsSliding] = useState(false);
   const selectionId = React.useId();
   const reducedMotion = useReducedMotion();
 
@@ -49,25 +50,35 @@ export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPrefer
         <span className="text-[10px] font-medium leading-tight text-[#554E48]">{name}</span>
       </div>
       <span role="cell" className="whitespace-nowrap text-[10px] font-bold tabular-nums text-[#241E1A]">{dimensions}</span>
-      {MOODS.map((option, index) => {
-        const isSelected = rating === index;
-        return (
-          <div key={option.label} role="cell" className="flex justify-center">
-            <button
-              type="button"
-              aria-label={`${name}: ${option.label}`}
-              title={option.label}
-              aria-pressed={isSelected}
-              onClick={() => setRating(index)}
-              className="relative isolate flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-transparent focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[#A68A56]"
+      <div
+        role="cell"
+        aria-colspan={4}
+        className="relative col-span-4 h-6 rounded-full has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-[#A68A56]"
+      >
+        <motion.div
+          aria-hidden="true"
+          initial={false}
+          animate={{ opacity: isSliding ? 1 : 0 }}
+          transition={{ duration: reducedMotion ? 0 : 0.15 }}
+          className="pointer-events-none absolute inset-0 rounded-full border border-[#E7C98C]/60 bg-gradient-to-r from-[#F8D5D0]/70 via-[#F8E8C4]/80 to-[#D7E8CC]/70"
+        />
+        <div aria-hidden="true" className="pointer-events-none grid grid-cols-4 gap-1">
+          {MOODS.map((option, index) => {
+            const isSelected = rating === index;
+            return (
+            <div
+              key={option.label}
+              className="relative isolate flex h-6 w-6 items-center justify-center rounded-full"
             >
               {isSelected && (
                 <motion.span
                   aria-hidden="true"
                   layoutId={reducedMotion ? undefined : `emoji-selection-${selectionId}`}
                   initial={false}
-                  transition={reducedMotion ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 30 }}
-                  className="pointer-events-none absolute inset-0 rounded-full border border-[#E7C98C] bg-[#F8E8C4]/45"
+                  transition={reducedMotion || isSliding ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 30 }}
+                  className={`pointer-events-none absolute inset-0 rounded-full border ${
+                    isSliding ? 'border-[#D9AE64] bg-white/70' : 'border-[#E7C98C]/50 bg-transparent'
+                  }`}
                 />
               )}
               <motion.span
@@ -78,8 +89,7 @@ export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPrefer
                   opacity: isSelected ? 1 : 0.35,
                   filter: isSelected ? 'grayscale(0)' : 'grayscale(1)',
                 }}
-                whileHover={reducedMotion ? undefined : { scale: isSelected ? 1.15 : 0.9, opacity: 1 }}
-                transition={reducedMotion ? { duration: 0 } : {
+                transition={reducedMotion || isSliding ? { duration: 0 } : {
                   scale: { type: 'spring', stiffness: 500, damping: 20 },
                   opacity: { duration: 0.18 },
                   filter: { duration: 0.18 },
@@ -92,10 +102,36 @@ export default function RoomPreferenceRow({ name, dimensions, icon }: RoomPrefer
               >
                 {option.emoji}
               </motion.span>
-            </button>
-          </div>
-        );
-      })}
+            </div>
+            );
+          })}
+        </div>
+        <input
+          type="range"
+          min={0}
+          max={3}
+          step={1}
+          value={rating ?? 0}
+          aria-label={`Rate ${name}`}
+          aria-valuetext={rating === null ? 'Not rated' : MOODS[rating].label}
+          onChange={(event) => setRating(Number(event.target.value))}
+          onPointerDown={() => setIsSliding(true)}
+          onPointerUp={(event) => {
+            setRating(Number(event.currentTarget.value));
+            setIsSliding(false);
+          }}
+          onPointerCancel={() => setIsSliding(false)}
+          onLostPointerCapture={() => setIsSliding(false)}
+          onBlur={() => setIsSliding(false)}
+          onKeyDown={(event) => {
+            if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'].includes(event.key)) {
+              setIsSliding(true);
+            }
+          }}
+          onKeyUp={() => setIsSliding(false)}
+          className="absolute inset-0 z-10 m-0 h-6 w-full cursor-grab active:cursor-grabbing touch-none appearance-none bg-transparent opacity-0 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:appearance-none [&::-moz-range-thumb]:h-6 [&::-moz-range-thumb]:w-6 [&::-moz-range-thumb]:border-0"
+        />
+      </div>
     </div>
   );
 }
