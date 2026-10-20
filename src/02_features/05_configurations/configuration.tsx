@@ -55,7 +55,13 @@ export default function Configuration() {
       </div>
 
       {selectedUnit && (
-        <AppDialog open onClose={() => setSelectedUnit(null)} label="Floor plan details" containerClassName="!p-1" paperClassName="max-h-[96dvh]">
+        <AppDialog
+          open
+          onClose={() => setSelectedUnit(null)}
+          label="Floor plan details"
+          containerClassName="px-0 py-[4px]"
+          paperClassName="h-[calc(100dvh-8px)] max-h-[calc(100dvh-8px)] w-[92vw] max-w-[348px] rounded-none overflow-hidden"
+        >
           <Tower unitData={selectedUnit} onClose={() => setSelectedUnit(null)} />
         </AppDialog>
       )}
